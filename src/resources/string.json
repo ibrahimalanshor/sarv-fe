@@ -1,7 +1,15 @@
 {
     "auth": {
         "login": {
-            "title": "Sign in to your account"
+            "title": "Sign in to your account",
+            "form": {
+                "email": "Email",
+                "password": "Password",
+                "submit": "Login"
+            },
+            "link": {
+                "register": "Create new account"
+            }
         }
     }
 }
