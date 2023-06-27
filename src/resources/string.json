@@ -1,4 +1,7 @@
 {
+    "error": {
+        "client": "Something Error"
+    },
     "auth": {
         "login": {
             "title": "Sign in to your account",
