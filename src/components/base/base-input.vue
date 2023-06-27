@@ -31,6 +31,14 @@ const props = defineProps({
     type: String,
     default: 'string',
   },
+  color: {
+    type: String,
+    default: 'gray',
+  },
+  message: {
+    type: String,
+    default: null,
+  },
 });
 
 const { getString } = useString();
@@ -42,6 +50,18 @@ const placeholder = computed(() => {
   return props.placeholderFromResource
     ? getString(props.placeholder)
     : props.placeholder;
+});
+const style = computed(() => {
+  const inputColors = {
+    gray: 'text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600',
+    red: 'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500',
+  };
+
+  return {
+    input: {
+      color: inputColors[props.color],
+    },
+  };
 });
 </script>
 
@@ -59,8 +79,12 @@ const placeholder = computed(() => {
         :name="props.id"
         :type="props.type"
         :placeholder="placeholder"
-        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+        :class="[style.input.color]"
       />
+      <p v-if="props.message" class="mt-2 text-sm text-red-600">
+        {{ props.message }}
+      </p>
     </div>
   </div>
 </template>
