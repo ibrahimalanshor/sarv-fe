@@ -12,4 +12,12 @@ export const routes = [
       layout: 'LayoutAuth',
     },
   },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('src/pages/auth/auth-register-page.vue'),
+    meta: {
+      layout: 'LayoutAuth',
+    },
+  },
 ];
