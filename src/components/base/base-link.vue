@@ -26,16 +26,20 @@ const { getString } = useString();
 const text = computed(() => {
   return props.textFromResource ? getString(props.text) : props.text;
 });
+const style = computed(() => {
+  return {
+    base: 'font-semibold leading-6 text-sm text-indigo-600 hover:text-indigo-500',
+  };
+});
 </script>
 
 <template>
   <p>
-    <a
-      v-if="props.native"
-      :href="props.to"
-      class="font-semibold leading-6 text-sm text-indigo-600 hover:text-indigo-500"
-    >
+    <a v-if="props.native" :href="props.to" :class="style.base">
       {{ text }}
     </a>
+    <router-link v-else :to="props.to" :class="style.base">{{
+      text
+    }}</router-link>
   </p>
 </template>
