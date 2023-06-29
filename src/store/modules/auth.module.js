@@ -13,8 +13,13 @@ export const useAuthStore = defineStore(
       me.value = data.me;
       isLoggedIn.value = true;
     }
+    async function logout() {
+      token.value = null;
+      me.value = null;
+      isLoggedIn.value = false;
+    }
 
-    return { me, isLoggedIn, login };
+    return { token, me, isLoggedIn, login, logout };
   },
   { persist: true }
 );
