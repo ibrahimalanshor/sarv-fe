@@ -12,5 +12,5 @@ export const useAuthStore = defineStore('auth', () => {
     isLoggedIn.value = true;
   }
 
-  return { login };
+  return { isLoggedIn, login };
 });
