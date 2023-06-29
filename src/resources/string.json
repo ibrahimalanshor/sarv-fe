@@ -2,6 +2,11 @@
     "error": {
         "client": "Something Error"
     },
+    "pages": {
+        "login": "Sign in to your account",
+        "register": "Create new account",
+        "index": "Home"
+    },
     "auth": {
         "login": {
             "title": "Sign in to your account",
