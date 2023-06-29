@@ -16,7 +16,7 @@ export const useToastStore = defineStore('toast', () => {
       toasts.value.shift();
     }
 
-    toasts.value.push({ id, title, message, type });
+    toasts.value.push({ id: id ?? Date.now(), title, message, type });
 
     if (autoclose) {
       setTimeout(() => {
