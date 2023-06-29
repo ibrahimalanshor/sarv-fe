@@ -1,13 +1,15 @@
 import { ref } from 'vue';
 import { useError } from './error.compose';
 import { useValidation } from './validation.compose';
+import { useToastStore } from 'src/store/modules/toast.module';
 import { http } from 'src/helpers/http';
 
-export function useRequest({ method, url }) {
+export function useRequest({ method, url, notifyOnError, initLoading }) {
   const { error, setError, resetError } = useError();
   const { validation, setValidation, resetValidation } = useValidation();
+  const toastStore = useToastStore();
 
-  const loading = ref(false);
+  const loading = ref(initLoading ?? false);
 
   async function request(params) {
     loading.value = true;
@@ -23,6 +25,14 @@ export function useRequest({ method, url }) {
         setValidation(err.response.data.errors);
       } else {
         setError(err);
+      }
+
+      if (notifyOnError) {
+        toastStore.createToast({
+          title: error.value,
+          type: 'error',
+          message: error.value,
+        });
       }
 
       return [false, error.value];
