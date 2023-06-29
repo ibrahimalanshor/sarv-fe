@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@aacassandra/vue3-progressbar": "^1.0.3",
     "@heroicons/vue": "^2.0.18",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",

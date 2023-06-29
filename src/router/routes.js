@@ -3,6 +3,9 @@ export const routes = [
     path: '/',
     name: 'index',
     component: () => import('src/pages/index-page.vue'),
+    meta: {
+      title: 'index',
+    },
   },
   {
     path: '/login',
@@ -10,6 +13,7 @@ export const routes = [
     component: () => import('src/pages/auth/auth-login-page.vue'),
     meta: {
       layout: 'LayoutAuth',
+      title: 'login',
     },
   },
   {
@@ -18,6 +22,7 @@ export const routes = [
     component: () => import('src/pages/auth/auth-register-page.vue'),
     meta: {
       layout: 'LayoutAuth',
+      title: 'register',
     },
   },
 ];
