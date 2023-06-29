@@ -31,6 +31,7 @@ const text = computed(() => {
 const style = computed(() => {
   const levels = {
     2: 'text-2xl',
+    3: 'text-3xl',
   };
   return {
     base: ['font-bold tracking-tight text-gray-900', props.classes.base],

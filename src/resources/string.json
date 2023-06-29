@@ -5,7 +5,13 @@
     "pages": {
         "login": "Sign in to your account",
         "register": "Create new account",
-        "index": "Home"
+        "index": "Dashboard"
+    },
+    "menus": {
+        "index": "Dashboard",
+        "task": "Task",
+        "profile": "Profile",
+        "logout": "Logout"
     },
     "auth": {
         "login": {

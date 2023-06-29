@@ -4,6 +4,7 @@ export const routes = [
     name: 'index',
     component: () => import('src/pages/index-page.vue'),
     meta: {
+      layout: 'LayoutApp',
       title: 'index',
       requireAuth: true,
     },
