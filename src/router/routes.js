@@ -5,6 +5,7 @@ export const routes = [
     component: () => import('src/pages/index-page.vue'),
     meta: {
       title: 'index',
+      requireAuth: true,
     },
   },
   {
