@@ -1,8 +1,10 @@
 <script setup>
 import { useString } from 'src/composes/resource.compose';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const { getString } = useString();
+const route = useRoute();
 
 const menus = [
   {
@@ -10,14 +12,14 @@ const menus = [
     to: { name: 'index' },
     name: 'menus.index',
   },
-  // {
-  //     id: 'task',
-  //     to: { name: 'index' },
-  //     name: 'menus.task'
-  // }
+  {
+    id: 'task.index',
+    to: { name: 'task.index' },
+    name: 'menus.task',
+  },
 ];
 
-const active = ref(menus[0]);
+const active = computed(() => route.name);
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const active = ref(menus[0]);
       :to="menu.to"
       class="rounded-md px-3 py-2 text-base block font-medium md:text-sm md:inline-block"
       :class="[
-        active.id === menu.id
+        active === menu.id
           ? 'bg-gray-900 text-white'
           : 'text-gray-300 hover:bg-gray-700 hover:text-white',
       ]"
