@@ -3,14 +3,13 @@ import BaseTitle from 'src/components/base/base-title.vue';
 import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseLink from 'src/components/base/base-link.vue';
-import { useToastStore } from 'src/store/modules/toast.module';
+import BaseAlert from 'src/components/base/base-alert.vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useRegister } from 'src/composes/modules/auth/register.compose';
 
-const toastStore = useToastStore();
 const router = useRouter();
-const { register, loading, validation } = useRegister();
+const { register, loading, validation, resetError } = useRegister();
 
 const form = reactive({
   name: null,
@@ -20,20 +19,14 @@ const form = reactive({
 });
 
 async function handleSubmit() {
-  const [success, error] = await register(form);
+  const [success] = await register(form);
 
-  if (!success) {
-    if (error) {
-      toastStore.createToast({
-        id: 'error-auth',
-        title: error,
-        message: error,
-        type: 'error',
-      });
-    }
-  } else {
+  if (success) {
     router.push({ name: 'index' });
   }
+}
+function handleCloseAlert() {
+  resetError();
 }
 </script>
 
@@ -50,6 +43,12 @@ async function handleSubmit() {
 
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" v-on:submit.prevent="handleSubmit">
+        <base-alert
+          :text="error"
+          type="error"
+          :force-visible="error"
+          v-on:close="handleCloseAlert"
+        />
         <base-input
           id="name"
           type="text"

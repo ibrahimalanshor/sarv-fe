@@ -3,7 +3,7 @@ import { useAuthStore } from 'src/store/modules/auth.module';
 
 export function useRegister() {
   const authStore = useAuthStore();
-  const { validation, error, loading, request } = useRequest({
+  const { validation, error, loading, request, resetError } = useRequest({
     method: 'post',
     url: '/api/register',
   });
@@ -21,5 +21,5 @@ export function useRegister() {
     return [res, error];
   }
 
-  return { validation, error, loading, register };
+  return { validation, error, loading, register, resetError };
 }

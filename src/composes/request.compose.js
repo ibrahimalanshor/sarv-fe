@@ -31,5 +31,5 @@ export function useRequest({ method, url }) {
     }
   }
 
-  return { error, validation, loading, request };
+  return { error, validation, loading, request, resetError };
 }
