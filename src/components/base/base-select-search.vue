@@ -46,7 +46,7 @@ const props = defineProps({
     }),
   },
 });
-const emit = defineEmits(['focus', 'update:modelValue', 'search']);
+const emit = defineEmits(['focus', 'update:modelValue', 'search', 'change']);
 
 const { getString } = useString();
 
@@ -69,7 +69,7 @@ const style = computed(() => {
   };
   return {
     items: [
-      'text-sm',
+      'text-sm min-w-full',
       props.itemsWidth === 'full' ? 'w-full' : 'w-fit',
       props.itemsAlign === 'left' ? 'left-0' : 'right-0',
     ],
@@ -101,7 +101,11 @@ function handleClickOutside() {
   visibleItems.value = false;
 }
 function handleClickItem(item) {
-  selected.value = item;
+  if (item.id !== selected.value.id) {
+    selected.value = item;
+    emit('change', item);
+  }
+
   visibleItems.value = false;
 }
 function handleSearch() {
