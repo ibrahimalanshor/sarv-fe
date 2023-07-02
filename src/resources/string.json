@@ -44,5 +44,15 @@
                 "login": "Sign in to your account"
             }
         }
+    },
+    "task": {
+        "placeholder": {
+            "no-status": "No Status"
+        },
+        "columns": {
+            "name": "Name",
+            "category": "Category",
+            "status": "Status"
+        }
     }
 }
