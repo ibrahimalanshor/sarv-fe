@@ -4,12 +4,19 @@ import { useValidation } from './validation.compose';
 import { useToastStore } from 'src/store/modules/toast.module';
 import { http } from 'src/helpers/http';
 
-export function useRequest({ method, url, notifyOnError, initLoading }) {
+export function useRequest({
+  method,
+  url,
+  notifyOnError,
+  initLoading,
+  initData,
+}) {
   const { error, setError, resetError } = useError();
   const { validation, setValidation, resetValidation } = useValidation();
   const toastStore = useToastStore();
 
   const loading = ref(initLoading ?? false);
+  const data = ref(initData ?? null);
 
   async function request(params) {
     loading.value = true;
@@ -18,6 +25,8 @@ export function useRequest({ method, url, notifyOnError, initLoading }) {
 
     try {
       const res = await http[method](url, params);
+
+      data.value = res.data;
 
       return [res.data, null];
     } catch (err) {
@@ -41,5 +50,5 @@ export function useRequest({ method, url, notifyOnError, initLoading }) {
     }
   }
 
-  return { error, validation, loading, request, resetError };
+  return { data, error, validation, loading, request, resetError };
 }
