@@ -6,7 +6,7 @@ import { http } from 'src/helpers/http';
 
 export function useRequest({
   method,
-  url,
+  url: initUrl,
   notifyOnError,
   initLoading,
   initData,
@@ -17,6 +17,7 @@ export function useRequest({
 
   const loading = ref(initLoading ?? false);
   const data = ref(initData ?? null);
+  const url = ref(initUrl);
 
   async function request(params) {
     loading.value = true;
@@ -24,7 +25,7 @@ export function useRequest({
     resetValidation();
 
     try {
-      const res = await http[method](url, params);
+      const res = await http[method](url.value, params);
 
       data.value = res.data;
 
@@ -50,5 +51,5 @@ export function useRequest({
     }
   }
 
-  return { data, error, validation, loading, request, resetError };
+  return { data, url, error, validation, loading, request, resetError };
 }
