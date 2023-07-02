@@ -36,6 +36,7 @@ const { getString } = useString();
                     :key="column.id"
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 first:pl-4 first:pr-3 first:sm:pl-6"
+                    :class="column.headerClass"
                   >
                     {{ column.name }}
                   </th>
@@ -57,9 +58,27 @@ const { getString } = useString();
                     <td
                       v-for="column in props.columns"
                       :key="column.id"
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 first:pl-4 first:pr-3 first:sm:pl-6"
+                      class="whitespace-nowrap px-3 py-4 text-sm first:pl-4 first:pr-3 first:sm:pl-6"
+                      :class="[
+                        column.bold
+                          ? 'font-medium text-gray-900'
+                          : 'text-gray-500',
+                      ]"
                     >
-                      {{ item[column.id] }}
+                      <component
+                        v-if="column.render"
+                        :is="column.render"
+                        :item="item"
+                      />
+                      <p v-else>
+                        {{
+                          column.value
+                            ? typeof column.value === 'function'
+                              ? column.value(item)
+                              : column.value
+                            : item[column.id]
+                        }}
+                      </p>
                     </td>
                   </tr>
                 </template>
