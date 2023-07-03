@@ -17,6 +17,10 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
+  page: {
+    number: 1,
+    size: 10,
+  },
   include: ['category', 'status'],
 });
 const tableColumns = [
@@ -43,11 +47,15 @@ const tableColumns = [
   },
 ];
 
-async function fetchTasks() {
+async function loadTasks() {
   await request({ params: fetchTasksParams });
 }
 
-fetchTasks();
+function handleChangePage() {
+  loadTasks();
+}
+
+loadTasks();
 </script>
 
 <template>
@@ -59,6 +67,10 @@ fetchTasks();
           :columns="tableColumns"
           :data="data.data"
           :loading="loading"
+          :meta="data.meta"
+          with-pagination
+          v-model:page="fetchTasksParams.page.number"
+          v-on:change-page="handleChangePage"
         />
       </base-container>
     </main>

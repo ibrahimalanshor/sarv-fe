@@ -1,6 +1,8 @@
 <script setup>
 import { useString } from 'src/composes/resource.compose';
 import WithLoader from 'src/components/compose/with-loader.vue';
+import BasePagination from 'src/components/base/base-pagination.vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   columns: {
@@ -15,77 +17,116 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  withPagination: {
+    type: Boolean,
+    default: false,
+  },
+  meta: {
+    type: Object,
+    default: () => ({}),
+  },
+  page: {
+    type: Number,
+    default: 1,
+  },
 });
+const emit = defineEmits(['update:page', 'change-page']);
 
 const { getString } = useString();
+
+const currentPage = computed({
+  get() {
+    return props.page;
+  },
+  set(value) {
+    emit('update:page', value);
+  },
+});
+
+function handleChangePage() {
+  emit('change-page');
+}
 </script>
 
 <template>
   <div class="flow-root">
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <div
-          class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg"
-        >
-          <with-loader :loading="props.loading">
-            <table class="min-w-full divide-y divide-gray-300">
-              <thead class="bg-gray-50">
+    <div class="relative shadow rounded-lg">
+      <div class="inline-block min-w-full align-middle">
+        <with-loader :loading="props.loading">
+          <table class="min-w-full border-separate border-spacing-0">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  v-for="column in props.columns"
+                  :key="column.id"
+                  scope="col"
+                  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 border-b-gray-300 first:border-l first:rounded-tl-lg last:border-r last:rounded-tr-lg"
+                  :class="column.headerClass"
+                >
+                  {{ column.name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-white [&>tr:first-child>td]:border-t-0 [&>tr:last-child>td]:border-b"
+              :class="[
+                !props.withPagination
+                  ? '[&>tr:last-child>td:first-child]:rounded-bl-lg [&>tr:last-child>td:last-child]:rounded-br-lg border-gray-200'
+                  : '',
+              ]"
+            >
+              <template v-if="!props.data.length">
                 <tr>
-                  <th
+                  <td
+                    class="whitespace-nowrap border-l border-r px-3 py-4 text-sm text-gray-500 first:pl-4 first:pr-3 first:sm:pl-6"
+                    :colspan="props.columns.length"
+                  >
+                    {{ getString('message.empty') }}
+                  </td>
+                </tr>
+              </template>
+              <template v-else>
+                <tr v-for="item in props.data" :key="item.id">
+                  <td
                     v-for="column in props.columns"
                     :key="column.id"
-                    scope="col"
-                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 first:pl-4 first:pr-3 first:sm:pl-6"
-                    :class="column.headerClass"
+                    class="whitespace-nowrap px-3 py-4 text-sm first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 first:border-l last:border-r"
+                    :class="[
+                      column.bold
+                        ? 'font-medium text-gray-900'
+                        : 'text-gray-500',
+                    ]"
                   >
-                    {{ column.name }}
-                  </th>
+                    <component
+                      v-if="column.render"
+                      :is="column.render"
+                      :item="item"
+                    />
+                    <p v-else>
+                      {{
+                        column.value
+                          ? typeof column.value === 'function'
+                            ? column.value(item)
+                            : column.value
+                          : item[column.id]
+                      }}
+                    </p>
+                  </td>
                 </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <template v-if="!props.data.length">
-                  <tr>
-                    <td
-                      class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 first:pl-4 first:pr-3 first:sm:pl-6"
-                      :colspan="props.columns.length"
-                    >
-                      {{ getString('message.empty') }}
-                    </td>
-                  </tr>
-                </template>
-                <template v-else>
-                  <tr v-for="item in props.data" :key="item.id">
-                    <td
-                      v-for="column in props.columns"
-                      :key="column.id"
-                      class="whitespace-nowrap px-3 py-4 text-sm first:pl-4 first:pr-3 first:sm:pl-6"
-                      :class="[
-                        column.bold
-                          ? 'font-medium text-gray-900'
-                          : 'text-gray-500',
-                      ]"
-                    >
-                      <component
-                        v-if="column.render"
-                        :is="column.render"
-                        :item="item"
-                      />
-                      <p v-else>
-                        {{
-                          column.value
-                            ? typeof column.value === 'function'
-                              ? column.value(item)
-                              : column.value
-                            : item[column.id]
-                        }}
-                      </p>
-                    </td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
-          </with-loader>
-        </div>
+              </template>
+            </tbody>
+          </table>
+          <div
+            v-if="props.withPagination"
+            class="border border-t-0 rounded-b-lg border-gray-200 bg-white px-4 py-3 sm:px-6"
+          >
+            <base-pagination
+              :meta="props.meta"
+              v-model="currentPage"
+              v-on:change="handleChangePage"
+            />
+          </div>
+        </with-loader>
       </div>
     </div>
   </div>
