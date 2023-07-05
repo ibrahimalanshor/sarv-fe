@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import BaseInput from './base-input.vue';
 import BaseSpinner from './base-spinner.vue';
-import { ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { ChevronUpDownIcon, XMarkIcon } from '@heroicons/vue/20/solid';
 import { useString } from 'src/composes/resource.compose';
 
 const props = defineProps({
@@ -101,7 +101,7 @@ function handleClickOutside() {
   visibleItems.value = false;
 }
 function handleClickItem(item) {
-  if (item.id !== selected.value.id) {
+  if (item.id !== selected.value?.id) {
     selected.value = item;
     emit('change', item);
   }
@@ -117,6 +117,11 @@ function handleOpenItems() {
   if (!visibleItems.value) {
     focus();
   }
+}
+function handleClear() {
+  selected.value = null;
+
+  emit('change');
 }
 
 watch(selected, () => {
@@ -146,17 +151,26 @@ setSearchText();
       >
         <template #right-content>
           <base-spinner v-if="props.loading" size="sm" color="indigo" />
-          <button
-            v-else
-            type="button"
-            class="cursor-default"
-            v-on:click="handleOpenItems"
-          >
-            <chevron-up-down-icon
-              class="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
-          </button>
+          <template v-else>
+            <button
+              v-if="selected"
+              type="button"
+              class="cursor-default"
+              v-on:click="handleClear"
+            >
+              <x-mark-icon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              class="cursor-default"
+              v-on:click="handleOpenItems"
+            >
+              <chevron-up-down-icon
+                class="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </button>
+          </template>
         </template>
       </base-input>
     </slot>

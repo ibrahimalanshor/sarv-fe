@@ -6,7 +6,8 @@ import BaseContainer from 'src/components/base/base-container.vue';
 import BaseTable from 'src/components/base/base-table.vue';
 import BaseInput from 'src/components/base/base-input.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
-import { h, reactive } from 'vue';
+import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
+import { h, reactive, ref } from 'vue';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -24,9 +25,12 @@ const fetchTasksParams = reactive({
   },
   filter: {
     name: null,
+    task_status_id: null,
   },
   include: ['category', 'status'],
 });
+const filterTaskStatus = ref(null);
+
 const tableColumns = [
   {
     id: 'name',
@@ -52,15 +56,26 @@ const tableColumns = [
 ];
 
 async function loadTasks() {
-  await request({ params: fetchTasksParams });
+  await request({
+    params: fetchTasksParams,
+  });
+}
+function resetPage() {
+  fetchTasksParams.page.number = 1;
 }
 
 function handleChangePage() {
   loadTasks();
 }
 function handleFilter() {
-  fetchTasksParams.page.number = 1;
+  resetPage();
 
+  loadTasks();
+}
+function handleChangeTaskStatus() {
+  fetchTasksParams.filter.task_status_id = filterTaskStatus.value?.id ?? null;
+
+  resetPage();
   loadTasks();
 }
 
@@ -73,12 +88,17 @@ loadTasks();
     <main>
       <base-container>
         <div class="space-y-4">
-          <div class="flex justify-end">
+          <div class="flex gap-x-2 justify-end">
+            <task-status-select-search
+              v-model="filterTaskStatus"
+              v-on:change="handleChangeTaskStatus"
+            />
             <base-input
               type="text"
               placeholder="message.search"
               placeholder-from-resource
               debounce
+              :with-label="false"
               v-model="fetchTasksParams.filter.name"
               v-on:input="handleFilter"
             />

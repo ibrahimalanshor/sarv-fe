@@ -54,6 +54,7 @@
     },
     "task": {
         "placeholder": {
+            "status": "Status",
             "no-status": "No Status"
         },
         "columns": {
