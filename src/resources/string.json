@@ -3,7 +3,8 @@
         "client": "Something Error"
     },
     "message": {
-        "empty": "Empty Data"
+        "empty": "Empty Data",
+        "search": "Search"
     },
     "pagination": {
         "showing": "Showing",

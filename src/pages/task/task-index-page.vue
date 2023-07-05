@@ -4,6 +4,7 @@ import { useString } from 'src/composes/resource.compose';
 import BaseHeader from 'src/components/base/base-header.vue';
 import BaseContainer from 'src/components/base/base-container.vue';
 import BaseTable from 'src/components/base/base-table.vue';
+import BaseInput from 'src/components/base/base-input.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
 import { h, reactive } from 'vue';
 
@@ -20,6 +21,9 @@ const fetchTasksParams = reactive({
   page: {
     number: 1,
     size: 10,
+  },
+  filter: {
+    name: null,
   },
   include: ['category', 'status'],
 });
@@ -54,6 +58,11 @@ async function loadTasks() {
 function handleChangePage() {
   loadTasks();
 }
+function handleFilter() {
+  fetchTasksParams.page.number = 1;
+
+  loadTasks();
+}
 
 loadTasks();
 </script>
@@ -63,15 +72,27 @@ loadTasks();
     <base-header title="pages.task.index" title-from-resource></base-header>
     <main>
       <base-container>
-        <base-table
-          :columns="tableColumns"
-          :data="data.data"
-          :loading="loading"
-          :meta="data.meta"
-          with-pagination
-          v-model:page="fetchTasksParams.page.number"
-          v-on:change-page="handleChangePage"
-        />
+        <div class="space-y-4">
+          <div class="flex justify-end">
+            <base-input
+              type="text"
+              placeholder="message.search"
+              placeholder-from-resource
+              debounce
+              v-model="fetchTasksParams.filter.name"
+              v-on:input="handleFilter"
+            />
+          </div>
+          <base-table
+            :columns="tableColumns"
+            :data="data.data"
+            :loading="loading"
+            :meta="data.meta"
+            with-pagination
+            v-model:page="fetchTasksParams.page.number"
+            v-on:change-page="handleChangePage"
+          />
+        </div>
       </base-container>
     </main>
   </div>
