@@ -20,6 +20,7 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
+  sort: '-name',
   page: {
     number: 1,
     size: 10,
@@ -43,10 +44,12 @@ const tableColumns = [
   {
     id: 'category',
     name: getString('task.columns.category'),
+    sortable: false,
     value: (item) => item.category.name,
   },
   {
     id: 'status',
+    sortable: false,
     name: getString('task.columns.status'),
     value: (item) => (item.status ? item.status.name : 'No Status'),
     render: ({ item }) =>
@@ -88,6 +91,10 @@ function handleChangeTaskCategory() {
   resetPage();
   loadTasks();
 }
+function handleChangeSort() {
+  resetPage();
+  loadTasks();
+}
 
 loadTasks();
 </script>
@@ -124,7 +131,9 @@ loadTasks();
             :meta="data.meta"
             with-pagination
             v-model:page="fetchTasksParams.page.number"
+            v-model:sort="fetchTasksParams.sort"
             v-on:change-page="handleChangePage"
+            v-on:change-sort="handleChangeSort"
           />
         </div>
       </base-container>

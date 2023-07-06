@@ -3,6 +3,7 @@ import { useString } from 'src/composes/resource.compose';
 import WithLoader from 'src/components/compose/with-loader.vue';
 import BasePagination from 'src/components/base/base-pagination.vue';
 import { computed } from 'vue';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({
   columns: {
@@ -29,8 +30,17 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  sort: {
+    type: String,
+    default: null,
+  },
 });
-const emit = defineEmits(['update:page', 'change-page']);
+const emit = defineEmits([
+  'update:page',
+  'change-page',
+  'update:sort',
+  'change-sort',
+]);
 
 const { getString } = useString();
 
@@ -42,9 +52,37 @@ const currentPage = computed({
     emit('update:page', value);
   },
 });
+const currentSort = computed({
+  get() {
+    return props.sort;
+  },
+  set(value) {
+    emit('update:sort', value);
+  },
+});
+const parsedSort = computed(() => {
+  const isDesc = currentSort.value?.charAt(0) === '-';
+
+  return {
+    direction: isDesc ? 'desc' : 'asc',
+    column: currentSort.value?.slice(isDesc ? 1 : 0),
+  };
+});
 
 function handleChangePage() {
   emit('change-page');
+}
+function handleSort(column) {
+  if (column.sortable ?? true) {
+    currentSort.value = `${
+      parsedSort.value.column !== 'column' &&
+      parsedSort.value.direction === 'desc'
+        ? ''
+        : '-'
+    }${column.id}`;
+
+    emit('change-sort');
+  }
 }
 </script>
 
@@ -63,7 +101,33 @@ function handleChangePage() {
                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 border-b-gray-300 first:border-l first:rounded-tl-lg last:border-r last:rounded-tr-lg"
                   :class="column.headerClass"
                 >
-                  {{ column.name }}
+                  <div
+                    :class="[
+                      'group inline-flex',
+                      column.sortable ?? true ? 'cursor-pointer' : '',
+                    ]"
+                    v-on:click="handleSort(column)"
+                  >
+                    {{ column.name }}
+                    <span
+                      v-if="column.sortable ?? true"
+                      :class="[
+                        'ml-2 flex-none rounded',
+                        column.id === parsedSort.column
+                          ? 'bg-gray-100 text-gray-900 group-hover:bg-gray-200'
+                          : 'invisible text-gray-400 group-hover:visible group-focus:visible',
+                      ]"
+                    >
+                      <chevron-down-icon
+                        v-if="
+                          column.id !== parsedSort.column ||
+                          parsedSort.direction === 'asc'
+                        "
+                        class="h-5 w-5"
+                      />
+                      <chevron-up-icon v-else class="h-5 w-5" />
+                    </span>
+                  </div>
                 </th>
               </tr>
             </thead>
