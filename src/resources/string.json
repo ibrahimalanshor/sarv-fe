@@ -4,7 +4,9 @@
     },
     "message": {
         "empty": "Empty Data",
-        "search": "Search"
+        "search": "Search",
+        "save": "Save",
+        "cancel": "Cancel"
     },
     "pagination": {
         "showing": "Showing",
@@ -53,7 +55,15 @@
         }
     },
     "task": {
+        "actions": {
+            "create": "New Task"
+        },
+        "label": {
+            "name": "Name",
+            "category": "Category"
+        },
         "placeholder": {
+            "name": "Name",
             "status": "Status",
             "category": "Category",
             "no-status": "No Status"

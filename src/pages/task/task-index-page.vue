@@ -5,9 +5,11 @@ import BaseHeader from 'src/components/base/base-header.vue';
 import BaseContainer from 'src/components/base/base-container.vue';
 import BaseTable from 'src/components/base/base-table.vue';
 import BaseInput from 'src/components/base/base-input.vue';
+import BaseButton from 'src/components/base/base-button.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
 import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
+import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import { h, reactive, ref } from 'vue';
 
 const { getString } = useString();
@@ -20,7 +22,7 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
-  sort: '-name',
+  sort: '-id',
   page: {
     number: 1,
     size: 10,
@@ -34,6 +36,7 @@ const fetchTasksParams = reactive({
 });
 const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
+const visibleCreateTask = ref(false);
 
 const tableColumns = [
   {
@@ -69,31 +72,49 @@ async function loadTasks() {
 function resetPage() {
   fetchTasksParams.page.number = 1;
 }
+function resetFilter() {
+  fetchTasksParams.filter.name = null;
+  fetchTasksParams.filter.task_category_id = null;
+  fetchTasksParams.filter.task_status_id = null;
+
+  filterTaskCategory.value = null;
+  filterTaskStatus.value = null;
+}
+function refresh() {
+  resetPage();
+  resetFilter();
+  loadTasks();
+}
+function reload() {
+  resetPage();
+  loadTasks();
+}
 
 function handleChangePage() {
   loadTasks();
 }
 function handleFilter() {
-  resetPage();
-
-  loadTasks();
+  reload();
 }
 function handleChangeTaskStatus() {
   fetchTasksParams.filter.task_status_id = filterTaskStatus.value?.id ?? null;
 
-  resetPage();
-  loadTasks();
+  reload();
 }
 function handleChangeTaskCategory() {
   fetchTasksParams.filter.task_category_id =
     filterTaskCategory.value?.id ?? null;
 
-  resetPage();
-  loadTasks();
+  reload();
 }
 function handleChangeSort() {
-  resetPage();
-  loadTasks();
+  reload();
+}
+function handleCreate() {
+  visibleCreateTask.value = true;
+}
+function handleRefresh() {
+  refresh();
 }
 
 loadTasks();
@@ -101,7 +122,16 @@ loadTasks();
 
 <template>
   <div>
-    <base-header title="pages.task.index" title-from-resource></base-header>
+    <base-header title="pages.task.index" title-from-resource>
+      <template #action>
+        <base-button
+          text="task.actions.create"
+          color="indigo"
+          text-from-resource
+          v-on:click="handleCreate"
+        />
+      </template>
+    </base-header>
     <main>
       <base-container>
         <div class="space-y-4">
@@ -138,5 +168,9 @@ loadTasks();
         </div>
       </base-container>
     </main>
+    <task-create-modal
+      v-model="visibleCreateTask"
+      v-on:created="handleRefresh"
+    />
   </div>
 </template>

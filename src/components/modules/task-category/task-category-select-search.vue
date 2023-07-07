@@ -9,6 +9,14 @@ const props = defineProps({
     type: null,
     default: null,
   },
+  inputProps: {
+    type: Object,
+    default: () => ({}),
+  },
+  selectSearchProps: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits(['update:modelValue', 'change']);
 
@@ -53,6 +61,8 @@ function handleChange() {
     :loading="loadingTaskCategories"
     :placeholder="getString('task.placeholder.category')"
     :searchable="false"
+    :input-props="props.inputProps"
+    v-bind="props.selectSearchProps"
     v-model="value"
     v-on:focus="handleFocus"
     v-on:change="handleChange"

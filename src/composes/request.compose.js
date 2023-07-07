@@ -51,5 +51,14 @@ export function useRequest({
     }
   }
 
-  return { data, url, error, validation, loading, request, resetError };
+  return {
+    data,
+    url,
+    error,
+    validation,
+    loading,
+    request,
+    resetError,
+    resetValidation,
+  };
 }
