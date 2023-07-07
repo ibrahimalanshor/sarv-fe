@@ -18,6 +18,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  fullwidth: {
+    type: Boolean,
+    default: false,
+  },
   loading: {
     type: Boolean,
     default: false,
@@ -44,6 +48,10 @@ const props = defineProps({
       active: 'bg-indigo-600 text-white',
       item: '',
     }),
+  },
+  inputProps: {
+    type: Object,
+    default: () => ({}),
   },
 });
 const emit = defineEmits(['focus', 'update:modelValue', 'search', 'change']);
@@ -132,7 +140,10 @@ setSearchText();
 </script>
 
 <template>
-  <div class="relative w-fit" v-click-outside="handleClickOutside">
+  <div
+    :class="['relative', props.fullwidth ? 'w-full' : 'w-fit']"
+    v-click-outside="handleClickOutside"
+  >
     <slot name="toggle" :focus="handleFocus">
       <base-input
         ref="inputEl"
@@ -145,6 +156,8 @@ setSearchText();
         :with-label="false"
         :readonly="!props.searchable"
         :debounce="true"
+        :fullwidth="props.fullwidth"
+        v-bind="inputProps"
         v-model="searchText"
         v-on:focus="handleFocus"
         v-on:input="handleSearch"
