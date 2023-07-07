@@ -11,6 +11,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  semibold: {
+    type: Boolean,
+    default: false,
+  },
   level: {
     type: Number,
     default: 1,
@@ -32,9 +36,16 @@ const style = computed(() => {
   const levels = {
     2: 'text-2xl',
     3: 'text-3xl',
+    4: 'text-xl',
+    5: 'text-lg',
+    6: 'text-base',
   };
   return {
-    base: ['font-bold tracking-tight text-gray-900', props.classes.base],
+    base: [
+      'tracking-tight text-gray-900',
+      props.semibold ? 'font-semibold' : 'font-bold',
+      props.classes.base,
+    ],
     level: levels[props.level],
   };
 });
