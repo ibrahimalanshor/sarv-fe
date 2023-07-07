@@ -70,6 +70,10 @@ const props = defineProps({
     type: String,
     default: 'md',
   },
+  fullwidth: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['update:modelValue', 'focus', 'input']);
 
@@ -106,6 +110,7 @@ const style = computed(() => {
   return {
     input: {
       base: [
+        props.fullwidth ? 'w-full' : '',
         props.classes.input,
         inputColors[props.color],
         inputSizes[props.size],
@@ -130,38 +135,40 @@ defineExpose({ element });
 </script>
 
 <template>
-  <div class="w-fit">
+  <div :class="[props.fullwidth ? 'w-full' : '']">
     <label
       v-if="props.withLabel"
       :for="props.id"
       class="block text-sm font-medium leading-6 text-gray-900 mb-2"
       >{{ label }}</label
     >
-    <div class="relative w-fit">
-      <input
-        ref="element"
-        :id="props.id"
-        :name="props.id"
-        :type="props.type"
-        :placeholder="placeholder"
-        :readonly="props.readonly"
-        class="block rounded-md border-0 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-        :class="[style.input.base]"
-        v-model="value"
-        v-on:focus="handleFocus"
-        v-on:input="handleInput"
-      />
-      <div
-        v-if="props.withRightContent"
-        class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
-      >
-        <slot name="right-content">
-          <component :is="props.rightContent" />
-        </slot>
-      </div>
-      <p v-if="props.message" class="mt-2 text-sm text-red-600">
-        {{ props.message }}
-      </p>
+    <div :class="['relative', props.fullwidth ? 'w-full' : '']">
+      <slot>
+        <input
+          ref="element"
+          :id="props.id"
+          :name="props.id"
+          :type="props.type"
+          :placeholder="placeholder"
+          :readonly="props.readonly"
+          class="block rounded-md border-0 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+          :class="[style.input.base]"
+          v-model="value"
+          v-on:focus="handleFocus"
+          v-on:input="handleInput"
+        />
+        <div
+          v-if="props.withRightContent"
+          class="absolute inset-y-0 right-0 flex items-center h-auto rounded-r-md px-2 focus:outline-none"
+        >
+          <slot name="right-content">
+            <component :is="props.rightContent" />
+          </slot>
+        </div>
+      </slot>
     </div>
+    <p v-if="props.message" class="mt-2 text-sm text-red-600">
+      {{ props.message }}
+    </p>
   </div>
 </template>
