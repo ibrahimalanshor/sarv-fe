@@ -10,6 +10,7 @@ import TaskStatusDropdown from 'src/components/modules/task-status/task-status-d
 import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
+import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import { h, reactive, ref } from 'vue';
 
 const { getString } = useString();
@@ -48,7 +49,7 @@ const tableColumns = [
     id: 'category',
     name: getString('task.columns.category'),
     sortable: false,
-    value: (item) => item.category.name,
+    value: (item) => item.category?.name ?? '-',
   },
   {
     id: 'status',
@@ -158,13 +159,19 @@ loadTasks();
             :columns="tableColumns"
             :data="data.data"
             :loading="loading"
-            :meta="data.meta"
-            with-pagination
-            v-model:page="fetchTasksParams.page.number"
+            with-footer
             v-model:sort="fetchTasksParams.sort"
             v-on:change-page="handleChangePage"
             v-on:change-sort="handleChangeSort"
-          />
+          >
+            <template #footer="{ classes }">
+              <tr>
+                <td :class="[classes.td, 'rounded-b-lg']" colspan="3">
+                  <task-create-inline v-on:created="handleRefresh" />
+                </td>
+              </tr>
+            </template>
+          </base-table>
         </div>
       </base-container>
     </main>

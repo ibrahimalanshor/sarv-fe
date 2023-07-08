@@ -22,6 +22,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  withFooter: {
+    type: Boolean,
+    default: false,
+  },
   meta: {
     type: Object,
     default: () => ({}),
@@ -66,6 +70,13 @@ const parsedSort = computed(() => {
   return {
     direction: isDesc ? 'desc' : 'asc',
     column: currentSort.value?.slice(isDesc ? 1 : 0),
+  };
+});
+const style = computed(() => {
+  return {
+    td: [
+      'whitespace-nowrap px-3 py-4 text-sm first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 first:border-l last:border-r',
+    ],
   };
 });
 
@@ -134,7 +145,7 @@ function handleSort(column) {
             <tbody
               class="bg-white [&>tr:first-child>td]:border-t-0 [&>tr:last-child>td]:border-b"
               :class="[
-                !props.withPagination
+                !props.withPagination && !props.withFooter
                   ? '[&>tr:last-child>td:first-child]:rounded-bl-lg [&>tr:last-child>td:last-child]:rounded-br-lg border-gray-200'
                   : '',
               ]"
@@ -154,8 +165,8 @@ function handleSort(column) {
                   <td
                     v-for="column in props.columns"
                     :key="column.id"
-                    class="whitespace-nowrap px-3 py-4 text-sm first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 first:border-l last:border-r"
                     :class="[
+                      style.td,
                       column.bold
                         ? 'font-medium text-gray-900'
                         : 'text-gray-500',
@@ -179,6 +190,9 @@ function handleSort(column) {
                 </tr>
               </template>
             </tbody>
+            <tfoot v-if="props.withFooter">
+              <slot name="footer" :classes="style" />
+            </tfoot>
           </table>
           <div
             v-if="props.withPagination"
