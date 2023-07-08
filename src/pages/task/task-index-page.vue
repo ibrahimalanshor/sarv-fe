@@ -19,7 +19,7 @@ const { data, loading, request } = useRequest({
   url: '/api/tasks',
   notifyOnError: true,
   initLoading: true,
-  initData: { data: [] },
+  initData: { data: [], meta: {} },
 });
 
 const fetchTasksParams = reactive({
@@ -43,7 +43,17 @@ const tableColumns = [
   {
     id: 'name',
     name: getString('task.columns.name'),
-    bold: true,
+    render: ({ item }) =>
+      h(
+        'div',
+        { class: 'flex flex-col' },
+        {
+          default: () => [
+            h('span', { class: 'font-medium text-gray-900' }, item.name),
+            h('span', {}, item.created_at),
+          ],
+        }
+      ),
   },
   {
     id: 'category',
@@ -55,7 +65,6 @@ const tableColumns = [
     id: 'status',
     sortable: false,
     name: getString('task.columns.status'),
-    value: (item) => (item.status ? item.status.name : 'No Status'),
     render: ({ item }) =>
       h(TaskStatusDropdown, {
         task: item,
@@ -72,6 +81,7 @@ async function loadTasks() {
 }
 function resetPage() {
   fetchTasksParams.page.number = 1;
+  fetchTasksParams.page.size = 10;
 }
 function resetFilter() {
   fetchTasksParams.filter.name = null;
@@ -91,7 +101,9 @@ function reload() {
   loadTasks();
 }
 
-function handleChangePage() {
+function handleLoadMore() {
+  fetchTasksParams.page.size += 10;
+
   loadTasks();
 }
 function handleFilter() {
@@ -147,7 +159,7 @@ loadTasks();
             />
             <base-input
               type="text"
-              placeholder="message.search"
+              placeholder="actions.search"
               placeholder-from-resource
               debounce
               :with-label="false"
@@ -161,13 +173,24 @@ loadTasks();
             :loading="loading"
             with-footer
             v-model:sort="fetchTasksParams.sort"
-            v-on:change-page="handleChangePage"
             v-on:change-sort="handleChangeSort"
           >
             <template #footer="{ classes }">
               <tr>
-                <td :class="[classes.td, 'rounded-b-lg']" colspan="3">
+                <td :class="[classes.td]" colspan="3">
                   <task-create-inline v-on:created="handleRefresh" />
+                </td>
+              </tr>
+              <tr v-if="data.data.length < data.meta.total">
+                <td
+                  :class="[
+                    classes.td,
+                    'rounded-b-lg text-center text-gray-500 cursor-pointer',
+                  ]"
+                  colspan="3"
+                  v-on:click="handleLoadMore"
+                >
+                  {{ getString('actions.load-more') }}
                 </td>
               </tr>
             </template>

@@ -128,12 +128,12 @@ function handleResetForm() {
           <base-button
             type="submit"
             color="indigo"
-            text="message.save"
+            text="actions.save"
             :loading="storeTaskLoading"
             text-from-resource
           />
           <base-button
-            text="message.cancel"
+            text="actions.cancel"
             text-from-resource
             v-on:click="close"
           />
