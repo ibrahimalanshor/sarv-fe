@@ -20,6 +20,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  size: {
+    type: String,
+    default: 'sm',
+  },
 });
 const emit = defineEmits(['update:modelValue', 'visible']);
 
@@ -30,6 +34,17 @@ const visible = computed({
   set(value) {
     emit('update:modelValue', value);
   },
+});
+const style = computed(() => {
+  const sizes = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+  };
+
+  return {
+    card: [sizes[props.size]],
+  };
 });
 
 function handleClose() {
@@ -48,7 +63,7 @@ watch(visible, (value) => {
     v-if="visible"
     class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center"
   >
-    <div class="max-w-sm w-full">
+    <div :class="['w-full', style.card]">
       <base-card
         :title="props.title"
         :with-header="props.withHeader"
