@@ -59,7 +59,8 @@
     },
     "task": {
         "actions": {
-            "create": "New Task"
+            "create": "New Task",
+            "detail": "Detail Task"
         },
         "label": {
             "name": "Name",
@@ -72,10 +73,11 @@
             "no-status": "No Status",
             "new-task": "New Task"
         },
-        "columns": {
+        "attributes": {
             "name": "Name",
             "category": "Category",
-            "status": "Status"
+            "status": "Status",
+            "created_at": "Created At"
         }
     }
 }

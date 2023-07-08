@@ -11,6 +11,7 @@ import TaskStatusSelectSearch from 'src/components/modules/task-status/task-stat
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
+import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import { h, reactive, ref } from 'vue';
 
 const { getString } = useString();
@@ -37,34 +38,38 @@ const fetchTasksParams = reactive({
 });
 const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
-const visibleCreateTask = ref(false);
+const visibleTaskCreateModal = ref(false);
+const detailTaskDetailModal = reactive({
+  visible: false,
+  taskId: null,
+});
 
 const tableColumns = [
   {
     id: 'name',
-    name: getString('task.columns.name'),
+    name: getString('task.attributes.name'),
+    bold: true,
     render: ({ item }) =>
       h(
-        'div',
-        { class: 'flex flex-col' },
+        'a',
         {
-          default: () => [
-            h('span', { class: 'font-medium text-gray-900' }, item.name),
-            h('span', {}, item.created_at),
-          ],
-        }
+          href: '#',
+          class: 'hover:underline',
+          onClick: () => handleDetail(item),
+        },
+        item.name
       ),
   },
   {
     id: 'category',
-    name: getString('task.columns.category'),
+    name: getString('task.attributes.category'),
     sortable: false,
     value: (item) => item.category?.name ?? '-',
   },
   {
     id: 'status',
     sortable: false,
-    name: getString('task.columns.status'),
+    name: getString('task.attributes.status'),
     render: ({ item }) =>
       h(TaskStatusDropdown, {
         task: item,
@@ -124,10 +129,14 @@ function handleChangeSort() {
   reload();
 }
 function handleCreate() {
-  visibleCreateTask.value = true;
+  visibleTaskCreateModal.value = true;
 }
 function handleRefresh() {
   refresh();
+}
+function handleDetail(item) {
+  detailTaskDetailModal.taskId = item.id;
+  detailTaskDetailModal.visible = true;
 }
 
 loadTasks();
@@ -199,8 +208,12 @@ loadTasks();
       </base-container>
     </main>
     <task-create-modal
-      v-model="visibleCreateTask"
+      v-model="visibleTaskCreateModal"
       v-on:created="handleRefresh"
+    />
+    <task-detail-modal
+      :task-id="detailTaskDetailModal.taskId"
+      v-model="detailTaskDetailModal.visible"
     />
   </div>
 </template>
