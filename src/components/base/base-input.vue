@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useString } from 'src/composes/resource.compose';
 import createDebounce from '../../utils/debounce';
+import BaseSpinner from './base-spinner.vue';
 
 const props = defineProps({
   id: {
@@ -57,6 +58,14 @@ const props = defineProps({
     default: false,
   },
   readonly: {
+    type: Boolean,
+    default: false,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
     type: Boolean,
     default: false,
   },
@@ -151,7 +160,8 @@ defineExpose({ element });
           :type="props.type"
           :placeholder="placeholder"
           :readonly="props.readonly"
-          class="block rounded-md border-0 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+          :disabled="props.disabled"
+          class="block rounded-md border-0 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 disabled:bg-gray-50"
           :class="[style.input.base]"
           v-model="value"
           v-on:focus="handleFocus"
@@ -161,6 +171,7 @@ defineExpose({ element });
           v-if="props.withRightContent"
           class="absolute inset-y-0 right-0 flex items-center h-auto rounded-r-md px-2 focus:outline-none"
         >
+          <base-spinner v-if="props.loading" size="sm" color="indigo" />
           <slot name="right-content">
             <component :is="props.rightContent" />
           </slot>
