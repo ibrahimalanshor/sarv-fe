@@ -27,6 +27,8 @@ const style = computed(() => {
     blue: 'fill-blue-600',
     yellow: 'fill-yellow-600',
     gray: 'fill-gray-600',
+    indigo: 'fill-indigo-600',
+    red: 'fill-red-600',
   };
 
   return [sizes[props.size], colors[props.color]];

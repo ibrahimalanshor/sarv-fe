@@ -1,3 +1,5 @@
+import { RouterView } from 'vue-router';
+
 export const routes = [
   {
     path: '/',
@@ -26,5 +28,23 @@ export const routes = [
       layout: 'LayoutAuth',
       title: 'register',
     },
+  },
+  {
+    path: '/task',
+    component: RouterView,
+    meta: {
+      requireAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('src/pages/task/task-index-page.vue'),
+        name: 'task.index',
+        meta: {
+          layout: 'LayoutApp',
+          title: 'task.index',
+        },
+      },
+    ],
   },
 ];

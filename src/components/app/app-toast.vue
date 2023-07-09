@@ -13,7 +13,7 @@ function handleClose(index) {
 
 <template>
   <div
-    class="pointer-events-none fixed inset-0 flex flex-col px-4 py-6 sm:p-6 space-y-4"
+    class="pointer-events-none fixed inset-0 flex flex-col px-4 py-6 sm:p-6 space-y-4 z-10"
   >
     <base-toast
       v-for="(toast, index) in toasts"

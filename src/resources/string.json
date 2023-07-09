@@ -2,10 +2,30 @@
     "error": {
         "client": "Something Error"
     },
+    "actions": {
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "search": "Search",
+        "load-more": "Load More"
+    },
+    "message": {
+        "empty": "Empty Data"
+    },
+    "pagination": {
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "results": "results"
+    },
     "pages": {
         "login": "Sign in to your account",
         "register": "Create new account",
-        "index": "Dashboard"
+        "index": "Dashboard",
+        "task": {
+            "index": "Task List"
+        }
     },
     "menus": {
         "index": "Dashboard",
@@ -37,6 +57,34 @@
             "link": {
                 "login": "Sign in to your account"
             }
+        }
+    },
+    "task": {
+        "actions": {
+            "create": "New Task",
+            "detail": "Detail Task",
+            "edit": "Edit Task",
+            "delete": "Delete Task"
+        },
+        "label": {
+            "name": "Name",
+            "category": "Category"
+        },
+        "placeholder": {
+            "name": "Name",
+            "status": "Status",
+            "category": "Category",
+            "no-status": "No Status",
+            "new-task": "New Task"
+        },
+        "message": {
+            "delete": "Are you sure want to delete this task?"
+        },
+        "attributes": {
+            "name": "Name",
+            "category": "Category",
+            "status": "Status",
+            "created_at": "Created At"
         }
     }
 }
