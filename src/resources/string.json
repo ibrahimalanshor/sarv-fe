@@ -25,11 +25,15 @@
         "index": "Dashboard",
         "task": {
             "index": "Task List"
+        },
+        "task-category": {
+            "index": "Category List"
         }
     },
     "menus": {
         "index": "Dashboard",
         "task": "Task",
+        "task-category": "Category",
         "profile": "Profile",
         "logout": "Logout"
     },
@@ -85,6 +89,26 @@
             "category": "Category",
             "status": "Status",
             "created_at": "Created At"
+        }
+    },
+    "task-category": {
+        "actions": {
+            "create": "New Category",
+            "detail": "Detail Category",
+            "edit": "Edit Category",
+            "delete": "Delete Category"
+        },
+        "label": {
+            "name": "Name"
+        },
+        "placeholder": {
+            "name": "Name"
+        },
+        "message": {
+            "delete": "Are you sure want to delete this category?"
+        },
+        "attributes": {
+            "name": "Name"
         }
     }
 }

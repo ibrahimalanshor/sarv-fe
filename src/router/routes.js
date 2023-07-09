@@ -47,4 +47,23 @@ export const routes = [
       },
     ],
   },
+  {
+    path: '/task-category',
+    component: RouterView,
+    meta: {
+      requireAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        component: () =>
+          import('src/pages/task-category/task-category-index-page.vue'),
+        name: 'task-category.index',
+        meta: {
+          layout: 'LayoutApp',
+          title: 'task-category.index',
+        },
+      },
+    ],
+  },
 ];

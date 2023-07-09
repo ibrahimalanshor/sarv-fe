@@ -38,8 +38,8 @@ const fetchTasksParams = reactive({
 });
 const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
-const visibleTaskCreateModal = ref(false);
-const detailTaskDetailModal = reactive({
+const visibleCreateModal = ref(false);
+const detailModal = reactive({
   visible: false,
   taskId: null,
 });
@@ -129,14 +129,14 @@ function handleChangeSort() {
   reload();
 }
 function handleCreate() {
-  visibleTaskCreateModal.value = true;
+  visibleCreateModal.value = true;
 }
 function handleRefresh() {
   refresh();
 }
 function handleDetail(item) {
-  detailTaskDetailModal.taskId = item.id;
-  detailTaskDetailModal.visible = true;
+  detailModal.taskId = item.id;
+  detailModal.visible = true;
 }
 
 loadTasks();
@@ -208,12 +208,12 @@ loadTasks();
       </base-container>
     </main>
     <task-create-modal
-      v-model="visibleTaskCreateModal"
+      v-model="visibleCreateModal"
       v-on:created="handleRefresh"
     />
     <task-detail-modal
-      :task-id="detailTaskDetailModal.taskId"
-      v-model="detailTaskDetailModal.visible"
+      :task-id="detailModal.taskId"
+      v-model="detailModal.visible"
       v-on:updated="handleRefresh"
       v-on:deleted="handleRefresh"
     />

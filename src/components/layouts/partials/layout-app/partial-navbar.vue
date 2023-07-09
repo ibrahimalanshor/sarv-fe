@@ -17,6 +17,11 @@ const menus = [
     to: { name: 'task.index' },
     name: 'menus.task',
   },
+  {
+    id: 'task-category.index',
+    to: { name: 'task-category.index' },
+    name: 'menus.task-category',
+  },
 ];
 
 const active = computed(() => route.name);
