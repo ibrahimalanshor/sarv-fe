@@ -1,7 +1,7 @@
 <script setup>
 import { useRequest } from 'src/composes/request.compose';
 import BaseSelectSearch from 'src/components/base/base-select-search.vue';
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { useString } from 'src/composes/resource.compose';
 
 const props = defineProps({
@@ -29,7 +29,13 @@ const {
   method: 'get',
   url: '/api/task-categories',
   notifyOnError: true,
-  initData: { data: [] },
+  initData: { data: [], meta: {} },
+});
+
+const fetchTaskCategoriesParams = reactive({
+  page: {
+    size: 10,
+  },
 });
 
 const value = computed({
@@ -42,13 +48,24 @@ const value = computed({
 });
 
 async function loadTaskCategories() {
-  await fetchTaskCategories();
+  await fetchTaskCategories({
+    params: fetchTaskCategoriesParams,
+  });
 }
 function handleFocus() {
+  fetchTaskCategoriesParams.page.size = 10;
+
   loadTaskCategories();
 }
 function handleChange() {
   emit('change');
+}
+function handleEndScroll() {
+  if (fetchTaskCategoriesParams.page.size < data.value.meta.total) {
+    fetchTaskCategoriesParams.page.size += 10;
+
+    loadTaskCategories();
+  }
 }
 </script>
 
@@ -66,5 +83,6 @@ function handleChange() {
     v-model="value"
     v-on:focus="handleFocus"
     v-on:change="handleChange"
+    v-on:end-scroll="handleEndScroll"
   />
 </template>

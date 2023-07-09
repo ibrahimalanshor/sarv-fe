@@ -54,7 +54,13 @@ const props = defineProps({
     default: () => ({}),
   },
 });
-const emit = defineEmits(['focus', 'update:modelValue', 'search', 'change']);
+const emit = defineEmits([
+  'focus',
+  'update:modelValue',
+  'search',
+  'change',
+  'end-scroll',
+]);
 
 const { getString } = useString();
 
@@ -131,6 +137,11 @@ function handleClear() {
 
   emit('change');
 }
+function handleScroll(e) {
+  if (e.target.scrollTop >= e.target.scrollHeight - e.target.clientHeight) {
+    emit('end-scroll');
+  }
+}
 
 watch(selected, () => {
   setSearchText();
@@ -194,6 +205,7 @@ setSearchText();
       class="absolute z-10 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       id="options"
       role="listbox"
+      v-on:scroll="handleScroll"
     >
       <li
         v-if="!props.items.length"
