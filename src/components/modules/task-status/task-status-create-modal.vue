@@ -12,30 +12,24 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  taskCategory: {
-    type: Object,
-    required: true,
-  },
 });
-const emit = defineEmits(['update:modelValue', 'updated']);
+const emit = defineEmits(['update:modelValue', 'created']);
 
 const { getString } = useString();
 const {
-  request: updateTaskCategory,
-  loading: updateTaskCategoryLoading,
-  validation: updateTaskCategoryValidation,
-  error: updateTaskCategoryError,
-  resetError: resetUpdateTaskCategoryError,
-  resetValidation: resetUpdateTaskCategoryValidation,
-  url: updateTaskCategoryUrl,
+  request: storeTaskStatus,
+  loading: storeTaskStatusLoading,
+  validation: storeTaskStatusValidation,
+  error: storeTaskStatusError,
+  resetError: resetStoreTaskStatusError,
+  resetValidation: resetStoreTaskStatusValidation,
 } = useRequest({
-  method: 'patch',
-  url: '/api/task-categories/:id',
+  method: 'post',
+  url: '/api/task-statuses',
 });
 
 const form = reactive({
-  name: props.taskCategory.name,
-  task_category_id: props.taskCategory.task_category_id,
+  name: null,
 });
 
 const visible = computed({
@@ -48,51 +42,48 @@ const visible = computed({
 });
 
 async function handleSubmit() {
-  updateTaskCategoryUrl.value = `/api/task-categories/${props.taskCategory.id}`;
-
-  const [success] = await updateTaskCategory(form);
+  const [success] = await storeTaskStatus(form);
 
   if (success) {
     visible.value = false;
 
-    emit('updated');
+    emit('created');
   }
 }
 function handleCloseAlert() {
-  resetUpdateTaskCategoryError();
+  resetStoreTaskStatusError();
 }
-function handleVisible() {
-  form.name = props.taskCategory.name;
-  form.task_category_id = props.taskCategory.task_category_id;
+function handleResetForm() {
+  form.name = null;
 
-  resetUpdateTaskCategoryValidation();
-  resetUpdateTaskCategoryError();
+  resetStoreTaskStatusValidation();
+  resetStoreTaskStatusError();
 }
 </script>
 
 <template>
   <form v-on:submit.prevent="handleSubmit">
     <base-modal
-      :title="getString('task-category.actions.edit')"
+      :title="getString('task-status.actions.create')"
       with-header
       with-footer
       v-model="visible"
-      v-on:visible="handleVisible"
+      v-on:visible="handleResetForm"
     >
       <div class="space-y-4">
         <base-alert
-          :text="updateTaskCategoryError"
+          :text="storeTaskStatusError"
           type="error"
-          :force-visible="!!updateTaskCategoryError"
+          :force-visible="!!storeTaskStatusError"
           v-on:close="handleCloseAlert"
         />
 
         <base-input
           type="text"
-          label="task-category.label.name"
-          placeholder="task-category.placeholder.name"
-          :color="updateTaskCategoryValidation.name ? 'red' : 'gray'"
-          :message="updateTaskCategoryValidation.name"
+          label="task-status.label.name"
+          placeholder="task-status.placeholder.name"
+          :color="storeTaskStatusValidation.name ? 'red' : 'gray'"
+          :message="storeTaskStatusValidation.name"
           fullwidth
           with-label
           label-from-resource
@@ -107,7 +98,7 @@ function handleVisible() {
             type="submit"
             color="indigo"
             text="actions.save"
-            :loading="updateTaskCategoryLoading"
+            :loading="storeTaskStatusLoading"
             text-from-resource
           />
           <base-button

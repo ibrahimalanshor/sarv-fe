@@ -28,12 +28,16 @@
         },
         "task-category": {
             "index": "Category List"
+        },
+        "task-status": {
+            "index": "Status List"
         }
     },
     "menus": {
         "index": "Dashboard",
         "task": "Task",
         "task-category": "Category",
+        "task-status": "Status",
         "profile": "Profile",
         "logout": "Logout"
     },
@@ -106,6 +110,26 @@
         },
         "message": {
             "delete": "Are you sure want to delete this category?"
+        },
+        "attributes": {
+            "name": "Name"
+        }
+    },
+    "task-status": {
+        "actions": {
+            "create": "New Status",
+            "detail": "Detail Status",
+            "edit": "Edit Status",
+            "delete": "Delete Status"
+        },
+        "label": {
+            "name": "Name"
+        },
+        "placeholder": {
+            "name": "Name"
+        },
+        "message": {
+            "delete": "Are you sure want to delete this status?"
         },
         "attributes": {
             "name": "Name"

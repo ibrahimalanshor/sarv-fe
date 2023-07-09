@@ -66,4 +66,23 @@ export const routes = [
       },
     ],
   },
+  {
+    path: '/task-status',
+    component: RouterView,
+    meta: {
+      requireAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        component: () =>
+          import('src/pages/task-status/task-status-index-page.vue'),
+        name: 'task-status.index',
+        meta: {
+          layout: 'LayoutApp',
+          title: 'task-status.index',
+        },
+      },
+    ],
+  },
 ];
