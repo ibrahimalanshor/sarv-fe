@@ -15,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  tight: {
+    type: Boolean,
+    default: true,
+  },
   level: {
     type: Number,
     default: 1,
@@ -42,7 +46,8 @@ const style = computed(() => {
   };
   return {
     base: [
-      'tracking-tight text-gray-900',
+      'text-gray-900',
+      props.tight ? 'tracking-tight' : '',
       props.semibold ? 'font-semibold' : 'font-bold',
       props.classes.base,
     ],
