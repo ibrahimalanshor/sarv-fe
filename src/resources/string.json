@@ -5,6 +5,7 @@
     "actions": {
         "save": "Save",
         "edit": "Edit",
+        "delete": "Delete",
         "cancel": "Cancel",
         "search": "Search",
         "load-more": "Load More"
@@ -62,7 +63,8 @@
         "actions": {
             "create": "New Task",
             "detail": "Detail Task",
-            "edit": "Edit Task"
+            "edit": "Edit Task",
+            "delete": "Delete Task"
         },
         "label": {
             "name": "Name",
@@ -74,6 +76,9 @@
             "category": "Category",
             "no-status": "No Status",
             "new-task": "New Task"
+        },
+        "message": {
+            "delete": "Are you sure want to delete this task?"
         },
         "attributes": {
             "name": "Name",

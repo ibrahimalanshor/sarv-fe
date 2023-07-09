@@ -215,6 +215,7 @@ loadTasks();
       :task-id="detailTaskDetailModal.taskId"
       v-model="detailTaskDetailModal.visible"
       v-on:updated="handleRefresh"
+      v-on:deleted="handleRefresh"
     />
   </div>
 </template>
