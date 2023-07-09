@@ -214,6 +214,7 @@ loadTasks();
     <task-detail-modal
       :task-id="detailTaskDetailModal.taskId"
       v-model="detailTaskDetailModal.visible"
+      v-on:updated="handleRefresh"
     />
   </div>
 </template>

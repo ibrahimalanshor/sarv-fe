@@ -4,6 +4,7 @@
     },
     "actions": {
         "save": "Save",
+        "edit": "Edit",
         "cancel": "Cancel",
         "search": "Search",
         "load-more": "Load More"
@@ -60,7 +61,8 @@
     "task": {
         "actions": {
             "create": "New Task",
-            "detail": "Detail Task"
+            "detail": "Detail Task",
+            "edit": "Edit Task"
         },
         "label": {
             "name": "Name",

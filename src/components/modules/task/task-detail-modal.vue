@@ -6,8 +6,9 @@ import BaseModal from 'src/components/base/base-modal.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
+import TaskEditModal from './task-edit-modal.vue';
 
 const props = defineProps({
   modelValue: {
@@ -19,7 +20,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['update:modelValue', 'created']);
+const emit = defineEmits(['update:modelValue', 'created', 'updated']);
 
 const { getString } = useString();
 const {
@@ -35,6 +36,7 @@ const {
   initData: {},
 });
 
+const editModalVisible = ref(false);
 const visible = computed({
   get() {
     return props.modelValue;
@@ -85,6 +87,14 @@ function handleVisible() {
 function handleCloseAlert() {
   resetGetTaskError();
 }
+function handleEdit() {
+  editModalVisible.value = true;
+}
+function handleUpdated() {
+  loadTask();
+
+  emit('updated');
+}
 </script>
 
 <template>
@@ -106,11 +116,22 @@ function handleCloseAlert() {
           v-on:close="handleCloseAlert"
         />
         <base-description :attributes="attributes" :data="task" />
+        <task-edit-modal
+          :task="task"
+          v-model="editModalVisible"
+          v-on:updated="handleUpdated"
+        />
       </template>
     </div>
 
     <template #footer="{ close }">
       <div class="flex items-center justify-end gap-x-2">
+        <base-button
+          text="actions.edit"
+          color="indigo"
+          text-from-resource
+          v-on:click="handleEdit"
+        />
         <base-button
           text="actions.cancel"
           text-from-resource
