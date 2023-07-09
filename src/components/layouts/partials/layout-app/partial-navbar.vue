@@ -22,6 +22,11 @@ const menus = [
     to: { name: 'task-category.index' },
     name: 'menus.task-category',
   },
+  {
+    id: 'task-status.index',
+    to: { name: 'task-status.index' },
+    name: 'menus.task-status',
+  },
 ];
 
 const active = computed(() => route.name);
