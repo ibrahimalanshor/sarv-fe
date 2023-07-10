@@ -6,10 +6,11 @@ import BaseModal from 'src/components/base/base-modal.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, h } from 'vue';
 import { formatDate } from 'src/utils/date';
 import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
+import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
 
 const props = defineProps({
   modelValue: {
@@ -72,7 +73,6 @@ const attributes = computed(() => {
     {
       id: 'status',
       name: getString('task.attributes.status'),
-      value: task.value.status ? task.value.status.name : '-',
     },
   ];
 });
@@ -111,6 +111,9 @@ function handleDeleted() {
 
   emit('deleted');
 }
+function hanldeUpdatedStatus() {
+  emit('updated');
+}
 </script>
 
 <template>
@@ -131,7 +134,15 @@ function handleDeleted() {
           :force-visible="!!getTaskError"
           v-on:close="handleCloseAlert"
         />
-        <base-description :attributes="attributes" :data="task" />
+        <base-description :attributes="attributes" :data="task">
+          <template #[`status`]>
+            <task-status-dropdown
+              :task="task"
+              v-model="task.status"
+              v-on:updated="hanldeUpdatedStatus"
+            />
+          </template>
+        </base-description>
         <task-edit-modal
           :task="task"
           v-model="editModalVisible"
