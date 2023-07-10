@@ -22,7 +22,12 @@ const props = defineProps({
         {{ attribute.name }}
       </dt>
       <dd class="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-        {{ attribute.value ? attribute.value : props.data[attribute.id] }}
+        <slot :name="attribute.id">
+          <component v-if="attribute.render" :is="attribute.render" />
+          <span v-else>{{
+            attribute.value ? attribute.value : props.data[attribute.id]
+          }}</span>
+        </slot>
       </dd>
     </div>
   </dl>

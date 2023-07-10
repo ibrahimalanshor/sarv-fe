@@ -17,7 +17,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'updated']);
 
 const { getString } = useString();
 const {
@@ -58,10 +58,14 @@ function handleFocus() {
 async function handleChange(value) {
   updateTaskUrl.value = `/api/tasks/${props.task.id}`;
 
-  await updateTask({
+  const [success] = await updateTask({
     name: props.task.name,
     task_status_id: value.id,
   });
+
+  if (success) {
+    emit('updated');
+  }
 }
 </script>
 
