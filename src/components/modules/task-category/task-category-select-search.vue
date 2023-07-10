@@ -33,6 +33,9 @@ const {
 });
 
 const fetchTaskCategoriesParams = reactive({
+  filter: {
+    name: null,
+  },
   page: {
     size: 10,
   },
@@ -53,12 +56,19 @@ async function loadTaskCategories() {
   });
 }
 function handleFocus() {
+  fetchTaskCategoriesParams.filter.name = null;
   fetchTaskCategoriesParams.page.size = 10;
 
   loadTaskCategories();
 }
 function handleChange() {
   emit('change');
+}
+function handleSearch(value) {
+  fetchTaskCategoriesParams.filter.name = value;
+  fetchTaskCategoriesParams.page.size = 10;
+
+  loadTaskCategories();
 }
 function handleEndScroll() {
   if (fetchTaskCategoriesParams.page.size < data.value.meta.total) {
@@ -77,12 +87,12 @@ function handleEndScroll() {
     size="sm"
     :loading="loadingTaskCategories"
     :placeholder="getString('task.placeholder.category')"
-    :searchable="false"
     :input-props="props.inputProps"
     v-bind="props.selectSearchProps"
     v-model="value"
     v-on:focus="handleFocus"
     v-on:change="handleChange"
+    v-on:search="handleSearch"
     v-on:end-scroll="handleEndScroll"
   />
 </template>
