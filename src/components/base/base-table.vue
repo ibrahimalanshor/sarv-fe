@@ -172,20 +172,22 @@ function handleSort(column) {
                         : 'text-gray-500',
                     ]"
                   >
-                    <component
-                      v-if="column.render"
-                      :is="column.render"
-                      :item="item"
-                    />
-                    <p v-else>
-                      {{
-                        column.value
-                          ? typeof column.value === 'function'
-                            ? column.value(item)
-                            : column.value
-                          : item[column.id]
-                      }}
-                    </p>
+                    <slot :name="column.id" :item="item">
+                      <component
+                        v-if="column.render"
+                        :is="column.render"
+                        :item="item"
+                      />
+                      <p v-else>
+                        {{
+                          column.value
+                            ? typeof column.value === 'function'
+                              ? column.value(item)
+                              : column.value
+                            : item[column.id]
+                        }}
+                      </p>
+                    </slot>
                   </td>
                 </tr>
               </template>
