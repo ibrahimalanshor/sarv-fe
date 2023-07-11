@@ -8,7 +8,8 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "search": "Search",
-        "load-more": "Load More"
+        "load-more": "Load More",
+        "action": "Action"
     },
     "message": {
         "empty": "Empty Data"
