@@ -70,12 +70,6 @@ const tableColumns = [
     id: 'status',
     sortable: false,
     name: getString('task.attributes.status'),
-    render: ({ item }) =>
-      h(TaskStatusDropdown, {
-        task: item,
-        modelValue: item.status,
-        'onUpdate:modelValue': (value) => (item.status = value),
-      }),
   },
 ];
 
@@ -134,6 +128,9 @@ function handleCreate() {
 function handleRefresh() {
   refresh();
 }
+function handleReload() {
+  reload();
+}
 function handleDetail(item) {
   detailModal.taskId = item.id;
   detailModal.visible = true;
@@ -184,6 +181,13 @@ loadTasks();
             v-model:sort="fetchTasksParams.sort"
             v-on:change-sort="handleChangeSort"
           >
+            <template #[`status`]="{ item }">
+              <task-status-dropdown
+                :task="item"
+                v-model="item.status"
+                v-on:updated="handleReload"
+              />
+            </template>
             <template #footer="{ classes }">
               <tr>
                 <td :class="[classes.td]" colspan="3">
