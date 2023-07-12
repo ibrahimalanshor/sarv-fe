@@ -5,12 +5,17 @@ import BaseHeader from 'src/components/base/base-header.vue';
 import BaseContainer from 'src/components/base/base-container.vue';
 import BaseTable from 'src/components/base/base-table.vue';
 import BaseInput from 'src/components/base/base-input.vue';
+import BaseBadge from 'src/components/base/base-badge.vue';
 import BaseButton from 'src/components/base/base-button.vue';
+import BaseSelect from 'src/components/base/base-select.vue';
 import TaskStatusCreateModal from 'src/components/modules/task-status/task-status-create-modal.vue';
 import TaskStatusDetailModal from 'src/components/modules/task-status/task-status-detail-modal.vue';
 import TaskStatusEditModal from 'src/components/modules/task-status/task-status-edit-modal.vue';
 import TaskStatusDeleteConfirm from 'src/components/modules/task-status/task-status-delete-confirm.vue';
 import { h, reactive, ref } from 'vue';
+import { parseStatusColor } from 'src/helpers/modules/task-status.helper';
+import { getAvaiableStatusColors } from 'src/helpers/modules/task-status.helper';
+import { capitalize } from 'src/utils/string';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -29,6 +34,7 @@ const fetchTasksStatusParams = reactive({
   },
   filter: {
     name: null,
+    color: null,
   },
 });
 const visibleCreateModal = ref(false);
@@ -60,6 +66,16 @@ const tableColumns = [
         },
         item.name
       ),
+  },
+  {
+    id: 'color',
+    name: getString('task-status.attributes.color'),
+    bold: true,
+    render: ({ item }) =>
+      h(BaseBadge, {
+        text: item.color,
+        color: parseStatusColor(item.color),
+      }),
   },
   {
     id: 'action',
@@ -101,6 +117,7 @@ function resetPage() {
 }
 function resetFilter() {
   fetchTasksStatusParams.filter.name = null;
+  fetchTasksStatusParams.filter.color = null;
 }
 function refresh() {
   resetPage();
@@ -159,6 +176,19 @@ loadTaskStatuses();
       <base-container>
         <div class="space-y-4">
           <div class="flex gap-x-2 justify-end">
+            <base-select
+              placeholder="task-status.placeholder.color"
+              :with-label="false"
+              placeholder-from-resource
+              :options="
+                getAvaiableStatusColors().map((item) => ({
+                  id: item,
+                  name: capitalize(item),
+                }))
+              "
+              v-model="fetchTasksStatusParams.filter.color"
+              v-on:change="handleFilter"
+            />
             <base-input
               type="text"
               placeholder="actions.search"

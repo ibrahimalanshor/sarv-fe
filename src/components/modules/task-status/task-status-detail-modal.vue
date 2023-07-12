@@ -6,7 +6,9 @@ import BaseModal from 'src/components/base/base-modal.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
-import { computed, ref } from 'vue';
+import BaseBadge from 'src/components/base/base-badge.vue';
+import { computed, h, ref } from 'vue';
+import { parseStatusColor } from 'src/helpers/modules/task-status.helper';
 
 const props = defineProps({
   modelValue: {
@@ -52,6 +54,15 @@ const attributes = computed(() => {
     {
       id: 'name',
       name: getString('task-status.attributes.name'),
+    },
+    {
+      id: 'color',
+      name: getString('task-status.attributes.color'),
+      render: () =>
+        h(BaseBadge, {
+          text: taskStatus.value.color,
+          color: parseStatusColor(taskStatus.value.color),
+        }),
     },
   ];
 });
