@@ -48,7 +48,7 @@ export const routes = [
     ],
   },
   {
-    path: '/task-category',
+    path: '/category',
     component: RouterView,
     meta: {
       requireAuth: true,
@@ -67,7 +67,7 @@ export const routes = [
     ],
   },
   {
-    path: '/task-status',
+    path: '/status',
     component: RouterView,
     meta: {
       requireAuth: true,
