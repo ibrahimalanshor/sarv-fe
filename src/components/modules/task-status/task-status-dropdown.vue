@@ -48,6 +48,30 @@ const value = computed({
     emit('update:modelValue', value);
   },
 });
+const buttonColor = computed(() => {
+  const colors = {
+    light: 'white',
+    dark: 'gray',
+    primary: 'indigo',
+    success: 'green',
+    warning: 'yellow',
+    danger: 'red',
+  };
+
+  return colors[value.value?.color] || colors.light;
+});
+const buttonChevronColor = computed(() => {
+  const colors = {
+    light: 'text-gray-400',
+    dark: 'text-white',
+    primary: 'text-white',
+    success: 'text-white',
+    warning: 'text-white',
+    danger: 'text-white',
+  };
+
+  return colors[value.value?.color] || colors.light;
+});
 
 async function loadTaskStatuses() {
   await fetchTaskStatuses();
@@ -84,7 +108,7 @@ async function handleChange(value) {
         :text="value?.name ?? getString('task.placeholder.no-status')"
         size="sm"
         :loading="loadingUpdateTask"
-        :color="value ? 'indigo' : 'white'"
+        :color="buttonColor"
         v-on:click="focus"
       >
         <template #right>
@@ -92,7 +116,7 @@ async function handleChange(value) {
             <base-spinner v-if="loadingTaskStatuses" size="xs" />
             <ChevronDownIcon
               v-else
-              :class="['-mr-1 h-5 w-5', value ? 'text-white' : 'text-gray-400']"
+              :class="['-mr-1 h-5 w-5', buttonChevronColor]"
               aria-hidden="true"
             />
           </template>
