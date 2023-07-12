@@ -83,6 +83,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  textarea: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['update:modelValue', 'focus', 'input']);
 
@@ -127,6 +131,18 @@ const style = computed(() => {
     },
   };
 });
+const attributes = computed(() => ({
+  id: props.id,
+  name: props.id,
+  type: props.type,
+  placeholder: placeholder.value,
+  readonly: props.readonly,
+  disabled: props.disabled,
+  class: [
+    'block rounded-md border-0 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 disabled:bg-gray-50',
+    style.value.input.base,
+  ],
+}));
 const emitDebounceInput = createDebounce(() => emit('input'));
 
 function handleFocus() {
@@ -153,16 +169,18 @@ defineExpose({ element });
     >
     <div :class="['relative', props.fullwidth ? 'w-full' : '']">
       <slot>
-        <input
+        <textarea
+          v-if="props.textarea"
           ref="element"
-          :id="props.id"
-          :name="props.id"
-          :type="props.type"
-          :placeholder="placeholder"
-          :readonly="props.readonly"
-          :disabled="props.disabled"
-          class="block rounded-md border-0 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 disabled:bg-gray-50"
-          :class="[style.input.base]"
+          v-bind="attributes"
+          v-model="value"
+          v-on:focus="handleFocus"
+          v-on:input="handleInput"
+        />
+        <input
+          v-else
+          ref="element"
+          v-bind="attributes"
           v-model="value"
           v-on:focus="handleFocus"
           v-on:input="handleInput"

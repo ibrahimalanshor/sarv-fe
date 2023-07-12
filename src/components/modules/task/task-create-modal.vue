@@ -32,6 +32,8 @@ const {
 const form = reactive({
   name: null,
   task_category_id: null,
+  due_date: null,
+  description: null,
 });
 const selectedCategory = ref(null);
 
@@ -61,6 +63,8 @@ function handleCloseAlert() {
 function handleResetForm() {
   form.name = null;
   form.task_category_id = null;
+  form.due_date = null;
+  form.description = null;
 
   selectedCategory.value = null;
 
@@ -121,6 +125,33 @@ function handleResetForm() {
             v-model="selectedCategory"
           />
         </base-input>
+
+        <base-input
+          type="date"
+          label="task.label.due_date"
+          placeholder="task.placeholder.due_date"
+          :color="storeTaskValidation.due_date ? 'red' : 'gray'"
+          :message="storeTaskValidation.due_date"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          v-model="form.due_date"
+        />
+
+        <base-input
+          type="text"
+          label="task.label.description"
+          placeholder="task.placeholder.description"
+          :color="storeTaskValidation.description ? 'red' : 'gray'"
+          :message="storeTaskValidation.description"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          textarea
+          v-model="form.description"
+        />
       </div>
 
       <template #footer="{ close }">

@@ -16,7 +16,10 @@ const props = defineProps({
     <div
       v-for="attribute in props.attributes"
       :key="attribute.id"
-      class="border-gray-100 sm:col-span-1"
+      :class="[
+        'border-gray-100',
+        attribute.fullwidth ? 'col-span-full' : 'sm:col-span-1',
+      ]"
     >
       <dt class="text-sm font-medium leading-6 text-gray-900">
         {{ attribute.name }}

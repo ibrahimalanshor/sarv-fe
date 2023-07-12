@@ -77,14 +77,18 @@
         },
         "label": {
             "name": "Name",
-            "category": "Category"
+            "category": "Category",
+            "due_date": "Due Date",
+            "description": "Description"
         },
         "placeholder": {
             "name": "Name",
             "status": "Status",
             "category": "Category",
+            "due_date": "Due Date",
             "no-status": "No Status",
-            "new-task": "New Task"
+            "new-task": "New Task",
+            "description": "Description"
         },
         "message": {
             "delete": "Are you sure want to delete this task?"
@@ -93,7 +97,9 @@
             "name": "Name",
             "category": "Category",
             "status": "Status",
-            "created_at": "Created At"
+            "created_at": "Created At",
+            "due_date": "Due Date",
+            "description": "Description"
         }
     },
     "task-category": {

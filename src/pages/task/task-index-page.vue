@@ -12,7 +12,8 @@ import TaskCategorySelectSearch from 'src/components/modules/task-category/task-
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
-import { h, reactive, ref } from 'vue';
+import { h, reactive, ref, computed } from 'vue';
+import { toDate } from 'src/utils/date';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -44,6 +45,10 @@ const detailModal = reactive({
   taskId: null,
 });
 
+const hasMoreData = computed(
+  () => data.value.data.length < data.value.meta.total
+);
+
 const tableColumns = [
   {
     id: 'name',
@@ -51,13 +56,28 @@ const tableColumns = [
     bold: true,
     render: ({ item }) =>
       h(
-        'a',
+        'div',
+        { class: 'flex flex-col' },
         {
-          href: '#',
-          class: 'hover:underline',
-          onClick: () => handleDetail(item),
-        },
-        item.name
+          default: () => [
+            h(
+              'a',
+              {
+                href: '#',
+                class: 'hover:underline',
+                onClick: () => handleDetail(item),
+              },
+              item.name
+            ),
+            h(
+              'span',
+              {
+                class: 'text-xs text-gray-500',
+              },
+              item.due_date ? toDate(item.due_date) : '-'
+            ),
+          ],
+        }
       ),
   },
   {
@@ -190,11 +210,14 @@ loadTasks();
             </template>
             <template #footer="{ classes }">
               <tr>
-                <td :class="[classes.td]" colspan="3">
+                <td
+                  :class="[classes.td, hasMoreData ? '' : 'rounded-b-lg']"
+                  colspan="3"
+                >
                   <task-create-inline v-on:created="handleRefresh" />
                 </td>
               </tr>
-              <tr v-if="data.data.length < data.meta.total">
+              <tr v-if="hasMoreData">
                 <td
                   :class="[
                     classes.td,
