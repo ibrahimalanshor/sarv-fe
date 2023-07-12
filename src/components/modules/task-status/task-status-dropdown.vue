@@ -6,6 +6,7 @@ import BaseSpinner from 'src/components/base/base-spinner.vue';
 import { computed } from 'vue';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import { useString } from 'src/composes/resource.compose';
+import { parseStatusColor } from 'src/helpers/modules/task-status.helper';
 
 const props = defineProps({
   modelValue: {
@@ -48,6 +49,21 @@ const value = computed({
     emit('update:modelValue', value);
   },
 });
+const buttonColor = computed(() => {
+  return parseStatusColor(value.value?.color) || parseStatusColor('light');
+});
+const buttonChevronColor = computed(() => {
+  const colors = {
+    light: 'text-gray-400',
+    dark: 'text-white',
+    primary: 'text-white',
+    success: 'text-white',
+    warning: 'text-white',
+    danger: 'text-white',
+  };
+
+  return colors[value.value?.color] || colors.light;
+});
 
 async function loadTaskStatuses() {
   await fetchTaskStatuses();
@@ -84,7 +100,7 @@ async function handleChange(value) {
         :text="value?.name ?? getString('task.placeholder.no-status')"
         size="sm"
         :loading="loadingUpdateTask"
-        :color="value ? 'indigo' : 'white'"
+        :color="buttonColor"
         v-on:click="focus"
       >
         <template #right>
@@ -92,7 +108,7 @@ async function handleChange(value) {
             <base-spinner v-if="loadingTaskStatuses" size="xs" />
             <ChevronDownIcon
               v-else
-              :class="['-mr-1 h-5 w-5', value ? 'text-white' : 'text-gray-400']"
+              :class="['-mr-1 h-5 w-5', buttonChevronColor]"
               aria-hidden="true"
             />
           </template>

@@ -130,16 +130,19 @@
             "delete": "Delete Status"
         },
         "label": {
-            "name": "Name"
+            "name": "Name",
+            "color": "Color"
         },
         "placeholder": {
-            "name": "Name"
+            "name": "Name",
+            "color": "Color"
         },
         "message": {
             "delete": "Are you sure want to delete this status?"
         },
         "attributes": {
-            "name": "Name"
+            "name": "Name",
+            "color": "Color"
         }
     }
 }

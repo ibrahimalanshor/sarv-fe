@@ -4,8 +4,11 @@ import { useRequest } from 'src/composes/request.compose';
 import BaseAlert from 'src/components/base/base-alert.vue';
 import BaseModal from 'src/components/base/base-modal.vue';
 import BaseInput from 'src/components/base/base-input.vue';
+import BaseSelect from 'src/components/base/base-select.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import { computed, reactive, ref } from 'vue';
+import { getAvaiableStatusColors } from 'src/helpers/modules/task-status.helper';
+import { capitalize } from 'src/utils/string';
 
 const props = defineProps({
   modelValue: {
@@ -35,7 +38,7 @@ const {
 
 const form = reactive({
   name: props.taskStatus.name,
-  task_status_id: props.taskStatus.task_status_id,
+  color: props.taskStatus.color,
 });
 
 const visible = computed({
@@ -63,7 +66,7 @@ function handleCloseAlert() {
 }
 function handleVisible() {
   form.name = props.taskStatus.name;
-  form.task_status_id = props.taskStatus.task_status_id;
+  form.color = props.taskStatus.color;
 
   resetUpdateTaskStatusValidation();
   resetUpdateTaskStatusError();
@@ -98,6 +101,24 @@ function handleVisible() {
           label-from-resource
           placeholder-from-resource
           v-model="form.name"
+        />
+
+        <base-select
+          label="task-status.label.color"
+          placeholder="task-status.placeholder.color"
+          :color="updateTaskStatusValidation.color ? 'red' : 'gray'"
+          :message="updateTaskStatusValidation.color"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          :options="
+            getAvaiableStatusColors().map((item) => ({
+              id: item,
+              name: capitalize(item),
+            }))
+          "
+          v-model="form.color"
         />
       </div>
 
