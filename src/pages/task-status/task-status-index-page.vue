@@ -8,6 +8,8 @@ import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskStatusCreateModal from 'src/components/modules/task-status/task-status-create-modal.vue';
 import TaskStatusDetailModal from 'src/components/modules/task-status/task-status-detail-modal.vue';
+import TaskStatusEditModal from 'src/components/modules/task-status/task-status-edit-modal.vue';
+import TaskStatusDeleteConfirm from 'src/components/modules/task-status/task-status-delete-confirm.vue';
 import { h, reactive, ref } from 'vue';
 
 const { getString } = useString();
@@ -34,6 +36,14 @@ const detailModal = reactive({
   visible: false,
   taskStatusId: null,
 });
+const editModal = reactive({
+  taskStatus: {},
+  visible: false,
+});
+const deleteConfirm = reactive({
+  taskStatus: {},
+  visible: false,
+});
 
 const tableColumns = [
   {
@@ -49,6 +59,33 @@ const tableColumns = [
           onClick: () => handleDetail(item),
         },
         item.name
+      ),
+  },
+  {
+    id: 'action',
+    sortable: false,
+    render: ({ item }) =>
+      h(
+        'div',
+        { class: 'flex items-center justify-end gap-x-2' },
+        {
+          default: () => [
+            h(BaseButton, {
+              size: 'sm',
+              text: 'actions.edit',
+              textFromResource: true,
+              color: 'green',
+              onClick: () => handleEdit(item),
+            }),
+            h(BaseButton, {
+              size: 'sm',
+              text: 'actions.delete',
+              textFromResource: true,
+              color: 'red',
+              onClick: () => handleDelete(item),
+            }),
+          ],
+        }
       ),
   },
 ];
@@ -93,6 +130,14 @@ function handleRefresh() {
 function handleDetail(item) {
   detailModal.taskStatusId = item.id;
   detailModal.visible = true;
+}
+function handleEdit(item) {
+  editModal.taskStatus = item;
+  editModal.visible = true;
+}
+function handleDelete(item) {
+  deleteConfirm.taskStatus = item;
+  deleteConfirm.visible = true;
 }
 
 loadTaskStatuses();
@@ -147,6 +192,16 @@ loadTaskStatuses();
       :task-status-id="detailModal.taskStatusId"
       v-model="detailModal.visible"
       v-on:updated="handleRefresh"
+      v-on:deleted="handleRefresh"
+    />
+    <task-status-edit-modal
+      :task-status="editModal.taskStatus"
+      v-model="editModal.visible"
+      v-on:updated="handleRefresh"
+    />
+    <task-status-delete-confirm
+      :task-status="deleteConfirm.taskStatus"
+      v-model="deleteConfirm.visible"
       v-on:deleted="handleRefresh"
     />
   </div>

@@ -7,8 +7,6 @@ import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
 import { computed, ref } from 'vue';
-import TaskStatusEditModal from './task-status-edit-modal.vue';
-import TaskStatusDeleteConfirm from './task-status-delete-confirm.vue';
 
 const props = defineProps({
   modelValue: {
@@ -41,9 +39,6 @@ const {
   initData: {},
 });
 
-const editModalVisible = ref(false);
-const deleteConfirmVisible = ref(false);
-
 const visible = computed({
   get() {
     return props.modelValue;
@@ -75,22 +70,6 @@ function handleVisible() {
 function handleCloseAlert() {
   resetGetTaskStatusError();
 }
-function handleEdit() {
-  editModalVisible.value = true;
-}
-function handleDelete() {
-  deleteConfirmVisible.value = true;
-}
-function handleUpdated() {
-  loadTaskStatus();
-
-  emit('updated');
-}
-function handleDeleted() {
-  visible.value = false;
-
-  emit('deleted');
-}
 </script>
 
 <template>
@@ -112,35 +91,11 @@ function handleDeleted() {
           v-on:close="handleCloseAlert"
         />
         <base-description :attributes="attributes" :data="taskStatus" />
-        <task-status-edit-modal
-          :task-status="taskStatus"
-          v-model="editModalVisible"
-          v-on:updated="handleUpdated"
-        />
-        <task-status-delete-confirm
-          :task-status="taskStatus"
-          v-model="deleteConfirmVisible"
-          v-on:deleted="handleDeleted"
-        />
       </template>
     </div>
 
     <template #footer="{ close }">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-x-2">
-          <base-button
-            text="actions.edit"
-            color="indigo"
-            text-from-resource
-            v-on:click="handleEdit"
-          />
-          <base-button
-            text="actions.delete"
-            color="red"
-            text-from-resource
-            v-on:click="handleDelete"
-          />
-        </div>
+      <div class="flex items-center justify-end">
         <base-button
           text="actions.cancel"
           text-from-resource
