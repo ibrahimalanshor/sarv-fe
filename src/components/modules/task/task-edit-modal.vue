@@ -7,6 +7,7 @@ import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import { computed, reactive, ref } from 'vue';
+import { formatDate } from 'src/utils/date';
 
 const props = defineProps({
   modelValue: {
@@ -37,6 +38,8 @@ const {
 const form = reactive({
   name: props.task.name,
   task_category_id: props.task.task_category_id,
+  due_date: props.task.due_date,
+  description: props.task.description,
 });
 
 const selectedCategory = ref(props.task.category);
@@ -68,6 +71,8 @@ function handleCloseAlert() {
 function handleVisible() {
   form.name = props.task.name;
   form.task_category_id = props.task.task_category_id;
+  form.description = props.task.description;
+  form.due_date = formatDate(props.task.due_date, 'YYYY-MM-DD');
 
   selectedCategory.value = props.task.category;
 
@@ -128,6 +133,33 @@ function handleVisible() {
             v-model="selectedCategory"
           />
         </base-input>
+
+        <base-input
+          type="date"
+          label="task.label.due_date"
+          placeholder="task.placeholder.due_date"
+          :color="updateTaskValidation.due_date ? 'red' : 'gray'"
+          :message="updateTaskValidation.due_date"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          v-model="form.due_date"
+        />
+
+        <base-input
+          type="text"
+          label="task.label.description"
+          placeholder="task.placeholder.description"
+          :color="updateTaskValidation.description ? 'red' : 'gray'"
+          :message="updateTaskValidation.description"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          textarea
+          v-model="form.description"
+        />
       </div>
 
       <template #footer="{ close }">
