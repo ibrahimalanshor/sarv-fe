@@ -7,7 +7,7 @@ import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
 import { computed, ref, h } from 'vue';
-import { formatDate } from 'src/utils/date';
+import { formatDate, toDate } from 'src/utils/date';
 import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
@@ -61,18 +61,29 @@ const attributes = computed(() => {
       name: getString('task.attributes.name'),
     },
     {
-      id: 'created_at',
-      name: getString('task.attributes.created_at'),
-      value: formatDate(task.value.created_at),
-    },
-    {
       id: 'category',
       name: getString('task.attributes.category'),
       value: task.value.category ? task.value.category.name : '-',
     },
     {
+      id: 'created_at',
+      name: getString('task.attributes.created_at'),
+      value: formatDate(task.value.created_at),
+    },
+    {
+      id: 'due_date',
+      name: getString('task.attributes.due_date'),
+      value: task.value.due_date ? toDate(task.value.due_date) : '-',
+    },
+    {
       id: 'status',
       name: getString('task.attributes.status'),
+    },
+    {
+      id: 'description',
+      name: getString('task.attributes.description'),
+      value: task.value.description ?? '-',
+      fullwidth: true,
     },
   ];
 });
@@ -119,7 +130,7 @@ function hanldeUpdatedStatus() {
 <template>
   <base-modal
     :title="getString('task.actions.detail')"
-    size="lg"
+    size="xl"
     with-header
     with-footer
     v-model="visible"
