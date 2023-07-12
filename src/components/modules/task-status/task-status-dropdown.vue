@@ -6,6 +6,7 @@ import BaseSpinner from 'src/components/base/base-spinner.vue';
 import { computed } from 'vue';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import { useString } from 'src/composes/resource.compose';
+import { parseStatusColor } from 'src/helpers/modules/task-status.helper';
 
 const props = defineProps({
   modelValue: {
@@ -49,16 +50,7 @@ const value = computed({
   },
 });
 const buttonColor = computed(() => {
-  const colors = {
-    light: 'white',
-    dark: 'gray',
-    primary: 'indigo',
-    success: 'green',
-    warning: 'yellow',
-    danger: 'red',
-  };
-
-  return colors[value.value?.color] || colors.light;
+  return parseStatusColor(value.value?.color) || parseStatusColor('light');
 });
 const buttonChevronColor = computed(() => {
   const colors = {
