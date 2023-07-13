@@ -37,11 +37,14 @@ const fetchTasksParams = reactive({
     task_status_id: null,
     task_category_id: null,
     is_due: null,
+    due_date: null,
   },
   include: ['category', 'status'],
 });
 const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
+const filterIsDueToday = ref(false);
+
 const visibleCreateModal = ref(false);
 const detailModal = reactive({
   visible: false,
@@ -110,9 +113,11 @@ function resetFilter() {
   fetchTasksParams.filter.task_category_id = null;
   fetchTasksParams.filter.task_status_id = null;
   fetchTasksParams.filter.is_due = null;
+  fetchTasksParams.filter.due_date = null;
 
   filterTaskCategory.value = null;
   filterTaskStatus.value = null;
+  filterIsDueToday.value = false;
 }
 function refresh() {
   resetPage();
@@ -134,6 +139,11 @@ function handleFilter() {
 }
 function handleFilterIsDue() {
   fetchTasksParams.filter.is_due = fetchTasksParams.filter.is_due || null;
+
+  reload();
+}
+function handleFilterIsDueToday() {
+  fetchTasksParams.filter.due_date = filterIsDueToday.value ? new Date() : null;
 
   reload();
 }
@@ -195,12 +205,18 @@ loadTasks();
               </template>
 
               <template #content="{ classes }">
-                <div :class="[classes.item, 'hover:bg-transparent']">
+                <div :class="[classes.item, 'hover:bg-transparent space-y-4']">
                   <base-checkbox
                     text="task.filter.is-due"
                     text-from-resource
                     v-model="fetchTasksParams.filter.is_due"
                     v-on:change="handleFilterIsDue"
+                  />
+                  <base-checkbox
+                    text="task.filter.due-today"
+                    text-from-resource
+                    v-model="filterIsDueToday"
+                    v-on:change="handleFilterIsDueToday"
                   />
                 </div>
               </template>

@@ -103,7 +103,8 @@
             "description": "Description"
         },
         "filter": {
-            "is-due": "Show only due"
+            "is-due": "Show only due",
+            "due-today": "Due Today"
         }
     },
     "task-category": {
