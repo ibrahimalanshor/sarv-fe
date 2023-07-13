@@ -9,7 +9,8 @@
         "cancel": "Cancel",
         "search": "Search",
         "load-more": "Load More",
-        "action": "Action"
+        "action": "Action",
+        "filter": "Filter"
     },
     "message": {
         "empty": "Empty Data"
@@ -100,6 +101,9 @@
             "created_at": "Created At",
             "due_date": "Due Date",
             "description": "Description"
+        },
+        "filter": {
+            "is-due": "Show only due"
         }
     },
     "task-category": {
