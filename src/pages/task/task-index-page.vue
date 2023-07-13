@@ -6,6 +6,8 @@ import BaseContainer from 'src/components/base/base-container.vue';
 import BaseTable from 'src/components/base/base-table.vue';
 import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
+import BaseDropdown from 'src/components/base/base-dropdown.vue';
+import BaseCheckbox from 'src/components/base/base-checkbox.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
 import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
@@ -34,11 +36,15 @@ const fetchTasksParams = reactive({
     name: null,
     task_status_id: null,
     task_category_id: null,
+    is_due: null,
+    due_date: null,
   },
   include: ['category', 'status'],
 });
 const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
+const filterIsDueToday = ref(false);
+
 const visibleCreateModal = ref(false);
 const detailModal = reactive({
   visible: false,
@@ -106,9 +112,12 @@ function resetFilter() {
   fetchTasksParams.filter.name = null;
   fetchTasksParams.filter.task_category_id = null;
   fetchTasksParams.filter.task_status_id = null;
+  fetchTasksParams.filter.is_due = null;
+  fetchTasksParams.filter.due_date = null;
 
   filterTaskCategory.value = null;
   filterTaskStatus.value = null;
+  filterIsDueToday.value = false;
 }
 function refresh() {
   resetPage();
@@ -126,6 +135,16 @@ function handleLoadMore() {
   loadTasks();
 }
 function handleFilter() {
+  reload();
+}
+function handleFilterIsDue() {
+  fetchTasksParams.filter.is_due = fetchTasksParams.filter.is_due || null;
+
+  reload();
+}
+function handleFilterIsDueToday() {
+  fetchTasksParams.filter.due_date = filterIsDueToday.value ? new Date() : null;
+
   reload();
 }
 function handleChangeTaskStatus() {
@@ -175,6 +194,33 @@ loadTasks();
       <base-container>
         <div class="space-y-4">
           <div class="flex gap-x-2 justify-end">
+            <base-dropdown>
+              <template #toggle="{ toggle }">
+                <base-button
+                  text="actions.filter"
+                  :classes="{ base: 'h-full' }"
+                  text-from-resource
+                  v-on:click="toggle"
+                />
+              </template>
+
+              <template #content="{ classes }">
+                <div :class="[classes.item, 'hover:bg-transparent space-y-4']">
+                  <base-checkbox
+                    text="task.filter.is-due"
+                    text-from-resource
+                    v-model="fetchTasksParams.filter.is_due"
+                    v-on:change="handleFilterIsDue"
+                  />
+                  <base-checkbox
+                    text="task.filter.due-today"
+                    text-from-resource
+                    v-model="filterIsDueToday"
+                    v-on:change="handleFilterIsDueToday"
+                  />
+                </div>
+              </template>
+            </base-dropdown>
             <task-category-select-search
               v-model="filterTaskCategory"
               v-on:change="handleChangeTaskCategory"

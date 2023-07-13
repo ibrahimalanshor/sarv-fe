@@ -32,6 +32,12 @@ const props = defineProps({
     type: String,
     default: 'white',
   },
+  classes: {
+    type: Object,
+    default: () => ({
+      base: '',
+    }),
+  },
 });
 
 const { getString } = useString();
@@ -65,6 +71,7 @@ const style = computed(() => {
       sizes[props.size],
       colors[props.color],
       'flex justify-center items-center space-x-2 font-semibold shadow-sm',
+      props.classes.base,
     ],
   };
 });
