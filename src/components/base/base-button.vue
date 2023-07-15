@@ -80,7 +80,9 @@ const style = computed(() => {
 <template>
   <button :type="props.type" :class="[style.base]" :disabled="isDisabled">
     <base-spinner v-if="props.loading" size="sm" :color="props.color" />
-    <span>{{ text }}</span>
+    <slot>
+      <span>{{ text }}</span>
+    </slot>
     <slot name="right" />
   </button>
 </template>
