@@ -16,6 +16,7 @@ import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
+import SortDropdown from 'src/components/modules/sort-dropdown.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate, startOf, endOf } from 'src/utils/date';
 import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
@@ -31,7 +32,7 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
-  sort: '-id',
+  sort: '-created_at',
   page: {
     number: 1,
     size: 10,
@@ -111,6 +112,28 @@ const tableColumns = [
     id: 'status',
     sortable: false,
     name: getString('task.attributes.status'),
+  },
+];
+const sortColumnOptions = [
+  {
+    id: 'created_at',
+    name: getString('task.attributes.created_at'),
+  },
+  {
+    id: 'updated_at',
+    name: getString('task.attributes.updated_at'),
+  },
+  {
+    id: 'due_date',
+    name: getString('task.attributes.due_date'),
+  },
+  {
+    id: 'name',
+    name: getString('task.attributes.name'),
+  },
+  {
+    id: 'priority',
+    name: getString('task.attributes.priority'),
   },
 ];
 
@@ -216,6 +239,11 @@ loadTasks();
       <base-container>
         <div class="space-y-4">
           <div class="flex gap-x-2 justify-end">
+            <sort-dropdown
+              :columns="sortColumnOptions"
+              v-model="fetchTasksParams.sort"
+              v-on:change="handleChangeSort"
+            />
             <base-dropdown>
               <template #toggle="{ toggle }">
                 <base-button
