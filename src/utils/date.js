@@ -16,3 +16,11 @@ export function toDate(date = null) {
 export function formatDate(date, format = 'LLL') {
   return dayjs(date).format(format);
 }
+
+export function startOf(date = null, unit = 'd') {
+  return dayjs(date).startOf(unit).format();
+}
+
+export function endOf(date = null, unit = 'd') {
+  return dayjs(date).endOf(unit).format();
+}
