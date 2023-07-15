@@ -4,9 +4,12 @@ import { useRequest } from 'src/composes/request.compose';
 import BaseAlert from 'src/components/base/base-alert.vue';
 import BaseModal from 'src/components/base/base-modal.vue';
 import BaseInput from 'src/components/base/base-input.vue';
+import BaseSelect from 'src/components/base/base-select.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import { computed, reactive, ref } from 'vue';
+import { getAvaiablePriorities } from 'src/helpers/modules/task-status.helper';
+import { capitalize } from 'src/utils/string';
 
 const props = defineProps({
   modelValue: {
@@ -34,6 +37,7 @@ const form = reactive({
   task_category_id: null,
   due_date: null,
   description: null,
+  priority: null,
 });
 const selectedCategory = ref(null);
 
@@ -65,6 +69,7 @@ function handleResetForm() {
   form.task_category_id = null;
   form.due_date = null;
   form.description = null;
+  form.priority = null;
 
   selectedCategory.value = null;
 
@@ -125,6 +130,24 @@ function handleResetForm() {
             v-model="selectedCategory"
           />
         </base-input>
+
+        <base-select
+          label="task.label.priority"
+          placeholder="task.placeholder.priority"
+          :color="storeTaskValidation.priority ? 'red' : 'gray'"
+          :message="storeTaskValidation.priority"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          :options="
+            getAvaiablePriorities().map((item) => ({
+              id: item,
+              name: capitalize(item),
+            }))
+          "
+          v-model="form.priority"
+        />
 
         <base-input
           type="date"
