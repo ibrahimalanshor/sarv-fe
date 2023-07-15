@@ -4,23 +4,15 @@ import { useString } from 'src/composes/resource.compose';
 import BaseHeader from 'src/components/base/base-header.vue';
 import BaseContainer from 'src/components/base/base-container.vue';
 import BaseTable from 'src/components/base/base-table.vue';
-import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
-import BaseDropdown from 'src/components/base/base-dropdown.vue';
-import BaseCheckbox from 'src/components/base/base-checkbox.vue';
-import BaseSelect from 'src/components/base/base-select.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
-import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
-import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
-import SortDropdown from 'src/components/modules/sort-dropdown.vue';
+import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import { h, reactive, ref, computed } from 'vue';
-import { toDate, startOf, endOf } from 'src/utils/date';
-import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
-import { capitalize } from 'src/utils/string';
+import { toDate } from 'src/utils/date';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -50,7 +42,6 @@ const fetchTasksParams = reactive({
 });
 const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
-const filterIsDueToday = ref(false);
 
 const visibleCreateModal = ref(false);
 const detailModal = reactive({
@@ -114,28 +105,6 @@ const tableColumns = [
     name: getString('task.attributes.status'),
   },
 ];
-const sortColumnOptions = [
-  {
-    id: 'created_at',
-    name: getString('task.attributes.created_at'),
-  },
-  {
-    id: 'updated_at',
-    name: getString('task.attributes.updated_at'),
-  },
-  {
-    id: 'due_date',
-    name: getString('task.attributes.due_date'),
-  },
-  {
-    id: 'name',
-    name: getString('task.attributes.name'),
-  },
-  {
-    id: 'priority',
-    name: getString('task.attributes.priority'),
-  },
-];
 
 async function loadTasks() {
   await request({
@@ -145,6 +114,9 @@ async function loadTasks() {
 function resetPage() {
   fetchTasksParams.page.number = 1;
   fetchTasksParams.page.size = 10;
+}
+function resetSort() {
+  fetchTasksParams.sort = '-created_at';
 }
 function resetFilter() {
   fetchTasksParams.filter.name = null;
@@ -157,10 +129,10 @@ function resetFilter() {
 
   filterTaskCategory.value = null;
   filterTaskStatus.value = null;
-  filterIsDueToday.value = false;
 }
 function refresh() {
   resetPage();
+  resetSort();
   resetFilter();
   loadTasks();
 }
@@ -175,35 +147,22 @@ function handleLoadMore() {
   loadTasks();
 }
 function handleFilter() {
-  reload();
-}
-function handleFilterIsDue() {
   fetchTasksParams.filter.is_due = fetchTasksParams.filter.is_due || null;
 
   reload();
 }
-function handleFilterIsDueToday() {
-  fetchTasksParams.filter.due_date_from = filterIsDueToday.value
-    ? startOf(new Date())
-    : null;
-  fetchTasksParams.filter.due_date_to = filterIsDueToday.value
-    ? endOf(new Date())
-    : null;
-
-  reload();
-}
-function handleChangeTaskStatus() {
+function handleFilterStatus() {
   fetchTasksParams.filter.task_status_id = filterTaskStatus.value?.id ?? null;
 
   reload();
 }
-function handleChangeTaskCategory() {
+function handleFilterCategory() {
   fetchTasksParams.filter.task_category_id =
     filterTaskCategory.value?.id ?? null;
 
   reload();
 }
-function handleChangeSort() {
+function handleSort() {
   reload();
 }
 function handleCreate() {
@@ -238,89 +197,23 @@ loadTasks();
     <main>
       <base-container>
         <div class="space-y-4">
-          <div class="flex gap-x-2 justify-end">
-            <sort-dropdown
-              :columns="sortColumnOptions"
-              v-model="fetchTasksParams.sort"
-              v-on:change="handleChangeSort"
-            />
-            <base-dropdown>
-              <template #toggle="{ toggle }">
-                <base-button
-                  text="actions.filter"
-                  :classes="{ base: 'h-full' }"
-                  text-from-resource
-                  v-on:click="toggle"
-                />
-              </template>
-
-              <template #content="{ classes }">
-                <div class="space-y-2">
-                  <div
-                    :class="[classes.item, 'hover:bg-transparent space-y-4']"
-                  >
-                    <base-select
-                      label="task.filter.priority"
-                      placeholder="task.filter.priority"
-                      fullwidth
-                      :with-label="true"
-                      label-from-resource
-                      placeholder-from-resource
-                      :options="
-                        getAvaiablePriorities().map((item) => ({
-                          id: item,
-                          name: capitalize(item),
-                        }))
-                      "
-                      v-model="fetchTasksParams.filter.priority"
-                      v-on:change="handleFilter"
-                    />
-                  </div>
-                  <hr />
-                  <div
-                    :class="[classes.item, 'hover:bg-transparent space-y-4']"
-                  >
-                    <base-checkbox
-                      text="task.filter.is-due"
-                      text-from-resource
-                      v-model="fetchTasksParams.filter.is_due"
-                      v-on:change="handleFilterIsDue"
-                    />
-                    <base-checkbox
-                      text="task.filter.due-today"
-                      text-from-resource
-                      v-model="filterIsDueToday"
-                      v-on:change="handleFilterIsDueToday"
-                    />
-                  </div>
-                </div>
-              </template>
-            </base-dropdown>
-            <task-category-select-search
-              v-model="filterTaskCategory"
-              v-on:change="handleChangeTaskCategory"
-            />
-            <task-status-select-search
-              v-model="filterTaskStatus"
-              v-on:change="handleChangeTaskStatus"
-            />
-            <base-input
-              type="text"
-              placeholder="actions.search"
-              placeholder-from-resource
-              debounce
-              :with-label="false"
-              v-model="fetchTasksParams.filter.name"
-              v-on:input="handleFilter"
-            />
-          </div>
+          <task-list-filter
+            v-model:sort="fetchTasksParams.sort"
+            v-model:filter="fetchTasksParams.filter"
+            v-model:status="filterTaskStatus"
+            v-model:category="filterTaskCategory"
+            v-on:sort="handleSort"
+            v-on:filter="handleFilter"
+            v-on:filter-category="handleFilterCategory"
+            v-on:filter-status="handleFilterStatus"
+          />
           <base-table
             :columns="tableColumns"
             :data="data.data"
             :loading="loading"
             with-footer
             v-model:sort="fetchTasksParams.sort"
-            v-on:change-sort="handleChangeSort"
+            v-on:change-sort="handleSort"
           >
             <template #[`status`]="{ item }">
               <task-status-dropdown
