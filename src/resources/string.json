@@ -12,6 +12,18 @@
         "action": "Action",
         "filter": "Filter"
     },
+    "label": {
+        "sort": {
+            "column": "Column",
+            "direction": "Direction"
+        }
+    },
+    "options": {
+        "sort-direction": {
+            "asc": "Ascending",
+            "desc": "Descending"
+        }
+    },
     "message": {
         "empty": "Empty Data"
     },
@@ -101,6 +113,7 @@
             "category": "Category",
             "status": "Status",
             "created_at": "Created At",
+            "updated_at": "Updated At",
             "due_date": "Due Date",
             "description": "Description",
             "priority": "Priority"

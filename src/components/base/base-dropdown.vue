@@ -25,7 +25,7 @@ function handleClose() {
 </script>
 
 <template>
-  <div class="relative ml-3" v-click-outside="handleClose">
+  <div class="relative" v-click-outside="handleClose">
     <div class="h-full">
       <slot name="toggle" :toggle="handleToggle" />
     </div>
