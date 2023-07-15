@@ -15,7 +15,7 @@ import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import { h, reactive, ref, computed } from 'vue';
-import { toDate } from 'src/utils/date';
+import { toDate, startOf, endOf } from 'src/utils/date';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -37,7 +37,8 @@ const fetchTasksParams = reactive({
     task_status_id: null,
     task_category_id: null,
     is_due: null,
-    due_date: null,
+    due_date_from: null,
+    due_date_to: null,
   },
   include: ['category', 'status'],
 });
@@ -113,7 +114,8 @@ function resetFilter() {
   fetchTasksParams.filter.task_category_id = null;
   fetchTasksParams.filter.task_status_id = null;
   fetchTasksParams.filter.is_due = null;
-  fetchTasksParams.filter.due_date = null;
+  fetchTasksParams.filter.due_date_from = null;
+  fetchTasksParams.filter.due_date_to = null;
 
   filterTaskCategory.value = null;
   filterTaskStatus.value = null;
@@ -143,7 +145,12 @@ function handleFilterIsDue() {
   reload();
 }
 function handleFilterIsDueToday() {
-  fetchTasksParams.filter.due_date = filterIsDueToday.value ? new Date() : null;
+  fetchTasksParams.filter.due_date_from = filterIsDueToday.value
+    ? startOf(new Date())
+    : null;
+  fetchTasksParams.filter.due_date_to = filterIsDueToday.value
+    ? endOf(new Date())
+    : null;
 
   reload();
 }
