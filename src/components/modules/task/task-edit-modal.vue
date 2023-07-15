@@ -4,10 +4,13 @@ import { useRequest } from 'src/composes/request.compose';
 import BaseAlert from 'src/components/base/base-alert.vue';
 import BaseModal from 'src/components/base/base-modal.vue';
 import BaseInput from 'src/components/base/base-input.vue';
+import BaseSelect from 'src/components/base/base-select.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import { computed, reactive, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
+import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
+import { capitalize } from 'src/utils/string';
 
 const props = defineProps({
   modelValue: {
@@ -40,6 +43,7 @@ const form = reactive({
   task_category_id: props.task.task_category_id,
   due_date: props.task.due_date,
   description: props.task.description,
+  priority: props.task.priority,
 });
 
 const selectedCategory = ref(props.task.category);
@@ -72,6 +76,7 @@ function handleVisible() {
   form.name = props.task.name;
   form.task_category_id = props.task.task_category_id;
   form.description = props.task.description;
+  form.priority = props.task.priority;
   form.due_date = props.task.due_date
     ? formatDate(props.task.due_date, 'YYYY-MM-DD')
     : null;
@@ -135,6 +140,24 @@ function handleVisible() {
             v-model="selectedCategory"
           />
         </base-input>
+
+        <base-select
+          label="task.label.priority"
+          placeholder="task.placeholder.priority"
+          :color="updateTaskValidation.priority ? 'red' : 'gray'"
+          :message="updateTaskValidation.priority"
+          fullwidth
+          with-label
+          label-from-resource
+          placeholder-from-resource
+          :options="
+            getAvaiablePriorities().map((item) => ({
+              id: item,
+              name: capitalize(item),
+            }))
+          "
+          v-model="form.priority"
+        />
 
         <base-input
           type="date"
