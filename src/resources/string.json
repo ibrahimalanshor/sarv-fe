@@ -107,7 +107,8 @@
         },
         "filter": {
             "is-due": "Show only due",
-            "due-today": "Due Today"
+            "due-today": "Due Today",
+            "priority": "Priority"
         }
     },
     "task-category": {

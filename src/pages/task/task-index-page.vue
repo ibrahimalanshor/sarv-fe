@@ -8,6 +8,7 @@ import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
 import BaseCheckbox from 'src/components/base/base-checkbox.vue';
+import BaseSelect from 'src/components/base/base-select.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
 import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
@@ -17,6 +18,8 @@ import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate, startOf, endOf } from 'src/utils/date';
+import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
+import { capitalize } from 'src/utils/string';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -40,6 +43,7 @@ const fetchTasksParams = reactive({
     is_due: null,
     due_date_from: null,
     due_date_to: null,
+    priority: null,
   },
   include: ['category', 'status'],
 });
@@ -126,6 +130,7 @@ function resetFilter() {
   fetchTasksParams.filter.is_due = null;
   fetchTasksParams.filter.due_date_from = null;
   fetchTasksParams.filter.due_date_to = null;
+  fetchTasksParams.filter.priority = null;
 
   filterTaskCategory.value = null;
   filterTaskStatus.value = null;
@@ -222,19 +227,44 @@ loadTasks();
               </template>
 
               <template #content="{ classes }">
-                <div :class="[classes.item, 'hover:bg-transparent space-y-4']">
-                  <base-checkbox
-                    text="task.filter.is-due"
-                    text-from-resource
-                    v-model="fetchTasksParams.filter.is_due"
-                    v-on:change="handleFilterIsDue"
-                  />
-                  <base-checkbox
-                    text="task.filter.due-today"
-                    text-from-resource
-                    v-model="filterIsDueToday"
-                    v-on:change="handleFilterIsDueToday"
-                  />
+                <div class="space-y-2">
+                  <div
+                    :class="[classes.item, 'hover:bg-transparent space-y-4']"
+                  >
+                    <base-select
+                      label="task.filter.priority"
+                      placeholder="task.filter.priority"
+                      fullwidth
+                      :with-label="true"
+                      label-from-resource
+                      placeholder-from-resource
+                      :options="
+                        getAvaiablePriorities().map((item) => ({
+                          id: item,
+                          name: capitalize(item),
+                        }))
+                      "
+                      v-model="fetchTasksParams.filter.priority"
+                      v-on:change="handleFilter"
+                    />
+                  </div>
+                  <hr />
+                  <div
+                    :class="[classes.item, 'hover:bg-transparent space-y-4']"
+                  >
+                    <base-checkbox
+                      text="task.filter.is-due"
+                      text-from-resource
+                      v-model="fetchTasksParams.filter.is_due"
+                      v-on:change="handleFilterIsDue"
+                    />
+                    <base-checkbox
+                      text="task.filter.due-today"
+                      text-from-resource
+                      v-model="filterIsDueToday"
+                      v-on:change="handleFilterIsDueToday"
+                    />
+                  </div>
                 </div>
               </template>
             </base-dropdown>
