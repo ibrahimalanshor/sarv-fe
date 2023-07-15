@@ -8,7 +8,7 @@ import BaseSelect from 'src/components/base/base-select.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import { computed, reactive, ref } from 'vue';
-import { getAvaiablePriorities } from 'src/helpers/modules/task-status.helper';
+import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
 import { capitalize } from 'src/utils/string';
 
 const props = defineProps({
