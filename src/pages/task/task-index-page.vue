@@ -14,6 +14,7 @@ import TaskCategorySelectSearch from 'src/components/modules/task-category/task-
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
+import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate, startOf, endOf } from 'src/utils/date';
 
@@ -68,13 +69,22 @@ const tableColumns = [
         {
           default: () => [
             h(
-              'a',
+              'div',
+              { class: 'flex items-center gap-x-2' },
               {
-                href: '#',
-                class: 'hover:underline',
-                onClick: () => handleDetail(item),
-              },
-              item.name
+                default: () => [
+                  h(
+                    'a',
+                    {
+                      href: '#',
+                      class: 'hover:underline',
+                      onClick: () => handleDetail(item),
+                    },
+                    item.name
+                  ),
+                  item.priority ? h(TaskPriorityBadge, { task: item }) : null,
+                ],
+              }
             ),
             h(
               'span',
