@@ -72,7 +72,9 @@ function handleVisible() {
   form.name = props.task.name;
   form.task_category_id = props.task.task_category_id;
   form.description = props.task.description;
-  form.due_date = formatDate(props.task.due_date, 'YYYY-MM-DD');
+  form.due_date = props.task.due_date
+    ? formatDate(props.task.due_date, 'YYYY-MM-DD')
+    : null;
 
   selectedCategory.value = props.task.category;
 
