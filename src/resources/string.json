@@ -80,7 +80,8 @@
             "name": "Name",
             "category": "Category",
             "due_date": "Due Date",
-            "description": "Description"
+            "description": "Description",
+            "priority": "Priority"
         },
         "placeholder": {
             "name": "Name",
@@ -89,7 +90,8 @@
             "due_date": "Due Date",
             "no-status": "No Status",
             "new-task": "New Task",
-            "description": "Description"
+            "description": "Description",
+            "priority": "Priority"
         },
         "message": {
             "delete": "Are you sure want to delete this task?"
@@ -100,11 +102,13 @@
             "status": "Status",
             "created_at": "Created At",
             "due_date": "Due Date",
-            "description": "Description"
+            "description": "Description",
+            "priority": "Priority"
         },
         "filter": {
             "is-due": "Show only due",
-            "due-today": "Due Today"
+            "due-today": "Due Today",
+            "priority": "Priority"
         }
     },
     "task-category": {

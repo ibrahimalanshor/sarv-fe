@@ -10,6 +10,7 @@ import { computed, ref, h } from 'vue';
 import { formatDate, toDate } from 'src/utils/date';
 import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
+import TaskPriorityBadge from './task-priority-badge.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
 
 const props = defineProps({
@@ -74,6 +75,10 @@ const attributes = computed(() => {
       id: 'due_date',
       name: getString('task.attributes.due_date'),
       value: task.value.due_date ? toDate(task.value.due_date) : '-',
+    },
+    {
+      id: 'priority',
+      name: getString('task.attributes.priority'),
     },
     {
       id: 'status',
@@ -146,6 +151,10 @@ function hanldeUpdatedStatus() {
           v-on:close="handleCloseAlert"
         />
         <base-description :attributes="attributes" :data="task">
+          <template #[`priority`]>
+            <task-priority-badge v-if="task.priority" :task="task" />
+            <span v-else>-</span>
+          </template>
           <template #[`status`]>
             <task-status-dropdown
               :task="task"
