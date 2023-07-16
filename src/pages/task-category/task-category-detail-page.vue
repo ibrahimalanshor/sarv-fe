@@ -111,6 +111,7 @@ init();
           :filterable="{ category: false }"
           :attributes="{ category: false }"
           :create-values="{ task_category_id: taskCategory.id }"
+          :form-inputs="{ category: false }"
           v-model:filter="fetchTasksParams.filter"
           v-model:sort="fetchTasksParams.sort"
           v-model:page="fetchTasksParams.page"

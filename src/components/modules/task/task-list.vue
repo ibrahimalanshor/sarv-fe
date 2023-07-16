@@ -55,6 +55,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  formInputs: {
+    type: Object,
+    default: () => ({}),
+  },
   visibleCreateModal: {
     type: Boolean,
     default: false,
@@ -304,11 +308,13 @@ function handleDetail(item) {
     </div>
     <task-create-modal
       :values="props.createValues"
+      :inputs="props.formInputs"
       v-model="visibleCreateModal"
       v-on:created="handleRefresh"
     />
     <task-detail-modal
       :task-id="detailModal.taskId"
+      :form-inputs="props.formInputs"
       v-model="detailModal.visible"
       v-on:updated="handleRefresh"
       v-on:deleted="handleRefresh"

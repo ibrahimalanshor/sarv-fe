@@ -20,6 +20,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  inputs: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits(['update:modelValue', 'created']);
 
@@ -116,6 +120,7 @@ function handleResetForm() {
         />
 
         <base-input
+          v-if="inputs.category ?? true"
           label="task.label.category"
           placeholder="task.placeholder.category"
           :message="storeTaskValidation.task_category_id"

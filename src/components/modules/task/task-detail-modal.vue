@@ -22,6 +22,10 @@ const props = defineProps({
     type: null,
     required: true,
   },
+  formInputs: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits([
   'update:modelValue',
@@ -165,6 +169,7 @@ function hanldeUpdatedStatus() {
         </base-description>
         <task-edit-modal
           :task="task"
+          :inputs="props.formInputs"
           v-model="editModalVisible"
           v-on:updated="handleUpdated"
         />
