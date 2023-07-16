@@ -43,6 +43,14 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  filterable: {
+    type: Object,
+    default: () => ({}),
+  },
+  attributes: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits([
   'update:sort',
@@ -146,12 +154,16 @@ const tableColumns = [
         }
       ),
   },
-  {
-    id: 'category',
-    name: getString('task.attributes.category'),
-    sortable: false,
-    value: (item) => item.category?.name ?? '-',
-  },
+  ...[
+    props.attributes.category ?? true
+      ? {
+          id: 'category',
+          name: getString('task.attributes.category'),
+          sortable: false,
+          value: (item) => item.category?.name ?? '-',
+        }
+      : {},
+  ],
   {
     id: 'status',
     sortable: false,
@@ -168,14 +180,18 @@ function resetSort() {
 }
 function resetFilter() {
   filterValue.value.name = null;
-  filterValue.value.task_category_id = null;
+
+  if (props.filterable.category ?? true) {
+    filterValue.value.task_category_id = null;
+    filterTaskCategory.value = null;
+  }
+
   filterValue.value.task_status_id = null;
   filterValue.value.is_due = null;
   filterValue.value.due_date_from = null;
   filterValue.value.due_date_to = null;
   filterValue.value.priority = null;
 
-  filterTaskCategory.value = null;
   filterTaskStatus.value = null;
 }
 function refresh() {
@@ -218,6 +234,7 @@ function handleDetail(item) {
   <div>
     <div class="space-y-4">
       <task-list-filter
+        :filterable="props.filterable"
         v-model:sort="sortValue"
         v-model:filter="filterValue"
         v-model:status="filterTaskStatus"
