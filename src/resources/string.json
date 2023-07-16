@@ -42,7 +42,7 @@
         },
         "task-category": {
             "index": "Category List",
-            "detail": "Category Category"
+            "detail": "Category Detail"
         },
         "task-status": {
             "index": "Status List"

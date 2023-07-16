@@ -10,9 +10,11 @@ import TaskList from 'src/components/modules/task/task-list.vue';
 import TaskCategoryDetailModal from 'src/components/modules/task-category/task-category-detail-modal.vue';
 import { reactive, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useTitle } from 'src/composes/title.compose';
 
 const route = useRoute();
 const router = useRouter();
+const { setTitle } = useTitle();
 const {
   data: tasks,
   loading: fetchTasksLoading,
@@ -65,6 +67,8 @@ async function loadTaskCategory() {
 
   if (success) {
     fetchTasksParams.filter.task_category_id = taskCategory.value.id;
+
+    setTitle(taskCategory.value.name);
   }
 }
 async function loadTasks() {
