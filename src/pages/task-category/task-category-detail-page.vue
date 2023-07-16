@@ -34,7 +34,6 @@ const {
 } = useRequest({
   method: 'get',
   url: '/api/task-categories',
-  notifyOnError: true,
   initLoading: true,
   initData: {},
 });
@@ -65,11 +64,13 @@ async function loadTaskCategory() {
 
   const [success] = await fetchTaskCategory();
 
-  if (success) {
-    fetchTasksParams.filter.task_category_id = taskCategory.value.id;
-
-    setTitle(taskCategory.value.name);
+  if (!success) {
+    router.push({ name: '404' });
   }
+
+  fetchTasksParams.filter.task_category_id = taskCategory.value.id;
+
+  setTitle(taskCategory.value.name);
 }
 async function loadTasks() {
   await fetchTasks({
