@@ -64,6 +64,16 @@ export const routes = [
           title: 'task-category.index',
         },
       },
+      {
+        path: ':id',
+        component: () =>
+          import('src/pages/task-category/task-category-detail-page.vue'),
+        name: 'task-category.detail',
+        meta: {
+          layout: 'LayoutApp',
+          title: 'task-category.detail',
+        },
+      },
     ],
   },
   {

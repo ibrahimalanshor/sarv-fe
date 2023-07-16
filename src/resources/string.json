@@ -41,7 +41,8 @@
             "index": "Task List"
         },
         "task-category": {
-            "index": "Category List"
+            "index": "Category List",
+            "detail": "Category Category"
         },
         "task-status": {
             "index": "Status List"
