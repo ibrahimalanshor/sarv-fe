@@ -154,8 +154,8 @@ function handleResetForm() {
           placeholder-from-resource
           :options="
             getAvaiablePriorities().map((item) => ({
-              id: item,
-              name: capitalize(item),
+              id: item.value,
+              name: capitalize(item.name),
             }))
           "
           v-model="form.priority"
