@@ -12,6 +12,7 @@ import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
 import TaskPriorityBadge from './task-priority-badge.vue';
 import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps({
   modelValue: {
@@ -68,7 +69,20 @@ const attributes = computed(() => {
     {
       id: 'category',
       name: getString('task.attributes.category'),
-      value: task.value.category ? task.value.category.name : '-',
+      render: () =>
+        task.value.category
+          ? h(
+              RouterLink,
+              {
+                class: 'hover:underline',
+                to: {
+                  name: 'task-category.detail',
+                  params: { id: task.value.category.id },
+                },
+              },
+              { default: () => task.value.category.name }
+            )
+          : h('span', {}, '-'),
     },
     {
       id: 'created_at',

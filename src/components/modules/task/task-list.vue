@@ -9,6 +9,7 @@ import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.v
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate } from 'src/utils/date';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps({
   sort: {
@@ -180,7 +181,20 @@ const tableColumns = [
           id: 'category',
           name: getString('task.attributes.category'),
           sortable: false,
-          value: (item) => item.category?.name ?? '-',
+          render: ({ item }) =>
+            item.category
+              ? h(
+                  RouterLink,
+                  {
+                    class: 'hover:underline',
+                    to: {
+                      name: 'task-category.detail',
+                      params: { id: item.category.id },
+                    },
+                  },
+                  { default: () => item.category.name }
+                )
+              : h('span', {}, '-'),
         }
       : {},
   ],
