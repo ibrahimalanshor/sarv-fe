@@ -115,6 +115,7 @@ init();
           v-model:sort="fetchTasksParams.sort"
           v-model:page="fetchTasksParams.page"
           v-model:status="filterTaskStatus"
+          v-model:visible-create-modal="visibleCreateModal"
           v-on:reload="handleReload"
         />
       </base-container>

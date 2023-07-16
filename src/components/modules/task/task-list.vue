@@ -55,6 +55,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  visibleCreateModal: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits([
   'update:sort',
@@ -62,6 +66,7 @@ const emit = defineEmits([
   'update:page',
   'update:status',
   'update:category',
+  'update:visibleCreateModal',
   'reload',
   'refresh',
   'load',
@@ -69,6 +74,14 @@ const emit = defineEmits([
 
 const { getString } = useString();
 
+const visibleCreateModal = computed({
+  get() {
+    return props.visibleCreateModal;
+  },
+  set(value) {
+    emit('update:visibleCreateModal', value);
+  },
+});
 const sortValue = computed({
   get() {
     return props.sort;
@@ -110,7 +123,6 @@ const filterTaskCategory = computed({
   },
 });
 
-const visibleCreateModal = ref(false);
 const detailModal = reactive({
   visible: false,
   taskId: null,
@@ -291,6 +303,7 @@ function handleDetail(item) {
       </base-table>
     </div>
     <task-create-modal
+      :values="props.createValues"
       v-model="visibleCreateModal"
       v-on:created="handleRefresh"
     />

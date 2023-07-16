@@ -16,6 +16,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  values: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits(['update:modelValue', 'created']);
 
@@ -53,7 +57,10 @@ const visible = computed({
 async function handleSubmit() {
   form.task_category_id = selectedCategory.value?.id ?? null;
 
-  const [success] = await storeTask(form);
+  const [success] = await storeTask({
+    ...form,
+    ...props.values,
+  });
 
   if (success) {
     visible.value = false;
