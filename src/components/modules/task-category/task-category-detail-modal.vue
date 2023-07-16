@@ -6,6 +6,8 @@ import BaseModal from 'src/components/base/base-modal.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
+import TaskCategoryEditModal from './task-category-edit-modal.vue';
+import TaskCategoryDeleteConfirm from './task-category-delete-confirm.vue';
 import { computed, ref } from 'vue';
 
 const props = defineProps({
@@ -39,6 +41,9 @@ const {
   initData: {},
 });
 
+const visibleEditModal = ref(false);
+const visibleDeleteConfirm = ref(false);
+
 const visible = computed({
   get() {
     return props.modelValue;
@@ -70,6 +75,22 @@ function handleVisible() {
 function handleCloseAlert() {
   resetGetTaskCategoryError();
 }
+function handleEdit() {
+  visibleEditModal.value = true;
+}
+function handleDelete() {
+  visibleDeleteConfirm.value = true;
+}
+function handleUpdated() {
+  loadTaskCategory();
+
+  emit('updated');
+}
+function handleDeleted() {
+  visible.value = false;
+
+  emit('deleted');
+}
 </script>
 
 <template>
@@ -95,7 +116,21 @@ function handleCloseAlert() {
     </div>
 
     <template #footer="{ close }">
-      <div class="flex items-center justify-end">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-x-2">
+          <base-button
+            color="indigo"
+            text="actions.edit"
+            text-from-resource
+            v-on:click="handleEdit"
+          />
+          <base-button
+            color="red"
+            text="actions.delete"
+            text-from-resource
+            v-on:click="handleDelete"
+          />
+        </div>
         <base-button
           text="actions.cancel"
           text-from-resource
@@ -103,5 +138,16 @@ function handleCloseAlert() {
         />
       </div>
     </template>
+
+    <task-category-edit-modal
+      :task-category="taskCategory"
+      v-model="visibleEditModal"
+      v-on:updated="handleUpdated"
+    />
+    <task-category-delete-confirm
+      :task-category="taskCategory"
+      v-model="visibleDeleteConfirm"
+      v-on:deleted="handleDeleted"
+    />
   </base-modal>
 </template>

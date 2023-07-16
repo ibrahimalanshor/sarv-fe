@@ -1,13 +1,18 @@
 <script setup>
 import { useRequest } from 'src/composes/request.compose';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
 import BaseHeader from 'src/components/base/base-header.vue';
+import BaseTitle from 'src/components/base/base-title.vue';
 import BaseContainer from 'src/components/base/base-container.vue';
 import BaseButton from 'src/components/base/base-button.vue';
+import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import TaskList from 'src/components/modules/task/task-list.vue';
+import TaskCategoryDetailModal from 'src/components/modules/task-category/task-category-detail-modal.vue';
 import { reactive, ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 const {
   data: tasks,
   loading: fetchTasksLoading,
@@ -50,8 +55,8 @@ const fetchTasksParams = reactive({
   include: ['category', 'status'],
 });
 const filterTaskStatus = ref(null);
-
-const visibleCreateModal = ref(false);
+const visibleTaskCreateModal = ref(false);
+const visibleDetailModal = ref(false);
 
 async function loadTaskCategory() {
   fetchTaskCategoryUrl.value = `/api/task-categories/${route.params.id}`;
@@ -68,14 +73,23 @@ async function loadTasks() {
   });
 }
 
-function handleCreate() {
-  visibleCreateModal.value = true;
+function handleCreateTask() {
+  visibleTaskCreateModal.value = true;
 }
-function handleReload() {
+function handleReloadTasks() {
   fetchTasksParams.filter.is_due = fetchTasksParams.filter.is_due || null;
   fetchTasksParams.filter.task_status_id = filterTaskStatus.value?.id ?? null;
 
   loadTasks();
+}
+function handleReloadTaskCategory() {
+  loadTaskCategory();
+}
+function handleDeletedTaskCategory() {
+  router.push({ name: 'task-category.index' });
+}
+function handleDetail() {
+  visibleDetailModal.value = true;
 }
 
 async function init() {
@@ -88,17 +102,25 @@ init();
 
 <template>
   <div>
-    <base-header
-      :title="taskCategory.name"
-      :title-loading="fetchTaskCategoryLoading"
-    >
+    <base-header :title-loading="fetchTaskCategoryLoading">
+      <template #title>
+        <base-skeleton class="w-1/4 !h-10" v-if="fetchTaskCategoryLoading" />
+        <template v-else>
+          <div class="flex items-center gap-x-4">
+            <base-title :level="3">{{ taskCategory.name }}</base-title>
+            <base-button v-on:click="handleDetail">
+              <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+            </base-button>
+          </div>
+        </template>
+      </template>
       <template #action>
         <base-button
           v-if="!fetchTaskCategoryLoading"
           text="task.actions.create"
           color="indigo"
           text-from-resource
-          v-on:click="handleCreate"
+          v-on:click="handleCreateTask"
         />
       </template>
     </base-header>
@@ -116,10 +138,17 @@ init();
           v-model:sort="fetchTasksParams.sort"
           v-model:page="fetchTasksParams.page"
           v-model:status="filterTaskStatus"
-          v-model:visible-create-modal="visibleCreateModal"
-          v-on:reload="handleReload"
+          v-model:visible-create-modal="visibleTaskCreateModal"
+          v-on:reload="handleReloadTasks"
         />
       </base-container>
     </main>
+
+    <task-category-detail-modal
+      :task-category-id="taskCategory.id"
+      v-model="visibleDetailModal"
+      v-on:updated="handleReloadTaskCategory"
+      v-on:deleted="handleDeletedTaskCategory"
+    />
   </div>
 </template>
