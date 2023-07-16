@@ -3,6 +3,12 @@ import BaseInput from 'src/components/base/base-input.vue';
 import { useRequest } from 'src/composes/request.compose';
 import { reactive } from 'vue';
 
+const props = defineProps({
+  values: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 const emit = defineEmits(['created']);
 
 const {
@@ -24,7 +30,10 @@ function resetForm() {
 }
 
 async function handleSubmit() {
-  const [success] = await storeTask(form);
+  const [success] = await storeTask({
+    ...form,
+    ...props.values,
+  });
 
   if (success) {
     resetForm();

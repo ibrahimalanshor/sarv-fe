@@ -51,6 +51,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  createValues: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits([
   'update:sort',
@@ -265,7 +269,10 @@ function handleDetail(item) {
               :class="[classes.td, hasMoreData ? '' : 'rounded-b-lg']"
               colspan="3"
             >
-              <task-create-inline v-on:created="handleRefresh" />
+              <task-create-inline
+                :values="props.createValues"
+                v-on:created="handleRefresh"
+              />
             </td>
           </tr>
           <tr v-if="hasMoreData">
