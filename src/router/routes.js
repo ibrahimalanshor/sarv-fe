@@ -95,4 +95,13 @@ export const routes = [
       },
     ],
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: () => import('src/pages/not-found-page.vue'),
+    meta: {
+      layout: 'LayoutState',
+      title: '404',
+    },
+  },
 ];

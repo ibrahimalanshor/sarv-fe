@@ -34,6 +34,7 @@
         "results": "results"
     },
     "pages": {
+        "404": "404 Not Found",
         "login": "Sign in to your account",
         "register": "Create new account",
         "index": "Dashboard",
@@ -167,5 +168,11 @@
             "name": "Name",
             "color": "Color"
         }
+    },
+    "404": {
+        "code": "404",
+        "title": "Page not found",
+        "message": "Sorry, we couldn’t find the page you’re looking for.",
+        "action": "Go Back Home"
     }
 }
