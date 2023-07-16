@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useString } from 'src/composes/resource.compose';
 import BaseTitle from './base-title.vue';
+import BaseSkeleton from './base-skeleton.vue';
 
 const props = defineProps({
   title: {
@@ -9,6 +10,10 @@ const props = defineProps({
     default: '',
   },
   titleFromResource: {
+    type: Boolean,
+    default: false,
+  },
+  titleLoading: {
     type: Boolean,
     default: false,
   },
@@ -26,7 +31,8 @@ const title = computed(() => {
     <div
       class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center justify-between"
     >
-      <base-title :level="3">{{ title }}</base-title>
+      <base-skeleton class="w-1/4 !h-10" v-if="props.titleLoading" />
+      <base-title v-else :level="3">{{ title }}</base-title>
       <slot name="action" />
     </div>
   </header>
