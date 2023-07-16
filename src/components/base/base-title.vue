@@ -38,6 +38,7 @@ const text = computed(() => {
 });
 const style = computed(() => {
   const levels = {
+    1: 'text-3xl',
     2: 'text-2xl',
     3: 'text-3xl',
     4: 'text-xl',

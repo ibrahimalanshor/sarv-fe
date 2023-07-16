@@ -9,5 +9,9 @@ export function useTitle() {
     document.title = getString(`pages.${route.meta.title}`);
   }
 
-  return { setTitleFromResource };
+  function setTitle(title) {
+    document.title = title;
+  }
+
+  return { setTitleFromResource, setTitle };
 }

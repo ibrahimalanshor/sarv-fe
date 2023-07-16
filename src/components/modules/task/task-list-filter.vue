@@ -30,6 +30,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  filterable: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits([
   'update:sort',
@@ -188,6 +192,7 @@ function handleFilterStatus() {
       </template>
     </base-dropdown>
     <task-category-select-search
+      v-if="props.filterable.category ?? true"
       v-model="filterTaskCategory"
       v-on:change="handleFilterCategory"
     />

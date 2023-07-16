@@ -7,10 +7,10 @@ import BaseTable from 'src/components/base/base-table.vue';
 import BaseInput from 'src/components/base/base-input.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskCategoryCreateModal from 'src/components/modules/task-category/task-category-create-modal.vue';
-import TaskCategoryDetailModal from 'src/components/modules/task-category/task-category-detail-modal.vue';
 import TaskCategoryEditModal from 'src/components/modules/task-category/task-category-edit-modal.vue';
 import TaskCategoryDeleteConfirm from 'src/components/modules/task-category/task-category-delete-confirm.vue';
 import { h, reactive, ref } from 'vue';
+import { RouterLink } from 'vue-router';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -32,10 +32,6 @@ const fetchTasksCategoryParams = reactive({
   },
 });
 const visibleCreateModal = ref(false);
-const detailModal = reactive({
-  visible: false,
-  taskCategoryId: null,
-});
 const editModal = reactive({
   taskCategory: {},
   visible: false,
@@ -52,13 +48,14 @@ const tableColumns = [
     bold: true,
     render: ({ item }) =>
       h(
-        'a',
+        RouterLink,
         {
-          href: '#',
           class: 'hover:underline',
-          onClick: () => handleDetail(item),
+          to: { name: 'task-category.detail', params: { id: item.id } },
         },
-        item.name
+        {
+          default: () => item.name,
+        }
       ),
   },
   {
@@ -127,10 +124,6 @@ function handleCreate() {
 function handleRefresh() {
   refresh();
 }
-function handleDetail(item) {
-  detailModal.taskCategoryId = item.id;
-  detailModal.visible = true;
-}
 function handleEdit(item) {
   editModal.taskCategory = item;
   editModal.visible = true;
@@ -187,10 +180,6 @@ loadTaskCategories();
     <task-category-create-modal
       v-model="visibleCreateModal"
       v-on:created="handleRefresh"
-    />
-    <task-category-detail-modal
-      :task-category-id="detailModal.taskCategoryId"
-      v-model="detailModal.visible"
     />
     <task-category-edit-modal
       :task-category="editModal.taskCategory"

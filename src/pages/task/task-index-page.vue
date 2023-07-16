@@ -80,6 +80,7 @@ loadTasks();
           v-model:page="fetchTasksParams.page"
           v-model:category="filterTaskCategory"
           v-model:status="filterTaskStatus"
+          v-model:visible-create-modal="visibleCreateModal"
           v-on:reload="handleReload"
         />
       </base-container>

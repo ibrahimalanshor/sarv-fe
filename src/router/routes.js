@@ -34,6 +34,7 @@ export const routes = [
     component: RouterView,
     meta: {
       requireAuth: true,
+      title: 'task.index',
     },
     children: [
       {
@@ -52,6 +53,7 @@ export const routes = [
     component: RouterView,
     meta: {
       requireAuth: true,
+      title: 'task-category.index',
     },
     children: [
       {
@@ -64,6 +66,16 @@ export const routes = [
           title: 'task-category.index',
         },
       },
+      {
+        path: ':id',
+        component: () =>
+          import('src/pages/task-category/task-category-detail-page.vue'),
+        name: 'task-category.detail',
+        meta: {
+          layout: 'LayoutApp',
+          title: 'task-category.detail',
+        },
+      },
     ],
   },
   {
@@ -71,6 +83,7 @@ export const routes = [
     component: RouterView,
     meta: {
       requireAuth: true,
+      title: 'task-status.index',
     },
     children: [
       {
@@ -84,5 +97,14 @@ export const routes = [
         },
       },
     ],
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: () => import('src/pages/not-found-page.vue'),
+    meta: {
+      layout: 'LayoutState',
+      title: '404',
+    },
   },
 ];

@@ -21,6 +21,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  inputs: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits(['update:modelValue', 'updated']);
 
@@ -119,6 +123,7 @@ function handleVisible() {
         />
 
         <base-input
+          v-if="inputs.category ?? true"
           label="task.label.category"
           placeholder="task.placeholder.category"
           :message="updateTaskValidation.task_category_id"
