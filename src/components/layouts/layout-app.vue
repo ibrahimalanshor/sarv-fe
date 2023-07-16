@@ -2,11 +2,18 @@
 import { ref } from 'vue';
 import PartialNavbar from './partials/layout-app/partial-navbar.vue';
 import PartialOption from './partials/layout-app/partial-option.vue';
+import PartialBreadcrumb from './partials/layout-app/partial-breadcrumb.vue';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
 
 export default {
   name: 'LayoutApp',
-  components: { PartialNavbar, PartialOption, Bars3Icon, XMarkIcon },
+  components: {
+    PartialBreadcrumb,
+    PartialNavbar,
+    PartialOption,
+    Bars3Icon,
+    XMarkIcon,
+  },
   setup() {
     const visibleMobileMenu = ref(false);
 
@@ -67,6 +74,8 @@ export default {
         <partial-option mobile />
       </div>
     </nav>
+
+    <partial-breadcrumb />
 
     <slot />
   </div>

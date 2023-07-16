@@ -34,6 +34,7 @@ export const routes = [
     component: RouterView,
     meta: {
       requireAuth: true,
+      title: 'task.index',
     },
     children: [
       {
@@ -52,6 +53,7 @@ export const routes = [
     component: RouterView,
     meta: {
       requireAuth: true,
+      title: 'task-category.index',
     },
     children: [
       {
@@ -81,6 +83,7 @@ export const routes = [
     component: RouterView,
     meta: {
       requireAuth: true,
+      title: 'task-status.index',
     },
     children: [
       {
