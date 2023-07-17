@@ -15,6 +15,27 @@ export function getAvaiablePriorities() {
   ];
 }
 
+export function getAvaiableStatuses() {
+  return [
+    {
+      value: 'todo',
+      name: 'Todo',
+    },
+    {
+      value: 'pending',
+      name: 'Pending',
+    },
+    {
+      value: 'in-progress',
+      name: 'In Progress',
+    },
+    {
+      value: 'done',
+      name: 'Done',
+    },
+  ];
+}
+
 export function parsePriorityColor(priority) {
   const colors = {
     1: 'green',
@@ -26,11 +47,33 @@ export function parsePriorityColor(priority) {
 }
 
 export function parsePriorityName(priority) {
-  const colors = {
+  const names = {
     1: 'Low',
     2: 'Medium',
     3: 'High',
   };
 
-  return colors[priority].toLowerCase();
+  return names[priority].toLowerCase();
+}
+
+export function parseStatusColor(color) {
+  const colors = {
+    todo: 'white',
+    pending: 'yellow',
+    'in-progress': 'indigo',
+    done: 'green',
+  };
+
+  return colors[color];
+}
+
+export function parseStatusName(status) {
+  const names = {
+    todo: 'Todo',
+    pending: 'Pending',
+    'in-progress': 'In Progress',
+    done: 'Done',
+  };
+
+  return names[status];
 }

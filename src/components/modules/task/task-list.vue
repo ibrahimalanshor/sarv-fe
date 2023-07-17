@@ -6,6 +6,7 @@ import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
+import TaskStatusSelect from './task-status-select.vue';
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate } from 'src/utils/date';
@@ -287,10 +288,9 @@ function handleDetail(item) {
         v-on:change-sort="handleSort"
       >
         <template #[`status`]="{ item }">
-          <task-status-dropdown
-            :task="item"
+          <task-status-select
+            :select-props="{ size: 'sm' }"
             v-model="item.status"
-            v-on:updated="handleReload"
           />
         </template>
         <template #footer="{ classes }">
