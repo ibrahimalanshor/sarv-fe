@@ -68,7 +68,7 @@ function handleChange() {
 </script>
 
 <template>
-  <base-dropdown>
+  <base-dropdown custom-width="w-44" position="right">
     <template #toggle="{ toggle }">
       <base-button :classes="{ base: 'h-full' }" v-on:click="toggle">
         <bars-arrow-down-icon class="w-4 h-4" />
@@ -81,9 +81,9 @@ function handleChange() {
           <base-select
             label="label.sort.column"
             placeholder="label.sort.column"
-            fullwidth
             :with-label="true"
             label-from-resource
+            fullwidth
             placeholder-from-resource
             :options="props.columns"
             v-model="selectedColumn"
@@ -94,9 +94,9 @@ function handleChange() {
           <base-select
             label="label.sort.direction"
             placeholder="label.sort.direction"
-            fullwidth
             :with-label="true"
             label-from-resource
+            fullwidth
             placeholder-from-resource
             :options="directionOptions"
             v-model="selectedDirection"

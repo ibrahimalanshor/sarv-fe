@@ -128,7 +128,7 @@ function handleFilterCategory() {
       v-model="sortValue"
       v-on:change="handleChange"
     />
-    <base-dropdown>
+    <base-dropdown width="fit" position="right">
       <template #toggle="{ toggle }">
         <base-button
           text="actions.filter"
@@ -144,9 +144,9 @@ function handleFilterCategory() {
             <base-select
               label="task.filter.priority"
               placeholder="task.filter.priority"
-              fullwidth
               :with-label="true"
               label-from-resource
+              fullwidth
               placeholder-from-resource
               :options="
                 getAvaiablePriorities().map((item) => ({

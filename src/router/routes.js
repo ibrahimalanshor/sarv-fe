@@ -79,26 +79,6 @@ export const routes = [
     ],
   },
   {
-    path: '/status',
-    component: RouterView,
-    meta: {
-      requireAuth: true,
-      title: 'task-status.index',
-    },
-    children: [
-      {
-        path: '',
-        component: () =>
-          import('src/pages/task-status/task-status-index-page.vue'),
-        name: 'task-status.index',
-        meta: {
-          layout: 'LayoutApp',
-          title: 'task-status.index',
-        },
-      },
-    ],
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('src/pages/not-found-page.vue'),
