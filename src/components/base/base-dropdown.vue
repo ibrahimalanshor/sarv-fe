@@ -18,6 +18,10 @@ const props = defineProps({
     type: String,
     default: 'md',
   },
+  customWidth: {
+    type: String,
+    default: null,
+  },
 });
 const emit = defineEmits(['click-item']);
 
@@ -31,7 +35,11 @@ const style = computed(() => {
 
   return {
     items: [
-      props.width === 'full' ? 'w-full' : 'w-fit',
+      props.customWidth
+        ? props.customWidth
+        : props.width === 'full'
+        ? 'w-full'
+        : 'w-fit',
       props.position === 'left' ? 'left-0' : 'right-0',
       'absolute z-10 mt-2 min-w-full rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
     ],

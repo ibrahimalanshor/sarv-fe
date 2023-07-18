@@ -122,14 +122,14 @@ function handleChange() {
 </script>
 
 <template>
-  <div :class="[props.fullwidth ? 'w-full' : '']">
+  <div :class="[props.fullwidth ? 'w-full' : 'w-fit']">
     <label
       v-if="props.withLabel"
       :for="props.id"
       class="block text-sm font-medium leading-6 text-gray-900 mb-2"
       >{{ label }}</label
     >
-    <div :class="['relative', props.fullwidth ? 'w-full' : '']">
+    <div :class="['relative', props.fullwidth ? 'w-full' : 'w-fit']">
       <slot>
         <select v-bind="attributes" v-model="value" v-on:change="handleChange">
           <option :value="null">{{ placeholder }}</option>
