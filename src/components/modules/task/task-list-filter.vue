@@ -22,10 +22,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  status: {
-    type: Object,
-    default: () => ({}),
-  },
   category: {
     type: Object,
     default: () => ({}),
@@ -38,7 +34,6 @@ const props = defineProps({
 const emit = defineEmits([
   'update:sort',
   'update:filter',
-  'update:status',
   'update:category',
   'sort',
   'filter',
@@ -106,14 +101,6 @@ const filterIsDueToday = computed({
     emit('filter');
   },
 });
-const filterTaskStatus = computed({
-  get() {
-    return props.status;
-  },
-  set(value) {
-    emit('update:status', value);
-  },
-});
 const filterTaskCategory = computed({
   get() {
     return props.category;
@@ -131,9 +118,6 @@ function handleFilter() {
 }
 function handleFilterCategory() {
   emit('filter-category');
-}
-function handleFilterStatus() {
-  emit('filter-status');
 }
 </script>
 

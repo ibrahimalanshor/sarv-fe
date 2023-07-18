@@ -4,7 +4,7 @@ import BaseHeader from 'src/components/base/base-header.vue';
 import BaseContainer from 'src/components/base/base-container.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskList from 'src/components/modules/task/task-list.vue';
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref } from 'vue';
 
 const { data, loading, request } = useRequest({
   method: 'get',
@@ -22,16 +22,15 @@ const fetchTasksParams = reactive({
   },
   filter: {
     name: null,
-    task_status_id: null,
+    status: null,
     task_category_id: null,
     is_due: null,
     due_date_from: null,
     due_date_to: null,
     priority: null,
   },
-  include: ['category', 'status'],
+  include: ['category'],
 });
-const filterTaskStatus = ref(null);
 const filterTaskCategory = ref(null);
 
 const visibleCreateModal = ref(false);
@@ -47,7 +46,6 @@ function handleCreate() {
 }
 function handleReload() {
   fetchTasksParams.filter.is_due = fetchTasksParams.filter.is_due || null;
-  fetchTasksParams.filter.task_status_id = filterTaskStatus.value?.id ?? null;
   fetchTasksParams.filter.task_category_id =
     filterTaskCategory.value?.id ?? null;
 
@@ -79,7 +77,6 @@ loadTasks();
           v-model:sort="fetchTasksParams.sort"
           v-model:page="fetchTasksParams.page"
           v-model:category="filterTaskCategory"
-          v-model:status="filterTaskStatus"
           v-model:visible-create-modal="visibleCreateModal"
           v-on:reload="handleReload"
         />

@@ -36,10 +36,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  status: {
-    type: Object,
-    default: null,
-  },
   category: {
     type: Object,
     default: null,
@@ -69,7 +65,6 @@ const emit = defineEmits([
   'update:sort',
   'update:filter',
   'update:page',
-  'update:status',
   'update:category',
   'update:visibleCreateModal',
   'reload',
@@ -109,14 +104,6 @@ const pageValue = computed({
   },
   set(value) {
     emit('update:page', value);
-  },
-});
-const filterTaskStatus = computed({
-  get() {
-    return props.status;
-  },
-  set(value) {
-    emit('update:status', value);
   },
 });
 const filterTaskCategory = computed({
@@ -220,13 +207,11 @@ function resetFilter() {
     filterTaskCategory.value = null;
   }
 
-  filterValue.value.task_status_id = null;
+  filterValue.value.status = null;
   filterValue.value.is_due = null;
   filterValue.value.due_date_from = null;
   filterValue.value.due_date_to = null;
   filterValue.value.priority = null;
-
-  filterTaskStatus.value = null;
 }
 function refresh() {
   resetPage();
@@ -268,12 +253,10 @@ function handleDetail(item) {
         :filterable="props.filterable"
         v-model:sort="sortValue"
         v-model:filter="filterValue"
-        v-model:status="filterTaskStatus"
         v-model:category="filterTaskCategory"
         v-on:sort="handleSort"
         v-on:filter="handleFilter"
         v-on:filter-category="handleFilter"
-        v-on:filter-status="handleFilter"
       />
       <base-table
         :columns="tableColumns"

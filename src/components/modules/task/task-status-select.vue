@@ -13,7 +13,7 @@ const props = defineProps({
     default: null,
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
 const value = computed({
   get() {
@@ -23,14 +23,24 @@ const value = computed({
     emit('update:modelValue', value);
   },
 });
+
+function handleChange() {
+  emit('change');
+}
 </script>
 
 <template>
   <base-select
     placeholder="task.attributes.status"
-    :options="getAvaiableStatuses()"
+    :options="
+      getAvaiableStatuses().map((item) => ({
+        id: item.value,
+        name: item.name,
+      }))
+    "
     placeholder-from-resource
     v-bind="props.selectProps"
     v-model="value"
+    v-on:change="handleChange"
   />
 </template>
