@@ -69,6 +69,8 @@ const profileDropdownItems = [
     </template>
     <template v-else>
       <base-dropdown
+        custom-width="w-32"
+        position="right"
         :items="profileDropdownItems"
         v-model="profileDropdown.visible"
       >

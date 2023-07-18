@@ -44,16 +44,12 @@
         "task-category": {
             "index": "Category List",
             "detail": "Category Detail"
-        },
-        "task-status": {
-            "index": "Status List"
         }
     },
     "menus": {
         "index": "Dashboard",
         "task": "Task",
         "task-category": "Category",
-        "task-status": "Status",
         "profile": "Profile",
         "logout": "Logout"
     },
@@ -144,29 +140,6 @@
         },
         "attributes": {
             "name": "Name"
-        }
-    },
-    "task-status": {
-        "actions": {
-            "create": "New Status",
-            "detail": "Detail Status",
-            "edit": "Edit Status",
-            "delete": "Delete Status"
-        },
-        "label": {
-            "name": "Name",
-            "color": "Color"
-        },
-        "placeholder": {
-            "name": "Name",
-            "color": "Color"
-        },
-        "message": {
-            "delete": "Are you sure want to delete this status?"
-        },
-        "attributes": {
-            "name": "Name",
-            "color": "Color"
         }
     },
     "404": {

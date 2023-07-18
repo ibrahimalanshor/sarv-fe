@@ -48,7 +48,11 @@ function handleChange() {
       />
     </div>
     <div class="ml-3 text-sm leading-6">
-      <span for="candidates" class="font-medium text-gray-900">{{ text }}</span>
+      <span
+        for="candidates"
+        class="font-medium text-gray-900 whitespace-nowrap"
+        >{{ text }}</span
+      >
     </div>
   </label>
 </template>
