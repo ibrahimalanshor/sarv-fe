@@ -201,18 +201,6 @@ function resetSort() {
 }
 function resetFilter() {
   filterValue.value.name = null;
-
-  if (props.filterable.category ?? true) {
-    filterValue.value.task_category_id = null;
-    filterTaskCategory.value = null;
-  }
-
-  filterValue.value.status = null;
-  filterValue.value.is_due = null;
-  filterValue.value.due_date_from = null;
-  filterValue.value.due_date_to = null;
-  filterValue.value.priority = null;
-  filterValue.value.is_active = true;
 }
 function refresh() {
   resetPage();
