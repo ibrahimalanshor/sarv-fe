@@ -19,6 +19,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  withPlaceholder: {
+    type: Boolean,
+    default: true,
+  },
   labelFromResource: {
     type: Boolean,
     default: false,
@@ -36,7 +40,7 @@ const props = defineProps({
     default: null,
   },
   modelValue: {
-    type: String,
+    type: null,
     default: null,
   },
   disabled: {
@@ -132,7 +136,9 @@ function handleChange() {
     <div :class="['relative', props.fullwidth ? 'w-full' : 'w-fit']">
       <slot>
         <select v-bind="attributes" v-model="value" v-on:change="handleChange">
-          <option :value="null">{{ placeholder }}</option>
+          <option v-if="props.withPlaceholder" :value="null">
+            {{ placeholder }}
+          </option>
           <option
             v-for="option in props.options"
             :key="option.id"

@@ -212,6 +212,7 @@ function resetFilter() {
   filterValue.value.due_date_from = null;
   filterValue.value.due_date_to = null;
   filterValue.value.priority = null;
+  filterValue.value.is_active = true;
 }
 function refresh() {
   resetPage();

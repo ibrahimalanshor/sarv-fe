@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emit = defineEmits(['update:modelValue', 'change']);
 
@@ -33,7 +37,7 @@ function handleChange() {
   <base-select
     placeholder="task.attributes.status"
     :options="
-      getAvaiableStatuses().map((item) => ({
+      getAvaiableStatuses({ isActive: props.isActive }).map((item) => ({
         id: item.value,
         name: item.name,
       }))

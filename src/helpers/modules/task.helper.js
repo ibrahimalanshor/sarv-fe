@@ -15,25 +15,34 @@ export function getAvaiablePriorities() {
   ];
 }
 
-export function getAvaiableStatuses() {
-  return [
+export function getAvaiableStatuses(options = {}) {
+  const { isActive } = options;
+  const activeOptions = [
     {
       value: 'todo',
       name: 'Todo',
     },
     {
-      value: 'pending',
-      name: 'Pending',
-    },
-    {
       value: 'in-progress',
       name: 'In Progress',
+    },
+  ];
+  const inactiveOptions = [
+    {
+      value: 'pending',
+      name: 'Pending',
     },
     {
       value: 'done',
       name: 'Done',
     },
   ];
+
+  if (isActive === null || isActive === undefined) {
+    return [...activeOptions, ...inactiveOptions];
+  }
+
+  return isActive ? activeOptions : inactiveOptions;
 }
 
 export function parsePriorityColor(priority) {
