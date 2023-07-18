@@ -11,7 +11,7 @@ import { formatDate, toDate } from 'src/utils/date';
 import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
 import TaskPriorityBadge from './task-priority-badge.vue';
-import TaskStatusDropdown from 'src/components/modules/task-status/task-status-dropdown.vue';
+import TaskEditStatus from './task-edit-status.vue';
 import { RouterLink } from 'vue-router';
 
 const props = defineProps({
@@ -174,7 +174,7 @@ function hanldeUpdatedStatus() {
             <span v-else>-</span>
           </template>
           <template #[`status`]>
-            <task-status-dropdown
+            <task-edit-status
               :task="task"
               v-model="task.status"
               v-on:updated="hanldeUpdatedStatus"

@@ -62,6 +62,14 @@ const style = computed(() => {
     red: 'bg-red-600 text-white hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600',
     green:
       'bg-green-600 text-white hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600',
+    'white-soft':
+      'bg-gray-50 text-gray-600 hover:bg-gray-100 ring-1 ring-gray-500/10',
+    'indigo-soft':
+      'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 ring-1 ring-indigo-700/10',
+    'yellow-soft':
+      'bg-yellow-50 text-yellow-800 hover:bg-yellow-100 ring-1 ring-yellow-600/20',
+    'green-soft':
+      'bg-green-50 text-green-700 hover:bg-green-100 ring-1 ring-green-600/20',
   };
 
   return {

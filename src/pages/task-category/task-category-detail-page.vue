@@ -46,16 +46,15 @@ const fetchTasksParams = reactive({
   },
   filter: {
     name: null,
-    task_status_id: null,
+    status: null,
     task_category_id: null,
     is_due: null,
     due_date_from: null,
     due_date_to: null,
     priority: null,
   },
-  include: ['category', 'status'],
+  include: ['category'],
 });
-const filterTaskStatus = ref(null);
 const visibleTaskCreateModal = ref(false);
 const visibleDetailModal = ref(false);
 
@@ -83,7 +82,6 @@ function handleCreateTask() {
 }
 function handleReloadTasks() {
   fetchTasksParams.filter.is_due = fetchTasksParams.filter.is_due || null;
-  fetchTasksParams.filter.task_status_id = filterTaskStatus.value?.id ?? null;
 
   loadTasks();
 }
@@ -142,7 +140,6 @@ init();
           v-model:filter="fetchTasksParams.filter"
           v-model:sort="fetchTasksParams.sort"
           v-model:page="fetchTasksParams.page"
-          v-model:status="filterTaskStatus"
           v-model:visible-create-modal="visibleTaskCreateModal"
           v-on:reload="handleReloadTasks"
         />

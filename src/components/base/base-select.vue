@@ -84,7 +84,7 @@ const placeholder = computed(() => {
 });
 const style = computed(() => {
   const inputSizes = {
-    sm: 'pl-3 pr-10 py-1',
+    sm: 'pl-2.5 pr-10 py-1',
     md: 'pl-3 pr-10 py-1.5',
   };
   const inputColors = {

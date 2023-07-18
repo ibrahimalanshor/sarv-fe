@@ -6,13 +6,39 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  width: {
+    type: String,
+    default: 'full',
+  },
+  position: {
+    type: String,
+    default: 'left',
+  },
+  size: {
+    type: String,
+    default: 'md',
+  },
 });
+const emit = defineEmits(['click-item']);
 
 const visible = ref(false);
 
 const style = computed(() => {
+  const itemSizes = {
+    sm: 'py-1.5 px-2.5',
+    md: 'py-2 px-3',
+  };
+
   return {
-    item: ['block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'],
+    items: [
+      props.width === 'full' ? 'w-full' : 'w-fit',
+      props.position === 'left' ? 'left-0' : 'right-0',
+      'absolute z-10 mt-2 min-w-full rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+    ],
+    item: [
+      itemSizes[props.size],
+      'block text-sm text-gray-700 hover:bg-gray-100',
+    ],
   };
 });
 
@@ -22,6 +48,11 @@ function handleToggle() {
 function handleClose() {
   visible.value = false;
 }
+function handleClickItem(item) {
+  visible.value = false;
+
+  emit('click-item', item);
+}
 </script>
 
 <template>
@@ -29,20 +60,9 @@ function handleClose() {
     <div class="h-full">
       <slot name="toggle" :toggle="handleToggle" />
     </div>
-
-    <!--
-        Dropdown menu, show/hide based on menu state.
-
-        Entering: "transition ease-out duration-100"
-            From: "transform opacity-0 scale-95"
-            To: "transform opacity-100 scale-100"
-        Leaving: "transition ease-in duration-75"
-            From: "transform opacity-100 scale-100"
-            To: "transform opacity-0 scale-95"
-        -->
     <div
       v-if="visible"
-      class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      :class="style.items"
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="user-menu-button"
@@ -55,9 +75,8 @@ function handleClose() {
           :key="item.id"
           href="#"
           :class="style.item"
-          role="menuitem"
           tabindex="-1"
-          id="user-menu-item-0"
+          v-on:click.prevent="handleClickItem(item)"
         >
           {{ item.name }}
         </a>
