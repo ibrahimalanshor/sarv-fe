@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRequest } from 'src/composes/request.compose';
-import TaskStatusSelect from './task-status-select.vue';
+import TaskStatusDropdown from './task-status-dropdown.vue';
 
 const props = defineProps({
   modelValue: {
@@ -49,5 +49,5 @@ async function handleChange(value) {
 </script>
 
 <template>
-  <task-status-select v-model="selected" v-on:change="handleChange" />
+  <task-status-dropdown v-model="selected" v-on:change="handleChange" />
 </template>

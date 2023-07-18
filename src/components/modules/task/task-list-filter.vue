@@ -5,7 +5,7 @@ import BaseButton from 'src/components/base/base-button.vue';
 import BaseSelect from 'src/components/base/base-select.vue';
 import BaseCheckbox from 'src/components/base/base-checkbox.vue';
 import BaseInput from 'src/components/base/base-input.vue';
-import TaskStatusSelectSearch from 'src/components/modules/task-status/task-status-select-search.vue';
+import TaskStatusSelect from './task-status-select.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
 import { computed } from 'vue';
 import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
@@ -196,9 +196,10 @@ function handleFilterStatus() {
       v-model="filterTaskCategory"
       v-on:change="handleFilterCategory"
     />
-    <task-status-select-search
-      v-model="filterTaskStatus"
-      v-on:change="handleFilterStatus"
+    <task-status-select
+      :select-props="{ withLabel: false }"
+      v-model="filterValue.status"
+      v-on:change="handleFilter"
     />
     <base-input
       type="text"

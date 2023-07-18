@@ -5,7 +5,7 @@ import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
-import TaskEditStatusSelect from './task-edit-status-select.vue';
+import TaskEditStatus from './task-edit-status.vue';
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate } from 'src/utils/date';
@@ -285,7 +285,7 @@ function handleDetail(item) {
       >
         <template #[`status`]="{ item }">
           <div class="flex">
-            <task-edit-status-select
+            <task-edit-status
               :task="item"
               v-model="item.status"
               v-on:updated="handleRefresh"

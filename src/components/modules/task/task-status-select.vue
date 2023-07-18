@@ -1,21 +1,19 @@
 <script setup>
-import BaseButton from 'src/components/base/base-button.vue';
-import BaseDropdown from 'src/components/base/base-dropdown.vue';
-import { ChevronDownIcon } from '@heroicons/vue/20/solid';
+import BaseSelect from 'src/components/base/base-select.vue';
+import { getAvaiableStatuses } from 'src/helpers/modules/task.helper';
 import { computed } from 'vue';
-import {
-  parseStatusColor,
-  parseStatusName,
-  getAvaiableStatuses,
-} from 'src/helpers/modules/task.helper';
 
 const props = defineProps({
+  selectProps: {
+    type: Object,
+    default: () => ({}),
+  },
   modelValue: {
     type: String,
     default: null,
   },
 });
-const emit = defineEmits(['update:modelValue', 'change']);
+const emit = defineEmits(['update:modelValue']);
 
 const value = computed({
   get() {
@@ -25,33 +23,14 @@ const value = computed({
     emit('update:modelValue', value);
   },
 });
-
-async function handleClickItem(item) {
-  value.value = item.value;
-
-  emit('change', item.value);
-}
 </script>
 
 <template>
-  <base-dropdown
-    position="right"
-    width="fit"
-    size="sm"
-    :items="getAvaiableStatuses()"
-    v-on:click-item="handleClickItem"
-  >
-    <template #toggle="{ toggle }">
-      <base-button
-        :text="parseStatusName(value)"
-        :color="`${parseStatusColor(value)}-soft`"
-        size="sm"
-        v-on:click="toggle"
-      >
-        <template #right>
-          <ChevronDownIcon :class="['-mr-1 h-5 w-5']" />
-        </template>
-      </base-button>
-    </template>
-  </base-dropdown>
+  <base-select
+    placeholder="task.attributes.status"
+    :options="getAvaiableStatuses()"
+    placeholder-from-resource
+    v-bind="props.selectProps"
+    v-model="value"
+  />
 </template>
