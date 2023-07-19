@@ -1,5 +1,8 @@
 <script setup>
-import { BarsArrowDownIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowSmallUpIcon,
+  ArrowSmallDownIcon,
+} from '@heroicons/vue/24/outline';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseSelect from 'src/components/base/base-select.vue';
@@ -70,8 +73,16 @@ function handleChange() {
 <template>
   <base-dropdown custom-width="w-44" position="right">
     <template #toggle="{ toggle }">
-      <base-button :classes="{ base: 'h-full' }" v-on:click="toggle">
-        <bars-arrow-down-icon class="w-4 h-4" />
+      <base-button
+        :classes="{ base: 'h-full flex items-center gap-x-2' }"
+        v-on:click="toggle"
+      >
+        {{ props.columns.find((item) => item.id === selectedColumn).name }}
+        <arrow-small-down-icon
+          v-if="selectedDirection === 'asc'"
+          class="w-4 h-4"
+        />
+        <arrow-small-up-icon v-else class="w-4 h-4" />
       </base-button>
     </template>
 

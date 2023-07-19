@@ -25,7 +25,8 @@
         }
     },
     "message": {
-        "empty": "Empty Data"
+        "empty": "Empty Data",
+        "filter-applied": "{count} filter applied"
     },
     "pagination": {
         "showing": "Showing",
