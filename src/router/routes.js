@@ -12,6 +12,16 @@ export const routes = [
     },
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('src/pages/profile-page.vue'),
+    meta: {
+      layout: 'LayoutApp',
+      title: 'profile',
+      requireAuth: true,
+    },
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('src/pages/auth/auth-login-page.vue'),

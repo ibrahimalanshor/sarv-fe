@@ -9,6 +9,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  customContent: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     default: null,
@@ -17,6 +21,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       base: '',
+      header: '',
     }),
   },
 });
@@ -26,12 +31,16 @@ const props = defineProps({
   <div :class="['bg-white rounded-lg shadow', props.classes.base]">
     <div
       v-if="props.withHeader"
-      class="border-b rounded-t-lg border-gray-200 bg-white px-4 py-5 sm:px-6 flex items-center justify-between"
+      :class="[
+        'border-b rounded-t-lg border-gray-200 bg-white px-4 py-5 sm:px-6 flex items-center justify-between',
+        props.classes.header,
+      ]"
     >
       <base-title :level="6" semibold>{{ title }}</base-title>
       <slot name="header-actions" />
     </div>
-    <div class="px-4 py-4 sm:px-6">
+    <slot v-if="props.customContent" />
+    <div v-else class="px-4 py-4 sm:px-6">
       <slot />
     </div>
     <div

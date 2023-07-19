@@ -1,8 +1,10 @@
 <script setup>
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { useString } from 'src/composes/resource.compose';
-import { computed, reactive } from 'vue';
+import { computed, h, reactive, ref } from 'vue';
+import BaseAvatar from 'src/components/base/base-avatar.vue';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
+import AuthLogoutConfirm from 'src/components/modules/auth/auth-logout-confirm.vue';
 
 const props = defineProps({
   mobile: {
@@ -15,20 +17,57 @@ const authStore = useAuthStore();
 const { getString } = useString();
 
 const me = computed(() => authStore.me);
+
+const visibleLogoutConfirm = ref(false);
 const profileDropdown = reactive({
   visible: false,
 });
 
 const profileDropdownItems = [
   {
+    id: 'me',
+    mobile: false,
+    render: (attr) => {
+      return h(
+        'div',
+        {
+          class: [attr.classes.item, 'flex flex-col border-b border-gray-200'],
+        },
+        {
+          default: () => [
+            h(
+              'span',
+              { class: 'font-semibold text-gray-900 truncate' },
+              me.value.name
+            ),
+            h(
+              'span',
+              { class: 'text-xs text-gray-500 truncate' },
+              me.value.email
+            ),
+          ],
+        }
+      );
+    },
+  },
+  {
     id: 'profile',
     name: getString('menus.profile'),
+    to: {
+      name: 'profile',
+    },
   },
   {
     id: 'logout',
     name: getString('menus.logout'),
   },
 ];
+
+function handleClickItem(item) {
+  if (item.id === 'logout') {
+    visibleLogoutConfirm.value = true;
+  }
+}
 </script>
 
 <template>
@@ -42,11 +81,7 @@ const profileDropdownItems = [
     <template v-if="props.mobile">
       <div class="flex items-center px-5">
         <div class="flex-shrink-0">
-          <img
-            class="h-10 w-10 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+          <base-avatar :src="me.photo_src" />
         </div>
         <div class="ml-3">
           <div class="text-base font-medium leading-none text-white">
@@ -59,7 +94,9 @@ const profileDropdownItems = [
       </div>
       <div class="mt-3 space-y-1 px-2">
         <a
-          v-for="item in profileDropdownItems"
+          v-for="item in profileDropdownItems.filter(
+            (item) => item.mobile ?? true
+          )"
           :key="item.id"
           href="#"
           class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
@@ -69,10 +106,11 @@ const profileDropdownItems = [
     </template>
     <template v-else>
       <base-dropdown
-        custom-width="w-32"
+        custom-width="w-48"
         position="right"
         :items="profileDropdownItems"
         v-model="profileDropdown.visible"
+        v-on:click-item="handleClickItem"
       >
         <template #toggle="{ toggle }">
           <button
@@ -84,14 +122,12 @@ const profileDropdownItems = [
             v-on:click="toggle"
           >
             <span class="sr-only">Open user menu</span>
-            <img
-              class="h-8 w-8 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
+            <base-avatar :src="me.photo_src" />
           </button>
         </template>
       </base-dropdown>
     </template>
+
+    <auth-logout-confirm v-model="visibleLogoutConfirm" />
   </div>
 </template>

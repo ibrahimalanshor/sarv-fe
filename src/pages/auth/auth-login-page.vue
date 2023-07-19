@@ -55,6 +55,7 @@ function handleCloseAlert() {
           :color="validation.email ? 'red' : 'gray'"
           :message="validation.email"
           with-label
+          fullwidth
           label-from-resource
           placeholder-from-resource
           v-model="form.email"
@@ -67,12 +68,14 @@ function handleCloseAlert() {
           :color="validation.password ? 'red' : 'gray'"
           :message="validation.password"
           with-label
+          fullwidth
           label-from-resource
           placeholder-from-resource
           v-model="form.password"
         />
         <base-button
           type="submit"
+          color="indigo"
           text="auth.login.form.submit"
           text-from-resource
           fullwidth

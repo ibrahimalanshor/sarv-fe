@@ -78,16 +78,26 @@ function handleClickItem(item) {
     >
       <slot name="content" :classes="style">
         <!-- Active: "bg-gray-100", Not Active: "" -->
-        <a
-          v-for="item in props.items"
-          :key="item.id"
-          href="#"
-          :class="style.item"
-          tabindex="-1"
-          v-on:click.prevent="handleClickItem(item)"
-        >
-          {{ item.name }}
-        </a>
+        <template v-for="item in props.items" :key="item.id">
+          <component
+            v-if="item.render"
+            :is="item.render"
+            :item="item"
+            :classes="style"
+          />
+          <router-link v-else-if="item.to" :class="style.item" :to="item.to">{{
+            item.name
+          }}</router-link>
+          <a
+            v-else
+            href="#"
+            :class="style.item"
+            tabindex="-1"
+            v-on:click.prevent="handleClickItem(item)"
+          >
+            {{ item.name }}
+          </a>
+        </template>
       </slot>
     </div>
   </div>

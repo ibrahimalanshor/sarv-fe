@@ -18,8 +18,11 @@ export const useAuthStore = defineStore(
       me.value = null;
       isLoggedIn.value = false;
     }
+    async function setMe(value) {
+      me.value = value;
+    }
 
-    return { token, me, isLoggedIn, login, logout };
+    return { token, me, setMe, isLoggedIn, login, logout };
   },
   { persist: true }
 );
