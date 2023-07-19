@@ -21,6 +21,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       base: '',
+      header: '',
     }),
   },
 });
@@ -30,7 +31,10 @@ const props = defineProps({
   <div :class="['bg-white rounded-lg shadow', props.classes.base]">
     <div
       v-if="props.withHeader"
-      class="border-b rounded-t-lg border-gray-200 bg-white px-4 py-5 sm:px-6 flex items-center justify-between"
+      :class="[
+        'border-b rounded-t-lg border-gray-200 bg-white px-4 py-5 sm:px-6 flex items-center justify-between',
+        props.classes.header,
+      ]"
     >
       <base-title :level="6" semibold>{{ title }}</base-title>
       <slot name="header-actions" />

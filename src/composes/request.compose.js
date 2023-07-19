@@ -58,6 +58,7 @@ export function useRequest({
     validation,
     loading,
     request,
+    setError,
     resetError,
     resetValidation,
   };

@@ -9,11 +9,13 @@ export function useMe() {
   });
 
   async function loadMe() {
-    const [res] = await fetchMe();
+    const [res, error] = await fetchMe();
 
     if (res) {
       authStore.setMe(res);
     }
+
+    return [res, error];
   }
 
   return { loadMe };

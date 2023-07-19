@@ -5,13 +5,16 @@ import BaseCard from 'src/components/base/base-card.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
 import BaseAvatar from 'src/components/base/base-avatar.vue';
 import BaseButton from 'src/components/base/base-button.vue';
+import ProfileEditModal from 'src/components/modules/profile/profile-edit-modal.vue';
 import { useAuthStore } from 'src/store/modules/auth.module';
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
 import { useString } from 'src/composes/resource.compose';
 
 const authStore = useAuthStore();
 const { getString } = useString();
+
+const visibleEditModal = ref(false);
 
 const attributes = [
   {
@@ -44,24 +47,41 @@ const attributes = [
     value: formatDate(authStore.me.created_at),
   },
 ];
+
+function handleEditProfile() {
+  visibleEditModal.value = true;
+}
 </script>
 
 <template>
   <div>
-    <base-header title="pages.profile" title-from-resource></base-header>
+    <base-header title="pages.profile" title-from-resource />
     <main>
       <base-container>
         <base-card
           with-header
           :title="getString('profile.title.my-profile')"
           :custom-content="true"
+          :classes="{
+            header: '!py-4',
+          }"
         >
+          <template #header-actions>
+            <base-button
+              color="indigo"
+              text="profile.title.edit-profile"
+              text-from-resource
+              v-on:click="handleEditProfile"
+            />
+          </template>
           <base-description
             inline
             :attributes="attributes"
             :data="authStore.me"
           />
         </base-card>
+
+        <profile-edit-modal v-model="visibleEditModal" />
       </base-container>
     </main>
   </div>

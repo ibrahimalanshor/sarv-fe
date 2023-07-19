@@ -60,13 +60,17 @@
     },
     "profile": {
         "title": {
-            "my-profile": "My Profile"
+            "my-profile": "My Profile",
+            "edit-profile": "Edit Profile"
         },
         "label": {
             "name": "Name",
             "email": "Email",
             "joined_at": "Joined At",
             "photo": "Photo"
+        },
+        "placeholder": {
+            "name": "Name"
         },
         "actions": {
             "change-photo": "Change"
