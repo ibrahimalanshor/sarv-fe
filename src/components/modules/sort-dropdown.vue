@@ -77,7 +77,9 @@ function handleChange() {
         :classes="{ base: 'h-full flex items-center gap-x-2' }"
         v-on:click="toggle"
       >
-        {{ props.columns.find((item) => item.id === selectedColumn).name }}
+        <span v-if="selectedColumn">{{
+          props.columns.find((item) => item.id === selectedColumn).name
+        }}</span>
         <arrow-small-down-icon
           v-if="selectedDirection === 'asc'"
           class="w-4 h-4"
@@ -93,6 +95,7 @@ function handleChange() {
             label="label.sort.column"
             placeholder="label.sort.column"
             :with-label="true"
+            :with-placeholder="false"
             label-from-resource
             fullwidth
             placeholder-from-resource
@@ -106,6 +109,7 @@ function handleChange() {
             label="label.sort.direction"
             placeholder="label.sort.direction"
             :with-label="true"
+            :with-placeholder="false"
             label-from-resource
             fullwidth
             placeholder-from-resource

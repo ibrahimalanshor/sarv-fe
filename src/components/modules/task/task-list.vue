@@ -196,15 +196,11 @@ function resetPage() {
   pageValue.value.number = 1;
   pageValue.value.size = 10;
 }
-function resetSort() {
-  sortValue.value = '-created_at';
-}
 function resetFilter() {
   filterValue.value.name = null;
 }
 function refresh() {
   resetPage();
-  resetSort();
   resetFilter();
 
   emit('reload');

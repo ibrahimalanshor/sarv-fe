@@ -19,6 +19,9 @@
         }
     },
     "options": {
+        "sort-columns": {
+            "default": "Default"
+        },
         "sort-direction": {
             "asc": "Ascending",
             "desc": "Descending"
