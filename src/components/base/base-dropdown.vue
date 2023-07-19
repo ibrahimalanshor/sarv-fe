@@ -85,6 +85,9 @@ function handleClickItem(item) {
             :item="item"
             :classes="style"
           />
+          <router-link v-else-if="item.to" :class="style.item" :to="item.to">{{
+            item.name
+          }}</router-link>
           <a
             v-else
             href="#"
