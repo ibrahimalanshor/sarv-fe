@@ -42,6 +42,7 @@
         "login": "Sign in to your account",
         "register": "Create new account",
         "index": "Dashboard",
+        "profile": "My Profile",
         "task": {
             "index": "Task List"
         },
@@ -56,6 +57,20 @@
         "task-category": "Category",
         "profile": "Profile",
         "logout": "Logout"
+    },
+    "profile": {
+        "title": {
+            "my-profile": "My Profile"
+        },
+        "label": {
+            "name": "Name",
+            "email": "Email",
+            "joined_at": "Joined At",
+            "photo": "Photo"
+        },
+        "actions": {
+            "change-photo": "Change"
+        }
     },
     "auth": {
         "login": {

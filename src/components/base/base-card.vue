@@ -9,6 +9,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  customContent: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     default: null,
@@ -31,7 +35,8 @@ const props = defineProps({
       <base-title :level="6" semibold>{{ title }}</base-title>
       <slot name="header-actions" />
     </div>
-    <div class="px-4 py-4 sm:px-6">
+    <slot v-if="props.customContent" />
+    <div v-else class="px-4 py-4 sm:px-6">
       <slot />
     </div>
     <div

@@ -53,6 +53,9 @@ const profileDropdownItems = [
   {
     id: 'profile',
     name: getString('menus.profile'),
+    to: {
+      name: 'profile',
+    },
   },
   {
     id: 'logout',
