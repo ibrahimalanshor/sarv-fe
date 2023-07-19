@@ -74,6 +74,9 @@ loadTasks();
           :data="data.data"
           :meta="data.meta"
           :loading="loading"
+          :create-values="{
+            task_category_id: fetchTasksParams.filter.task_category_id,
+          }"
           v-model:filter="fetchTasksParams.filter"
           v-model:sort="fetchTasksParams.sort"
           v-model:page="fetchTasksParams.page"
