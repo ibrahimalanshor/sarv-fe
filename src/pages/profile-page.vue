@@ -6,6 +6,7 @@ import BaseDescription from 'src/components/base/base-description.vue';
 import BaseAvatar from 'src/components/base/base-avatar.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import ProfileEditModal from 'src/components/modules/profile/profile-edit-modal.vue';
+import ProfileEditPhotoModal from 'src/components/modules/profile/profile-edit-photo-modal.vue';
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { h, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
@@ -15,6 +16,7 @@ const authStore = useAuthStore();
 const { getString } = useString();
 
 const visibleEditModal = ref(false);
+const visibleEditPhotoModal = ref(false);
 
 const attributes = [
   {
@@ -36,7 +38,11 @@ const attributes = [
         {
           default: () => [
             h(BaseAvatar, { src: authStore.me.photo_src }),
-            h(BaseButton, { text: 'Change', size: 'sm' }),
+            h(BaseButton, {
+              text: 'Change',
+              size: 'sm',
+              onClick: handleEditPhotoProfile,
+            }),
           ],
         }
       ),
@@ -50,6 +56,9 @@ const attributes = [
 
 function handleEditProfile() {
   visibleEditModal.value = true;
+}
+function handleEditPhotoProfile() {
+  visibleEditPhotoModal.value = true;
 }
 </script>
 
@@ -82,6 +91,7 @@ function handleEditProfile() {
         </base-card>
 
         <profile-edit-modal v-model="visibleEditModal" />
+        <profile-edit-photo-modal v-model="visibleEditPhotoModal" />
       </base-container>
     </main>
   </div>

@@ -3,7 +3,7 @@ import { useString } from 'src/composes/resource.compose';
 import { useRequest } from 'src/composes/request.compose';
 import BaseAlert from 'src/components/base/base-alert.vue';
 import BaseModal from 'src/components/base/base-modal.vue';
-import BaseInput from 'src/components/base/base-input.vue';
+import BaseInputFile from 'src/components/base/base-input-file.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import { computed, reactive, ref } from 'vue';
 import { useAuthStore } from 'src/store/modules/auth.module';
@@ -19,19 +19,20 @@ const emit = defineEmits(['update:modelValue']);
 const authStore = useAuthStore();
 const { getString } = useString();
 const {
-  request: updateMe,
-  validation: updateMeValidation,
-  loading: loadingUpdateMe,
-  error: errorUpdateMe,
-  resetValidation: resetUpdateMeValidation,
-  resetError: resetUpdateMeError,
+  request: updatePhoto,
+  validation: updatePhotoValidation,
+  loading: loadingUpdatePhoto,
+  error: errorUpdatePhoto,
+  resetValidation: resetUpdatePhotoValidation,
+  resetError: resetUpdatePhotoError,
 } = useRequest({
   method: 'patch',
-  url: '/api/me',
+  url: '/api/me/photo',
+  formData: true,
 });
 
 const form = reactive({
-  name: authStore.me.name,
+  photo: null,
 });
 
 const visible = computed({
@@ -43,11 +44,8 @@ const visible = computed({
   },
 });
 
-function setForm() {
-  form.name = authStore.me.name;
-}
-async function submitUpdateMe() {
-  const [success] = await updateMe(form);
+async function submitUpdatePhoto() {
+  const [success] = await updatePhoto(form);
 
   if (success) {
     authStore.setMe(success);
@@ -57,23 +55,24 @@ async function submitUpdateMe() {
 }
 
 async function handleSubmit() {
-  await submitUpdateMe();
+  await submitUpdatePhoto();
 }
 function handleCloseAlert() {
-  resetUpdateMeError();
+  resetUpdatePhotoValidation();
+  resetUpdatePhotoError();
 }
 function handleVisible() {
-  setForm();
+  form.photo = null;
 
-  resetUpdateMeValidation();
-  resetUpdateMeError();
+  resetUpdatePhotoValidation();
+  resetUpdatePhotoError();
 }
 </script>
 
 <template>
   <form v-on:submit.prevent="handleSubmit">
     <base-modal
-      :title="getString('profile.title.edit-profile')"
+      :title="getString('profile.title.edit-photo')"
       with-header
       with-footer
       v-model="visible"
@@ -81,24 +80,15 @@ function handleVisible() {
     >
       <div class="space-y-4">
         <base-alert
-          :text="errorUpdateMe"
+          :text="errorUpdatePhoto || updatePhotoValidation.photo"
           type="error"
-          :force-visible="!!errorUpdateMe"
+          :force-visible="
+            !!errorUpdatePhoto || !!Object.keys(updatePhotoValidation).length
+          "
           v-on:close="handleCloseAlert"
         />
 
-        <base-input
-          type="text"
-          label="profile.label.name"
-          placeholder="profile.placeholder.name"
-          :color="updateMeValidation.name ? 'red' : 'gray'"
-          :message="updateMeValidation.name"
-          fullwidth
-          with-label
-          label-from-resource
-          placeholder-from-resource
-          v-model="form.name"
-        />
+        <base-input-file v-model="form.photo" />
       </div>
 
       <template #footer="{ close }">
@@ -107,7 +97,7 @@ function handleVisible() {
             type="submit"
             color="indigo"
             text="actions.save"
-            :loading="loadingUpdateMe"
+            :loading="loadingUpdatePhoto"
             text-from-resource
           />
           <base-button
