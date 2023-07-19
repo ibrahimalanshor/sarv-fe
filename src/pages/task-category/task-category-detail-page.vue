@@ -39,7 +39,7 @@ const {
 });
 
 const fetchTasksParams = reactive({
-  sort: '-created_at',
+  sort: '-primary',
   page: {
     number: 1,
     size: 10,
@@ -74,7 +74,10 @@ async function loadTaskCategory() {
 }
 async function loadTasks() {
   await fetchTasks({
-    params: fetchTasksParams,
+    params: {
+      ...fetchTasksParams,
+      sort: fetchTasksParams.sort ?? 'primary',
+    },
   });
 }
 
