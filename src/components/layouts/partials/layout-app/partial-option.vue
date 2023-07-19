@@ -1,7 +1,7 @@
 <script setup>
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { useString } from 'src/composes/resource.compose';
-import { computed, reactive, ref } from 'vue';
+import { computed, h, reactive, ref } from 'vue';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
 import AuthLogoutConfirm from 'src/components/modules/auth/auth-logout-confirm.vue';
 
@@ -23,6 +23,31 @@ const profileDropdown = reactive({
 });
 
 const profileDropdownItems = [
+  {
+    id: 'me',
+    render: (attr) => {
+      return h(
+        'div',
+        {
+          class: [attr.classes.item, 'flex flex-col border-b border-gray-200'],
+        },
+        {
+          default: () => [
+            h(
+              'span',
+              { class: 'font-semibold text-gray-900 truncate' },
+              me.value.name
+            ),
+            h(
+              'span',
+              { class: 'text-xs text-gray-500 truncate' },
+              me.value.email
+            ),
+          ],
+        }
+      );
+    },
+  },
   {
     id: 'profile',
     name: getString('menus.profile'),
@@ -78,7 +103,7 @@ function handleClickItem(item) {
     </template>
     <template v-else>
       <base-dropdown
-        custom-width="w-32"
+        custom-width="w-48"
         position="right"
         :items="profileDropdownItems"
         v-model="profileDropdown.visible"
