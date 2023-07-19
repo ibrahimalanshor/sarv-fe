@@ -57,6 +57,7 @@ function handleCloseAlert() {
           :color="validation.name ? 'red' : 'gray'"
           :message="validation.name"
           with-label
+          fullwidth
           label-from-resource
           placeholder-from-resource
           v-model="form.name"
@@ -69,6 +70,7 @@ function handleCloseAlert() {
           :color="validation.email ? 'red' : 'gray'"
           :message="validation.email"
           with-label
+          fullwidth
           label-from-resource
           placeholder-from-resource
           v-model="form.email"
@@ -81,6 +83,7 @@ function handleCloseAlert() {
           :color="validation.password ? 'red' : 'gray'"
           :message="validation.password"
           with-label
+          fullwidth
           label-from-resource
           placeholder-from-resource
           v-model="form.password"
@@ -93,6 +96,7 @@ function handleCloseAlert() {
           :color="validation.password_confirmation ? 'red' : 'gray'"
           :message="validation.password_confirmation"
           with-label
+          fullwidth
           label-from-resource
           placeholder-from-resource
           v-model="form.password_confirmation"
@@ -102,6 +106,7 @@ function handleCloseAlert() {
           text="auth.register.form.submit"
           text-from-resource
           fullwidth
+          color="indigo"
           :loading="loading"
         />
       </form>
