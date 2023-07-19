@@ -109,6 +109,13 @@ const filterTaskCategory = computed({
     emit('update:category', value);
   },
 });
+const countFilterApplied = computed(() => {
+  return (
+    filterValue.value.priority +
+    filterIsDueToday.value +
+    filterValue.value.is_due
+  );
+});
 
 function handleChange() {
   emit('sort');
@@ -135,12 +142,14 @@ function handleChangeStatus() {
     />
     <base-dropdown width="fit" position="right">
       <template #toggle="{ toggle }">
-        <base-button
-          text="actions.filter"
-          :classes="{ base: 'h-full' }"
-          text-from-resource
-          v-on:click="toggle"
-        />
+        <base-button :classes="{ base: 'h-full' }" v-on:click="toggle">
+          <span v-if="!countFilterApplied">{{
+            getString('actions.filter')
+          }}</span>
+          <span v-else>{{
+            getString('message.filter-applied', { count: countFilterApplied })
+          }}</span>
+        </base-button>
       </template>
 
       <template #content="{ classes }">
