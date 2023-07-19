@@ -2,6 +2,7 @@
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { useString } from 'src/composes/resource.compose';
 import { computed, h, reactive, ref } from 'vue';
+import BaseAvatar from 'src/components/base/base-avatar.vue';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
 import AuthLogoutConfirm from 'src/components/modules/auth/auth-logout-confirm.vue';
 
@@ -25,6 +26,7 @@ const profileDropdown = reactive({
 const profileDropdownItems = [
   {
     id: 'me',
+    mobile: false,
     render: (attr) => {
       return h(
         'div',
@@ -76,11 +78,7 @@ function handleClickItem(item) {
     <template v-if="props.mobile">
       <div class="flex items-center px-5">
         <div class="flex-shrink-0">
-          <img
-            class="h-10 w-10 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+          <base-avatar :src="me.photo_src" />
         </div>
         <div class="ml-3">
           <div class="text-base font-medium leading-none text-white">
@@ -93,7 +91,9 @@ function handleClickItem(item) {
       </div>
       <div class="mt-3 space-y-1 px-2">
         <a
-          v-for="item in profileDropdownItems"
+          v-for="item in profileDropdownItems.filter(
+            (item) => item.mobile ?? true
+          )"
           :key="item.id"
           href="#"
           class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
@@ -119,11 +119,7 @@ function handleClickItem(item) {
             v-on:click="toggle"
           >
             <span class="sr-only">Open user menu</span>
-            <img
-              class="h-8 w-8 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
+            <base-avatar :src="me.photo_src" />
           </button>
         </template>
       </base-dropdown>
