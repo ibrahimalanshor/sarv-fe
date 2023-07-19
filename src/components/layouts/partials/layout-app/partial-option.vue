@@ -1,8 +1,9 @@
 <script setup>
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { useString } from 'src/composes/resource.compose';
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
+import AuthLogoutConfirm from 'src/components/modules/auth/auth-logout-confirm.vue';
 
 const props = defineProps({
   mobile: {
@@ -15,6 +16,8 @@ const authStore = useAuthStore();
 const { getString } = useString();
 
 const me = computed(() => authStore.me);
+
+const visibleLogoutConfirm = ref(false);
 const profileDropdown = reactive({
   visible: false,
 });
@@ -29,6 +32,12 @@ const profileDropdownItems = [
     name: getString('menus.logout'),
   },
 ];
+
+function handleClickItem(item) {
+  if (item.id === 'logout') {
+    visibleLogoutConfirm.value = true;
+  }
+}
 </script>
 
 <template>
@@ -73,6 +82,7 @@ const profileDropdownItems = [
         position="right"
         :items="profileDropdownItems"
         v-model="profileDropdown.visible"
+        v-on:click-item="handleClickItem"
       >
         <template #toggle="{ toggle }">
           <button
@@ -93,5 +103,7 @@ const profileDropdownItems = [
         </template>
       </base-dropdown>
     </template>
+
+    <auth-logout-confirm v-model="visibleLogoutConfirm" />
   </div>
 </template>

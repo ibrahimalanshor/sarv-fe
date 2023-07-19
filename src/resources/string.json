@@ -81,6 +81,23 @@
             "link": {
                 "login": "Sign in to your account"
             }
+        },
+        "logout": {
+            "title": "Logout",
+            "message": "Are you sure want to logout from your account?",
+            "actions": {
+                "logout": "Logout"
+            },
+            "form": {
+                "name": "Name",
+                "email": "Email",
+                "password": "Password",
+                "password_confirmation": "Password Confirmation",
+                "submit": "Register"
+            },
+            "link": {
+                "login": "Sign in to your account"
+            }
         }
     },
     "task": {
