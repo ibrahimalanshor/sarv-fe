@@ -10,6 +10,7 @@ export function useRequest({
   notifyOnError,
   initLoading,
   initData,
+  formData,
 }) {
   const { error, setError, resetError } = useError();
   const { validation, setValidation, resetValidation } = useValidation();
@@ -19,13 +20,24 @@ export function useRequest({
   const data = ref(initData ?? null);
   const url = ref(initUrl);
 
+  function parseParams(params) {
+    if (!formData) {
+      return params;
+    }
+
+    return Object.keys(params).reduce((formData, key) => {
+      formData.append(key, params[key]);
+
+      return formData;
+    }, new FormData());
+  }
   async function request(params) {
     loading.value = true;
     resetError();
     resetValidation();
 
     try {
-      const res = await http[method](url.value, params);
+      const res = await http[method](url.value, parseParams(params));
 
       data.value = res.data;
 
