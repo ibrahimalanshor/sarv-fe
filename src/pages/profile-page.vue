@@ -28,7 +28,7 @@ const attributes = [
     name: getString('profile.label.email'),
   },
   {
-    id: 'photo_src',
+    id: 'photo_url',
     name: getString('profile.label.photo'),
     wrapperClass: 'items-center',
     render: () =>
@@ -37,7 +37,7 @@ const attributes = [
         { class: 'flex items-center gap-x-3' },
         {
           default: () => [
-            h(BaseAvatar, { src: authStore.me.photo_src }),
+            h(BaseAvatar, { src: authStore.me.photo_url }),
             h(BaseButton, {
               text: 'Change',
               size: 'sm',

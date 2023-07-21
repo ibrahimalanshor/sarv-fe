@@ -81,7 +81,7 @@ function handleClickItem(item) {
     <template v-if="props.mobile">
       <div class="flex items-center px-5">
         <div class="flex-shrink-0">
-          <base-avatar :src="me.photo_src" />
+          <base-avatar :src="me.photo_url" />
         </div>
         <div class="ml-3">
           <div class="text-base font-medium leading-none text-white">
@@ -122,7 +122,7 @@ function handleClickItem(item) {
             v-on:click="toggle"
           >
             <span class="sr-only">Open user menu</span>
-            <base-avatar :src="me.photo_src" />
+            <base-avatar :src="me.photo_url" />
           </button>
         </template>
       </base-dropdown>
