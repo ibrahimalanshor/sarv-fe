@@ -22,6 +22,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  textWrap: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emit = defineEmits(['click-item']);
 
@@ -46,6 +50,7 @@ const style = computed(() => {
     item: [
       itemSizes[props.size],
       'block text-sm text-gray-700 hover:bg-gray-100',
+      props.textWrap ? '' : 'whitespace-nowrap',
     ],
   };
 });
