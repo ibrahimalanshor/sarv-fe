@@ -5,8 +5,10 @@ import BaseCard from 'src/components/base/base-card.vue';
 import BaseDescription from 'src/components/base/base-description.vue';
 import BaseAvatar from 'src/components/base/base-avatar.vue';
 import BaseButton from 'src/components/base/base-button.vue';
+import BaseLink from 'src/components/base/base-link.vue';
 import ProfileEditModal from 'src/components/modules/profile/profile-edit-modal.vue';
 import ProfileEditPhotoModal from 'src/components/modules/profile/profile-edit-photo-modal.vue';
+import ProfileEditEmailModal from 'src/components/modules/profile/profile-edit-email-modal.vue';
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { h, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
@@ -17,6 +19,7 @@ const { getString } = useString();
 
 const visibleEditModal = ref(false);
 const visibleEditPhotoModal = ref(false);
+const visibleEditEmailModal = ref(false);
 
 const attributes = [
   {
@@ -26,6 +29,17 @@ const attributes = [
   {
     id: 'email',
     name: getString('profile.label.email'),
+    render: () =>
+      h('div', { class: 'flex items-center gap-x-4' }, [
+        h('span', {}, authStore.me.email),
+        h(BaseLink, {
+          text: 'actions.edit',
+          native: true,
+          textFromResource: true,
+          to: '#',
+          onClick: handleEditEmailProfile,
+        }),
+      ]),
   },
   {
     id: 'photo_url',
@@ -60,6 +74,9 @@ function handleEditProfile() {
 function handleEditPhotoProfile() {
   visibleEditPhotoModal.value = true;
 }
+function handleEditEmailProfile() {
+  visibleEditEmailModal.value = true;
+}
 </script>
 
 <template>
@@ -92,6 +109,7 @@ function handleEditPhotoProfile() {
 
         <profile-edit-modal v-model="visibleEditModal" />
         <profile-edit-photo-modal v-model="visibleEditPhotoModal" />
+        <profile-edit-email-modal v-model="visibleEditEmailModal" />
       </base-container>
     </main>
   </div>

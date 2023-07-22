@@ -20,6 +20,7 @@ const props = defineProps({
     default: false,
   },
 });
+const emit = defineEmits(['click']);
 
 const { getString } = useString();
 
@@ -31,11 +32,20 @@ const style = computed(() => {
     base: 'font-semibold leading-6 text-sm text-indigo-600 hover:text-indigo-500',
   };
 });
+
+function handleClick(e) {
+  emit('click', e);
+}
 </script>
 
 <template>
   <p>
-    <a v-if="props.native" :href="props.to" :class="style.base">
+    <a
+      v-if="props.native"
+      :href="props.to"
+      :class="style.base"
+      v-on:click="handleClick"
+    >
       {{ text }}
     </a>
     <router-link v-else :to="props.to" :class="style.base">{{

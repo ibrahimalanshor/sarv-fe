@@ -62,7 +62,8 @@
         "title": {
             "my-profile": "My Profile",
             "edit-profile": "Edit Profile",
-            "edit-photo": "Edit Photo"
+            "edit-photo": "Edit Photo",
+            "edit-email": "Edit Email"
         },
         "label": {
             "name": "Name",
