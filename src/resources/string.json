@@ -63,16 +63,22 @@
             "my-profile": "My Profile",
             "edit-profile": "Edit Profile",
             "edit-photo": "Edit Photo",
-            "edit-email": "Edit Email"
+            "edit-email": "Edit Email",
+            "edit-password": "Edit Password"
         },
         "label": {
             "name": "Name",
             "email": "Email",
+            "password": "Password",
+            "password_confirmation": "Password Confirmation",
             "joined_at": "Joined At",
             "photo": "Photo"
         },
         "placeholder": {
-            "name": "Name"
+            "name": "Name",
+            "email": "Email",
+            "password": "Password",
+            "password_confirmation": "Password Confirmation"
         },
         "actions": {
             "change-photo": "Change"

@@ -9,6 +9,7 @@ import BaseLink from 'src/components/base/base-link.vue';
 import ProfileEditModal from 'src/components/modules/profile/profile-edit-modal.vue';
 import ProfileEditPhotoModal from 'src/components/modules/profile/profile-edit-photo-modal.vue';
 import ProfileEditEmailModal from 'src/components/modules/profile/profile-edit-email-modal.vue';
+import ProfileEditPasswordModal from 'src/components/modules/profile/profile-edit-password-modal.vue';
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { h, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
@@ -20,6 +21,7 @@ const { getString } = useString();
 const visibleEditModal = ref(false);
 const visibleEditPhotoModal = ref(false);
 const visibleEditEmailModal = ref(false);
+const visibleEditPasswordModal = ref(false);
 
 const attributes = [
   {
@@ -77,6 +79,9 @@ function handleEditPhotoProfile() {
 function handleEditEmailProfile() {
   visibleEditEmailModal.value = true;
 }
+function handleEditPasswordProfile() {
+  visibleEditPasswordModal.value = true;
+}
 </script>
 
 <template>
@@ -93,12 +98,20 @@ function handleEditEmailProfile() {
           }"
         >
           <template #header-actions>
-            <base-button
-              color="indigo"
-              text="profile.title.edit-profile"
-              text-from-resource
-              v-on:click="handleEditProfile"
-            />
+            <div class="flex items-center gap-x-2">
+              <base-button
+                color="indigo"
+                text="profile.title.edit-profile"
+                text-from-resource
+                v-on:click="handleEditProfile"
+              />
+              <base-button
+                color="indigo"
+                text="profile.title.edit-password"
+                text-from-resource
+                v-on:click="handleEditPasswordProfile"
+              />
+            </div>
           </template>
           <base-description
             inline
@@ -110,6 +123,7 @@ function handleEditEmailProfile() {
         <profile-edit-modal v-model="visibleEditModal" />
         <profile-edit-photo-modal v-model="visibleEditPhotoModal" />
         <profile-edit-email-modal v-model="visibleEditEmailModal" />
+        <profile-edit-password-modal v-model="visibleEditPasswordModal" />
       </base-container>
     </main>
   </div>
