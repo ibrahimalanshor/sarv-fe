@@ -25,9 +25,9 @@ const selected = computed({
 });
 
 const {
-  url: updateTaskUrl,
-  loading: loadingUpdateTask,
-  request: updateTask,
+  url: updateTaskStatusUrl,
+  loading: loadingUpdateTaskStatus,
+  request: updateTaskStatus,
 } = useRequest({
   method: 'patch',
   url: '/api/tasks',
@@ -35,10 +35,9 @@ const {
 });
 
 async function handleChange(value) {
-  updateTaskUrl.value = `/api/tasks/${props.task.id}`;
+  updateTaskStatusUrl.value = `/api/tasks/${props.task.id}/status`;
 
-  const [success] = await updateTask({
-    name: props.task.name,
+  const [success] = await updateTaskStatus({
     status: value,
   });
 
