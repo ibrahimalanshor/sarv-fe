@@ -1,9 +1,10 @@
 <script setup>
-import { reactive } from 'vue';
+import { inject, reactive } from 'vue';
 import { useRequest } from 'src/composes/request.compose';
 import { useString } from 'src/composes/resource.compose';
 import TaskStackedList from 'src/components/modules/task/task-stacked-list.vue';
 
+const emitter = inject('emitter');
 const { getString } = useString();
 const { data, loading, request } = useRequest({
   method: 'get',
@@ -44,9 +45,7 @@ async function loadTasks() {
   });
 }
 
-function handleReload() {
-  loadTasks();
-}
+emitter.on('task-updated', () => loadTasks());
 
 loadTasks();
 </script>
@@ -58,6 +57,5 @@ loadTasks();
     :loading="loading"
     :data="data.data"
     :actions="actions"
-    v-on:reload="handleReload"
   />
 </template>

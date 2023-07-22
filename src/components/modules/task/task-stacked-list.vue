@@ -10,6 +10,7 @@ import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid';
 import { toDate } from 'src/utils/date';
 import { useRequest } from 'src/composes/request.compose';
 import { useString } from 'src/composes/resource.compose';
+import { inject } from 'vue';
 
 const props = defineProps({
   title: {
@@ -35,6 +36,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['reload']);
 
+const emitter = inject('emitter');
 const { getString } = useString();
 const { url: updateTaskStatusUrl, request: updateTaskStatus } = useRequest({
   method: 'patch',
@@ -50,7 +52,7 @@ async function handleClickAction(task, action) {
   });
 
   if (success) {
-    emit('reload');
+    emitter.emit('task-updated');
   }
 }
 </script>
