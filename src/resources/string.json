@@ -9,6 +9,7 @@
         "cancel": "Cancel",
         "search": "Search",
         "load-more": "Load More",
+        "see-more": "See More",
         "action": "Action",
         "filter": "Filter"
     },
@@ -195,5 +196,19 @@
         "title": "Page not found",
         "message": "Sorry, we couldn’t find the page you’re looking for.",
         "action": "Go Back Home"
+    },
+    "dashboard": {
+        "task": {
+            "titles": {
+                "task-in-progress": "Task In Progress"
+            },
+            "messages": {
+                "task-in-progress-empty": "No Task In Progress"
+            },
+            "actions": {
+                "mark-as-done": "Mark As Done",
+                "mark-as-todo": "Mark As Todo"
+            }
+        }
     }
 }
