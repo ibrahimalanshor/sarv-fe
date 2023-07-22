@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import BaseTitle from './base-title.vue';
 const props = defineProps({
   withHeader: {
@@ -25,6 +26,12 @@ const props = defineProps({
     }),
   },
 });
+
+const style = computed(() => {
+  return {
+    content: 'px-4 py-4 sm:px-6',
+  };
+});
 </script>
 
 <template>
@@ -39,8 +46,10 @@ const props = defineProps({
       <base-title :level="6" semibold>{{ title }}</base-title>
       <slot name="header-actions" />
     </div>
-    <slot v-if="props.customContent" />
-    <div v-else class="px-4 py-4 sm:px-6">
+    <template v-if="props.customContent">
+      <slot name="content" :classes="style" />
+    </template>
+    <div v-else :class="style.content">
       <slot />
     </div>
     <div

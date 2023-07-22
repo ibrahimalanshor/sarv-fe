@@ -3,6 +3,7 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   XMarkIcon,
+  InformationCircleIcon,
 } from '@heroicons/vue/20/solid';
 import { computed } from 'vue';
 import { useString } from 'src/composes/resource.compose';
@@ -24,6 +25,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  dismissable: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emit = defineEmits(['close']);
 
@@ -36,6 +41,7 @@ const icon = computed(() => {
   const icons = {
     success: CheckCircleIcon,
     error: XCircleIcon,
+    info: InformationCircleIcon,
   };
 
   return icons[props.type];
@@ -44,20 +50,24 @@ const style = computed(() => {
   const bgColors = {
     success: 'bg-green-50',
     error: 'bg-red-50',
+    info: 'bg-blue-50',
   };
   const iconColors = {
     success: 'text-green-400',
     error: 'text-red-400',
+    info: 'text-blue-400',
   };
   const textColors = {
     success: 'text-green-800',
     error: 'text-red-800',
+    info: 'text-blue-700',
   };
   const closeColors = {
     success:
       'bg-green-50 text-green-500 hover:bg-green-100 focus:ring-green-600 focus:ring-offset-green-50',
     error:
       'bg-red-50 text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50',
+    info: 'bg-blue-50 text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50',
   };
 
   return {
@@ -87,7 +97,7 @@ function handleClose() {
       <div class="ml-3">
         <p class="text-sm font-medium" :class="style.text">{{ text }}</p>
       </div>
-      <div class="ml-auto pl-3">
+      <div class="ml-auto pl-3" v-if="props.dismissable">
         <div class="-mx-1.5 -my-1.5">
           <button
             type="button"
