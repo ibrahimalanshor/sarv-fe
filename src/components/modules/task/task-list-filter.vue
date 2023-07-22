@@ -10,7 +10,7 @@ import TaskCategorySelectSearch from 'src/components/modules/task-category/task-
 import { computed } from 'vue';
 import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
 import { capitalize } from 'src/utils/string';
-import { startOf, endOf } from 'src/utils/date';
+import { startOf, addDay } from 'src/utils/date';
 import { useString } from 'src/composes/resource.compose';
 
 const props = defineProps({
@@ -94,13 +94,13 @@ const filterIsDueToday = computed({
   get() {
     return (
       filterValue.value.due_date_from === startOf(new Date()) &&
-      filterValue.value.due_date_to === endOf(new Date())
+      filterValue.value.due_date_to === startOf(addDay(new Date(), 1))
     );
   },
   set(value) {
     if (value) {
       filterValue.value.due_date_from = startOf(new Date());
-      filterValue.value.due_date_to = endOf(new Date());
+      filterValue.value.due_date_to = startOf(addDay(new Date(), 1));
     } else {
       filterValue.value.due_date_from = null;
       filterValue.value.due_date_to = null;

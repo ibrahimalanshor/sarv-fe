@@ -24,3 +24,7 @@ export function startOf(date = null, unit = 'd') {
 export function endOf(date = null, unit = 'd') {
   return dayjs(date).endOf(unit).format();
 }
+
+export function addDay(date = null, value) {
+  return dayjs(date).add(value, 'day');
+}
