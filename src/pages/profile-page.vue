@@ -113,11 +113,13 @@ function handleEditPasswordProfile() {
               />
             </div>
           </template>
-          <base-description
-            inline
-            :attributes="attributes"
-            :data="authStore.me"
-          />
+          <template #content>
+            <base-description
+              inline
+              :attributes="attributes"
+              :data="authStore.me"
+            />
+          </template>
         </base-card>
 
         <profile-edit-modal v-model="visibleEditModal" />
