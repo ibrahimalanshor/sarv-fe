@@ -200,13 +200,16 @@
     "dashboard": {
         "task": {
             "titles": {
-                "task-in-progress": "Task In Progress"
+                "task-in-progress": "Task In Progress",
+                "task-due-today": "Task Due Today"
             },
             "messages": {
-                "task-in-progress-empty": "No Task In Progress"
+                "task-in-progress-empty": "No Task In Progress",
+                "task-due-today-empty": "No Task Due Today"
             },
             "actions": {
                 "mark-as-done": "Mark As Done",
+                "mark-as-in-progress": "Mark As In Progress",
                 "mark-as-todo": "Mark As Todo"
             }
         }

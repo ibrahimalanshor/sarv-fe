@@ -28,6 +28,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  actions: {
+    type: Array,
+    default: () => [],
+  },
 });
 const emit = defineEmits(['reload']);
 
@@ -38,22 +42,11 @@ const { url: updateTaskStatusUrl, request: updateTaskStatus } = useRequest({
   notifyOnError: true,
 });
 
-const actions = [
-  {
-    id: 'mark-as-todo',
-    name: getString('dashboard.task.actions.mark-as-todo'),
-  },
-  {
-    id: 'mark-as-done',
-    name: getString('dashboard.task.actions.mark-as-done'),
-  },
-];
-
 async function handleClickAction(task, action) {
   updateTaskStatusUrl.value = `/api/tasks/${task.id}/status`;
 
   const [success] = await updateTaskStatus({
-    status: action.id === 'mark-as-todo' ? 'todo' : 'done',
+    status: action.value,
   });
 
   if (success) {
@@ -103,8 +96,9 @@ async function handleClickAction(task, action) {
             <base-dropdown
               :items="actions"
               size="sm"
-              custom-width="w-32"
+              custom-width="w-fit"
               position="right"
+              :text-wrap="false"
               v-on:click-item="(action) => handleClickAction(item, action)"
             >
               <template #toggle="{ toggle }">
