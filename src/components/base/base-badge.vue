@@ -15,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  size: {
+    type: String,
+    default: 'md',
+  },
 });
 
 const { getString } = useString();
@@ -30,10 +34,15 @@ const style = computed(() => {
     purple: 'bg-purple-50 px-2 py-1 text-purple-700 ring-purple-700/10',
     pink: 'bg-pink-50 px-2 py-1 text-pink-700 ring-pink-700/10',
   };
+  const sizes = {
+    sm: 'rounded-md px-1.5 py-0.5 text-xs',
+    md: 'rounded-md px-2 py-1 text-xs',
+  };
 
   return [
-    'inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset',
+    'inline-flex items-center font-medium ring-1 ring-inset',
     colors[props.color],
+    sizes[props.size],
   ];
 });
 const text = computed(() =>
