@@ -11,6 +11,7 @@ import { computed, reactive, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
 import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
 import { capitalize } from 'src/utils/string';
+import { endOf } from 'src/utils/date';
 
 const props = defineProps({
   modelValue: {
@@ -65,7 +66,14 @@ async function handleSubmit() {
   updateTaskUrl.value = `/api/tasks/${props.task.id}`;
   form.task_category_id = selectedCategory.value?.id ?? null;
 
-  const [success] = await updateTask(form);
+  const [success] = await updateTask({
+    ...form,
+    ...(form.due_date
+      ? {
+          due_date: endOf(form.due_date),
+        }
+      : {}),
+  });
 
   if (success) {
     visible.value = false;
