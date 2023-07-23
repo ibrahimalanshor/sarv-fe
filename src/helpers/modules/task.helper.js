@@ -17,6 +17,7 @@ export function getAvaiablePriorities() {
 
 export function getAvaiableStatuses(options = {}) {
   const { isActive } = options;
+
   const activeOptions = [
     {
       value: 'todo',
