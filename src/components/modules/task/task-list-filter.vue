@@ -5,8 +5,8 @@ import BaseButton from 'src/components/base/base-button.vue';
 import BaseSelect from 'src/components/base/base-select.vue';
 import BaseCheckbox from 'src/components/base/base-checkbox.vue';
 import BaseInput from 'src/components/base/base-input.vue';
-import TaskStatusSelect from './task-status-select.vue';
 import TaskCategorySelectSearch from 'src/components/modules/task-category/task-category-select-search.vue';
+import TaskStatusDropdownCheckbox from './task-status-dropdown-checkbox.vue';
 import { computed } from 'vue';
 import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
 import { capitalize } from 'src/utils/string';
@@ -130,11 +130,6 @@ function handleFilter() {
 function handleFilterCategory() {
   emit('filter-category');
 }
-function handleChangeStatus() {
-  filterValue.value.status = null;
-
-  emit('filter');
-}
 </script>
 
 <template>
@@ -198,9 +193,8 @@ function handleChangeStatus() {
       v-model="filterTaskCategory"
       v-on:change="handleFilterCategory"
     />
-    <task-status-select
-      :select-props="{ withLabel: false }"
-      v-model="filterValue.status"
+    <task-status-dropdown-checkbox
+      v-model="filterValue.statuses"
       v-on:change="handleFilter"
     />
     <base-input
