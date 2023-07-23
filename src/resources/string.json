@@ -168,7 +168,8 @@
         "filter": {
             "is-due": "Show only due",
             "due-today": "Due Today",
-            "priority": "Priority"
+            "priority": "Priority",
+            "status": "Status"
         }
     },
     "task-category": {
