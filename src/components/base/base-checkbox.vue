@@ -12,7 +12,11 @@ const props = defineProps({
     default: false,
   },
   modelValue: {
-    type: Boolean,
+    type: [Boolean, Array],
+    default: null,
+  },
+  value: {
+    type: null,
     default: null,
   },
 });
@@ -43,6 +47,7 @@ function handleChange() {
       <input
         type="checkbox"
         class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+        :value="props.value"
         v-model="checked"
         v-on:change="handleChange"
       />
