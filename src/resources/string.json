@@ -205,7 +205,7 @@
             },
             "messages": {
                 "task-in-progress-empty": "No Task In Progress",
-                "task-due-today": "No Task In Due"
+                "task-in-due-empty": "No Task In Due"
             },
             "actions": {
                 "mark-as-done": "Mark As Done",
