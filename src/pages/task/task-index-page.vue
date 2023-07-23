@@ -21,7 +21,6 @@ const fetchTasksParams = reactive({
     size: 10,
   },
   filter: {
-    is_active: true,
     name: null,
     status: null,
     task_category_id: null,
