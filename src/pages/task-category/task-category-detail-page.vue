@@ -39,7 +39,7 @@ const {
 });
 
 const fetchTasksParams = reactive({
-  sort: '-primary',
+  sort: 'created_at',
   page: {
     number: 1,
     size: 10,
