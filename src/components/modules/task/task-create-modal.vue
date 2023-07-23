@@ -59,11 +59,14 @@ const visible = computed({
 });
 
 async function handleSubmit() {
-  form.task_category_id = selectedCategory.value?.id ?? null;
-
   const [success] = await storeTask({
     ...form,
     ...props.values,
+    ...(selectedCategory.value
+      ? {
+          task_category_id: selectedCategory.value.id,
+        }
+      : {}),
   });
 
   if (success) {
