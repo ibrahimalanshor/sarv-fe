@@ -2,7 +2,7 @@
 import { reactive, inject } from 'vue';
 import { useRequest } from 'src/composes/request.compose';
 import { useString } from 'src/composes/resource.compose';
-import { startOf, addDay } from 'src/utils/date';
+import { startOf, endOf } from 'src/utils/date';
 import TaskStackedList from 'src/components/modules/task/task-stacked-list.vue';
 
 const emitter = inject('emitter');
@@ -23,7 +23,7 @@ const fetchTasksParams = reactive({
   },
   filter: {
     due_date_from: startOf(new Date()),
-    due_date_to: startOf(addDay(new Date(), 1)),
+    due_date_to: endOf(new Date()),
   },
   include: ['category'],
 });
