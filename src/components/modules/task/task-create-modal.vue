@@ -10,6 +10,7 @@ import TaskCategorySelectSearch from 'src/components/modules/task-category/task-
 import { computed, reactive, ref } from 'vue';
 import { getAvaiablePriorities } from 'src/helpers/modules/task.helper';
 import { capitalize } from 'src/utils/string';
+import { endOf } from 'src/utils/date';
 
 const props = defineProps({
   modelValue: {
@@ -65,6 +66,11 @@ async function handleSubmit() {
     ...(selectedCategory.value
       ? {
           task_category_id: selectedCategory.value.id,
+        }
+      : {}),
+    ...(form.due_date
+      ? {
+          due_date: endOf(form.due_date),
         }
       : {}),
   });
