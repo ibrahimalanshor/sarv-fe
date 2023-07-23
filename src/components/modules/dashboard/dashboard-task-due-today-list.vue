@@ -16,10 +16,10 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
-  sort: 'due_date',
+  sort: '-created_at',
   page: {
     number: 1,
-    size: 10,
+    size: 5,
   },
   filter: {
     due_date_from: startOf(new Date()),
