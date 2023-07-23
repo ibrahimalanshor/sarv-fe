@@ -220,7 +220,7 @@
                 "countAll": "Task",
                 "countInProgress": "Task In Progress",
                 "countDone": "Task Done",
-                "countActive": "Task Active"
+                "countTodo": "Task Todo"
             }
         }
     }
