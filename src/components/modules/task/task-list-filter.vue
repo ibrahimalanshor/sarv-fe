@@ -45,10 +45,6 @@ const { getString } = useString();
 
 const sortColumnOptions = [
   {
-    id: 'primary',
-    name: getString('options.sort-columns.default'),
-  },
-  {
     id: 'created_at',
     name: getString('task.attributes.created_at'),
   },
