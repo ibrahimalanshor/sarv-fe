@@ -28,6 +28,7 @@ const fetchTasksParams = reactive({
     due_date_from: null,
     due_date_to: null,
     priority: null,
+    statuses: ['todo', 'in-progress'],
   },
   include: ['category'],
 });
