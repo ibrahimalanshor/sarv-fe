@@ -18,7 +18,7 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
-  sort: '-created_at',
+  sort: 'created_at',
   page: {
     number: 1,
     size: 5,
@@ -75,7 +75,7 @@ loadTasks();
 <template>
   <task-stacked-list
     :title="getString('dashboard.task.titles.task-due')"
-    empty-text="dashboard.task.messages.task-due-today-empty"
+    empty-text="dashboard.task.messages.task-in-due-empty"
     :loading="loading"
     :data="data.data"
     :actions="actions"

@@ -15,7 +15,7 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
-  sort: '-created_at',
+  sort: 'created_at',
   page: {
     number: 1,
     size: 5,

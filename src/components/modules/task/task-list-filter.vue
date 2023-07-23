@@ -45,10 +45,6 @@ const { getString } = useString();
 
 const sortColumnOptions = [
   {
-    id: 'primary',
-    name: getString('options.sort-columns.default'),
-  },
-  {
     id: 'created_at',
     name: getString('task.attributes.created_at'),
   },
@@ -202,19 +198,8 @@ function handleChangeStatus() {
       v-model="filterTaskCategory"
       v-on:change="handleFilterCategory"
     />
-    <base-select
-      :options="[
-        { id: true, name: 'Active' },
-        { id: false, name: 'Not Active' },
-      ]"
-      :with-label="false"
-      :with-placeholder="false"
-      v-model="filterValue.is_active"
-      v-on:change="handleChangeStatus"
-    />
     <task-status-select
       :select-props="{ withLabel: false }"
-      :is-active="filterValue.is_active"
       v-model="filterValue.status"
       v-on:change="handleFilter"
     />

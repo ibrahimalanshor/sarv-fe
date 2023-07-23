@@ -15,13 +15,12 @@ const { data, loading, request } = useRequest({
 });
 
 const fetchTasksParams = reactive({
-  sort: '-primary',
+  sort: 'created_at',
   page: {
     number: 1,
     size: 10,
   },
   filter: {
-    is_active: true,
     name: null,
     status: null,
     task_category_id: null,
