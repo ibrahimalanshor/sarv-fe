@@ -60,9 +60,11 @@ async function handleClickAction(task, action) {
 <template>
   <base-card with-header :custom-content="true" :title="props.title">
     <template #header-actions>
-      <router-link :to="{ name: 'task.index' }">
-        <base-button text="actions.see-more" text-from-resource size="sm" />
-      </router-link>
+      <slot name="header-actions">
+        <router-link :to="{ name: 'task.index' }">
+          <base-button text="actions.see-more" text-from-resource size="sm" />
+        </router-link>
+      </slot>
     </template>
     <template #content="{ classes }">
       <div v-if="props.loading" :class="classes?.content">

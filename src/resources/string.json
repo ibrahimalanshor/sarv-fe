@@ -201,16 +201,19 @@
         "task": {
             "titles": {
                 "task-in-progress": "Task In Progress",
-                "task-due-today": "Task Due Today"
+                "task-due": "Task In Due"
             },
             "messages": {
                 "task-in-progress-empty": "No Task In Progress",
-                "task-due-today-empty": "No Task Due Today"
+                "task-due-today": "No Task In Due"
             },
             "actions": {
                 "mark-as-done": "Mark As Done",
                 "mark-as-in-progress": "Mark As In Progress",
                 "mark-as-todo": "Mark As Todo"
+            },
+            "filters": {
+                "only-due-today": "Only Due Today"
             }
         }
     },
