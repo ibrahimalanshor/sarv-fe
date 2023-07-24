@@ -88,7 +88,7 @@ loadTasks();
           v-model="filterDueToday"
           v-on:change="handleFilter"
         />
-        <router-link :to="{ name: 'task.index' }">
+        <router-link :to="{ name: 'task.index', query: { is_due: true } }">
           <base-button text="actions.see-more" text-from-resource size="sm" />
         </router-link>
       </div>

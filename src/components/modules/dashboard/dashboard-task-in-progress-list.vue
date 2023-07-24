@@ -3,6 +3,7 @@ import { inject, reactive } from 'vue';
 import { useRequest } from 'src/composes/request.compose';
 import { useString } from 'src/composes/resource.compose';
 import TaskStackedList from 'src/components/modules/task/task-stacked-list.vue';
+import BaseButton from 'src/components/base/base-button.vue';
 
 const emitter = inject('emitter');
 const { getString } = useString();
@@ -57,5 +58,13 @@ loadTasks();
     :loading="loading"
     :data="data.data"
     :actions="actions"
-  />
+  >
+    <template #header-actions>
+      <router-link
+        :to="{ name: 'task.index', query: { statuses: ['in-progress'] } }"
+      >
+        <base-button text="actions.see-more" text-from-resource size="sm" />
+      </router-link>
+    </template>
+  </task-stacked-list>
 </template>
