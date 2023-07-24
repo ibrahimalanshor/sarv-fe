@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import BaseTitle from './base-title.vue';
+
 const props = defineProps({
   withHeader: {
     type: Boolean,
@@ -43,7 +44,9 @@ const style = computed(() => {
         props.classes.header,
       ]"
     >
-      <base-title :level="6" semibold>{{ title }}</base-title>
+      <slot name="title">
+        <base-title :level="6" semibold>{{ title }}</base-title>
+      </slot>
       <slot name="header-actions" />
     </div>
     <template v-if="props.customContent">
