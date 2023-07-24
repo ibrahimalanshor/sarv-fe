@@ -125,6 +125,8 @@ function handleResetForm() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          :collapsed="false"
           v-model="form.name"
         />
 
@@ -137,6 +139,8 @@ function handleResetForm() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          collapsed
         >
           <task-category-select-search
             :select-search-props="{
@@ -161,6 +165,8 @@ function handleResetForm() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          collapsed
           :options="
             getAvaiablePriorities().map((item) => ({
               id: item.value,
@@ -180,6 +186,8 @@ function handleResetForm() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          collapsed
           v-model="form.due_date"
         />
 
@@ -194,6 +202,8 @@ function handleResetForm() {
           label-from-resource
           placeholder-from-resource
           textarea
+          collapsable
+          collapsed
           v-model="form.description"
         />
       </div>

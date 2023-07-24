@@ -127,6 +127,8 @@ function handleVisible() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          :collapsed="!task.name"
           v-model="form.name"
         />
 
@@ -139,6 +141,8 @@ function handleVisible() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          :collapsed="!task.category"
         >
           <task-category-select-search
             :select-search-props="{
@@ -163,6 +167,8 @@ function handleVisible() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          :collapsed="!task.priority"
           :options="
             getAvaiablePriorities().map((item) => ({
               id: item.value,
@@ -182,6 +188,8 @@ function handleVisible() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          :collapsed="!task.due_date"
           v-model="form.due_date"
         />
 
@@ -195,6 +203,8 @@ function handleVisible() {
           with-label
           label-from-resource
           placeholder-from-resource
+          collapsable
+          :collapsed="!task.description"
           textarea
           v-model="form.description"
         />
