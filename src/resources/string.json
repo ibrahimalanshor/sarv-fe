@@ -45,7 +45,8 @@
         "index": "Dashboard",
         "profile": "My Profile",
         "task": {
-            "index": "Task List"
+            "index": "Task List",
+            "detail": "Task Detail"
         },
         "task-category": {
             "index": "Category List",

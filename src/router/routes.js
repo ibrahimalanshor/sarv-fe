@@ -56,6 +56,15 @@ export const routes = [
           title: 'task.index',
         },
       },
+      {
+        path: ':id',
+        component: () => import('src/pages/task/task-detail-page.vue'),
+        name: 'task.detail',
+        meta: {
+          layout: 'LayoutApp',
+          title: 'task.detail',
+        },
+      },
     ],
   },
   {
