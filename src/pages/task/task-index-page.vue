@@ -5,7 +5,9 @@ import BaseContainer from 'src/components/base/base-container.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import TaskList from 'src/components/modules/task/task-list.vue';
 import { reactive, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const { data, loading, request } = useRequest({
   method: 'get',
   url: '/api/tasks',
@@ -36,6 +38,17 @@ const filterTaskCategory = ref(null);
 
 const visibleCreateModal = ref(false);
 
+function setFilterFromQuery() {
+  const query = route.query;
+
+  if (query.is_due) {
+    fetchTasksParams.filter.is_due = true;
+  }
+
+  if (query.statuses && Array.isArray(query.statuses)) {
+    fetchTasksParams.filter.statuses = query.statuses;
+  }
+}
 async function loadTasks() {
   await request({
     params: fetchTasksParams,
@@ -53,6 +66,7 @@ function handleReload() {
   loadTasks();
 }
 
+setFilterFromQuery();
 loadTasks();
 </script>
 
