@@ -5,14 +5,13 @@ import BaseAlert from 'src/components/base/base-alert.vue';
 import BaseModal from 'src/components/base/base-modal.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
-import BaseDescription from 'src/components/base/base-description.vue';
-import { computed, ref, h } from 'vue';
-import { formatDate, toDate } from 'src/utils/date';
+import BaseTitle from 'src/components/base/base-title.vue';
+import { computed, ref } from 'vue';
 import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
-import TaskPriorityBadge from './task-priority-badge.vue';
-import TaskEditStatus from './task-edit-status.vue';
-import { RouterLink } from 'vue-router';
+import TaskDescription from './task-description.vue';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   modelValue: {
@@ -35,6 +34,7 @@ const emit = defineEmits([
   'deleted',
 ]);
 
+const router = useRouter();
 const { getString } = useString();
 const {
   data: task,
@@ -59,56 +59,6 @@ const visible = computed({
   set(value) {
     emit('update:modelValue', value);
   },
-});
-const attributes = computed(() => {
-  return [
-    {
-      id: 'name',
-      name: getString('task.attributes.name'),
-    },
-    {
-      id: 'category',
-      name: getString('task.attributes.category'),
-      render: () =>
-        task.value.category
-          ? h(
-              RouterLink,
-              {
-                class: 'hover:underline',
-                to: {
-                  name: 'task-category.detail',
-                  params: { id: task.value.category.id },
-                },
-              },
-              { default: () => task.value.category.name }
-            )
-          : h('span', {}, '-'),
-    },
-    {
-      id: 'created_at',
-      name: getString('task.attributes.created_at'),
-      value: formatDate(task.value.created_at),
-    },
-    {
-      id: 'due_date',
-      name: getString('task.attributes.due_date'),
-      value: task.value.due_date ? toDate(task.value.due_date) : '-',
-    },
-    {
-      id: 'priority',
-      name: getString('task.attributes.priority'),
-    },
-    {
-      id: 'status',
-      name: getString('task.attributes.status'),
-    },
-    {
-      id: 'description',
-      name: getString('task.attributes.description'),
-      value: task.value.description ?? '-',
-      fullwidth: true,
-    },
-  ];
 });
 
 async function loadTask() {
@@ -135,6 +85,9 @@ function handleEdit() {
 function handleDelete() {
   deleteConfirmVisible.value = true;
 }
+function handleDetail() {
+  router.push({ name: 'task.detail', params: { id: task.value.id } });
+}
 function handleUpdated() {
   loadTask();
 
@@ -152,13 +105,23 @@ function hanldeUpdatedStatus() {
 
 <template>
   <base-modal
-    :title="getString('task.actions.detail')"
     size="xl"
     with-header
     with-footer
     v-model="visible"
     v-on:visible="handleVisible"
   >
+    <template #title>
+      <div class="flex items-center gap-x-4">
+        <base-title :level="6" semibold>{{
+          getString('task.actions.detail')
+        }}</base-title>
+        <base-button v-on:click="handleDetail">
+          <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+        </base-button>
+      </div>
+    </template>
+
     <div class="space-y-4">
       <base-skeleton v-if="getTaskLoading" />
       <template v-else>
@@ -168,19 +131,11 @@ function hanldeUpdatedStatus() {
           :force-visible="!!getTaskError"
           v-on:close="handleCloseAlert"
         />
-        <base-description :attributes="attributes" :data="task">
-          <template #[`priority`]>
-            <task-priority-badge v-if="task.priority" :task="task" />
-            <span v-else>-</span>
-          </template>
-          <template #[`status`]>
-            <task-edit-status
-              :task="task"
-              v-model="task.status"
-              v-on:updated="hanldeUpdatedStatus"
-            />
-          </template>
-        </base-description>
+        <task-description
+          :task="task"
+          v-model:status="task.status"
+          v-on:updated="hanldeUpdatedStatus"
+        />
         <task-edit-modal
           :task="task"
           :inputs="props.formInputs"

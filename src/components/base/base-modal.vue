@@ -75,6 +75,9 @@ watch(visible, (value) => {
         v-click-outside="handleClose"
       >
         <slot />
+        <template #title>
+          <slot name="title" />
+        </template>
         <template #header-actions>
           <slot name="header-actions">
             <base-close v-on:click="handleClose" />

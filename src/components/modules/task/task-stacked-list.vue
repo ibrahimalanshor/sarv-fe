@@ -82,7 +82,11 @@ async function handleClickAction(task, action) {
         </div>
         <base-stacked-list v-else :data="props.data">
           <template #name="{ item, classes }">
-            <p :class="classes.name">{{ item.name }}</p>
+            <router-link
+              :to="{ name: 'task.detail', params: { id: item.id } }"
+              :class="classes.name"
+              >{{ item.name }}</router-link
+            >
             <task-status-badge :task="item" :badge-props="{ size: 'sm' }" />
           </template>
 

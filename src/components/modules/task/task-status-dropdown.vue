@@ -35,9 +35,10 @@ async function handleClickItem(item) {
 
 <template>
   <base-dropdown
-    position="right"
+    position="left"
     width="fit"
     size="sm"
+    :text-wrap="false"
     :items="getAvaiableStatuses()"
     v-on:click-item="handleClickItem"
   >
