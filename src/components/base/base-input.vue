@@ -1,8 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useString } from 'src/composes/resource.compose';
-import createDebounce from '../../utils/debounce';
+import createDebounce from 'src/utils/debounce';
 import BaseSpinner from './base-spinner.vue';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid';
 
 const props = defineProps({
   id: {
@@ -87,12 +88,21 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  collapsable: {
+    type: Boolean,
+    default: false,
+  },
+  collapsed: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['update:modelValue', 'focus', 'input']);
 
 const { getString } = useString();
 
 const element = ref(null);
+const collapsed = ref(props.collapsed);
 
 const value = computed({
   get() {
@@ -155,19 +165,34 @@ function handleInput() {
     emit('input');
   }
 }
+function handleCollapse() {
+  collapsed.value = !collapsed.value;
+}
 
 defineExpose({ element });
 </script>
 
 <template>
   <div :class="[props.fullwidth ? 'w-full' : '']">
-    <label
-      v-if="props.withLabel"
-      :for="props.id"
-      class="block text-sm font-medium leading-6 text-gray-900 mb-2"
-      >{{ label }}</label
+    <div v-if="props.withLabel" class="flex items-center justify-between mb-2">
+      <label
+        :for="props.id"
+        class="block text-sm font-medium leading-6 text-gray-900"
+        >{{ label }}</label
+      >
+      <button
+        v-if="props.collapsable"
+        type="button"
+        v-on:click="handleCollapse"
+      >
+        <chevron-down-icon v-if="collapsed" class="w-5 h-5 text-gray-400" />
+        <chevron-up-icon v-else class="w-5 h-5 text-gray-400" />
+      </button>
+    </div>
+    <div
+      v-if="!collapsed"
+      :class="['relative', props.fullwidth ? 'w-full' : '']"
     >
-    <div :class="['relative', props.fullwidth ? 'w-full' : '']">
       <slot>
         <textarea
           v-if="props.textarea"
