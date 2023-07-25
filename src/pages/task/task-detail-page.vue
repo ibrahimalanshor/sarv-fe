@@ -232,12 +232,16 @@ loadTask();
 
       <task-edit-modal
         :task="task"
-        :inputs="{
-          category: false,
-          priority: false,
-          due_date: false,
-          description: false,
-        }"
+        :inputs="
+          !task.is_parent
+            ? {
+                category: false,
+                priority: false,
+                due_date: false,
+                description: false,
+              }
+            : {}
+        "
         v-model="editModalVisible"
         v-on:updated="handleUpdated"
       />
