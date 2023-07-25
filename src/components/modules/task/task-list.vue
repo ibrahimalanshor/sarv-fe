@@ -7,6 +7,7 @@ import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
 import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
+import TaskListName from './task-list-name.vue';
 import { h, reactive, ref, computed } from 'vue';
 import { toDate } from 'src/utils/date';
 import { RouterLink } from 'vue-router';
@@ -128,39 +129,7 @@ const tableColumns = [
     name: getString('task.attributes.name'),
     bold: true,
     render: ({ item }) =>
-      h(
-        'div',
-        { class: 'flex flex-col' },
-        {
-          default: () => [
-            h(
-              'div',
-              { class: 'flex items-center gap-x-2' },
-              {
-                default: () => [
-                  h(
-                    'a',
-                    {
-                      href: '#',
-                      class: 'hover:underline',
-                      onClick: () => handleDetail(item),
-                    },
-                    item.name
-                  ),
-                  item.priority ? h(TaskPriorityBadge, { task: item }) : null,
-                ],
-              }
-            ),
-            h(
-              'span',
-              {
-                class: 'text-xs text-gray-500',
-              },
-              item.due_date ? toDate(item.due_date) : '-'
-            ),
-          ],
-        }
-      ),
+      h(TaskListName, { task: item, onClick: handleDetail }),
   },
   ...[
     props.attributes.category ?? true
