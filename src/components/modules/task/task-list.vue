@@ -4,12 +4,10 @@ import BaseTable from 'src/components/base/base-table.vue';
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
 import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
-import TaskPriorityBadge from 'src/components/modules/task/task-priority-badge.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import TaskListName from './task-list-name.vue';
 import { h, reactive, ref, computed } from 'vue';
-import { toDate } from 'src/utils/date';
 import { RouterLink } from 'vue-router';
 
 const props = defineProps({
@@ -60,6 +58,18 @@ const props = defineProps({
   visibleCreateModal: {
     type: Boolean,
     default: false,
+  },
+  filterJustifyEnd: {
+    type: Boolean,
+    default: true,
+  },
+  withFilter: {
+    type: Boolean,
+    default: true,
+  },
+  detailAttributes: {
+    type: Object,
+    default: () => ({}),
   },
 });
 const emit = defineEmits([
@@ -128,8 +138,21 @@ const tableColumns = [
     id: 'name',
     name: getString('task.attributes.name'),
     bold: true,
-    render: ({ item }) =>
-      h(TaskListName, { task: item, onClick: handleDetail }),
+    render: ({ item }) => {
+      if (props.attributes.meta ?? true) {
+        return h(TaskListName, { task: item, onClick: handleDetail });
+      }
+
+      return h(
+        'a',
+        {
+          href: '#',
+          class: 'hover:underline',
+          onClick: () => handleDetail(item),
+        },
+        item.name
+      );
+    },
   },
   ...[
     props.attributes.category ?? true
@@ -204,7 +227,9 @@ function handleDetail(item) {
   <div>
     <div class="space-y-4">
       <task-list-filter
+        v-if="props.withFilter"
         :filterable="props.filterable"
+        :end="props.filterJustifyEnd"
         v-model:sort="sortValue"
         v-model:filter="filterValue"
         v-model:category="filterTaskCategory"
@@ -265,6 +290,7 @@ function handleDetail(item) {
     <task-detail-modal
       :task-id="detailModal.taskId"
       :form-inputs="props.formInputs"
+      :attributes="props.detailAttributes"
       v-model="detailModal.visible"
       v-on:updated="handleRefresh"
       v-on:deleted="handleRefresh"

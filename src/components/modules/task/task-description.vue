@@ -1,12 +1,12 @@
 <script setup>
 import BaseDescription from 'src/components/base/base-description.vue';
-import BaseBadge from 'src/components/base/base-badge.vue';
 import TaskPriorityBadge from './task-priority-badge.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import { computed, h } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useString } from 'src/composes/resource.compose';
 import { formatDate, toDate } from 'src/utils/date';
+import TaskChildrenStatus from './task-children-status.vue';
 
 const props = defineProps({
   task: {
@@ -20,6 +20,10 @@ const props = defineProps({
   status: {
     type: String,
     default: null,
+  },
+  attributes: {
+    type: Object,
+    default: () => ({}),
   },
 });
 const emit = defineEmits(['update:status', 'updated']);
@@ -40,64 +44,74 @@ const attributes = computed(() => {
       id: 'name',
       name: getString('task.attributes.name'),
     },
-    {
-      id: 'category',
-      name: getString('task.attributes.category'),
-      render: () =>
-        props.task.category
-          ? h(
-              RouterLink,
-              {
-                class: 'hover:underline',
-                to: {
-                  name: 'task-category.detail',
-                  params: { id: props.task.category.id },
-                },
-              },
-              { default: () => props.task.category.name }
-            )
-          : h('span', {}, '-'),
-    },
+    ...(props.attributes.category ?? true
+      ? [
+          {
+            id: 'category',
+            name: getString('task.attributes.category'),
+            render: () =>
+              props.task.category
+                ? h(
+                    RouterLink,
+                    {
+                      class: 'hover:underline',
+                      to: {
+                        name: 'task-category.detail',
+                        params: { id: props.task.category.id },
+                      },
+                    },
+                    { default: () => props.task.category.name }
+                  )
+                : h('span', {}, '-'),
+          },
+        ]
+      : []),
     {
       id: 'created_at',
       name: getString('task.attributes.created_at'),
       value: formatDate(props.task.created_at),
     },
-    {
-      id: 'due_date',
-      name: getString('task.attributes.due_date'),
-      value: props.task.due_date ? toDate(props.task.due_date) : '-',
-    },
-    {
-      id: 'status',
-      name: getString('task.attributes.status'),
-    },
-    ...(props.task.meta.children_count !== 0
+    ...(props.attributes.due_date ?? true
       ? [
           {
-            id: 'children_count',
-            name: getString('task.attributes.sub_task_status'),
-            render: () =>
-              h(BaseBadge, {
-                color: 'indigo',
-                text: getString('task.attributes.sub_task_count', {
-                  count: props.task.meta.children_count,
-                  done: props.task.meta.children_done_count,
-                }),
-              }),
+            id: 'due_date',
+            name: getString('task.attributes.due_date'),
+            value: props.task.due_date ? toDate(props.task.due_date) : '-',
           },
         ]
       : []),
     {
-      id: 'priority',
-      name: getString('task.attributes.priority'),
+      id: 'status',
+      name: getString('task.attributes.status'),
     },
-    {
-      id: 'description',
-      name: getString('task.attributes.description'),
-      value: props.task.description ?? '-',
-      fullwidth: props.task.meta.children_count === 0,
-    },
+    ...(props.task.meta.children_count !== 0 &&
+    (props.attributes.children_count ?? true)
+      ? [
+          {
+            id: 'children_count',
+            name: getString('task.attributes.sub_task_status'),
+            render: () => h(TaskChildrenStatus, { meta: props.task.meta }),
+          },
+        ]
+      : []),
+    ...(props.attributes.priority ?? true
+      ? [
+          {
+            id: 'priority',
+            name: getString('task.attributes.priority'),
+          },
+        ]
+      : []),
+    ...(props.attributes.description ?? true
+      ? [
+          {
+            id: 'description',
+            name: getString('task.attributes.description'),
+            value: props.task.description ?? '-',
+            fullwidth: props.task.meta.children_count === 0,
+          },
+        ]
+      : []),
   ];
 });
 

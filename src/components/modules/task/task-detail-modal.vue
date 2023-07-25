@@ -26,6 +26,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  attributes: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits([
   'update:modelValue',
@@ -133,6 +137,7 @@ function hanldeUpdatedStatus() {
         />
         <task-description
           :task="task"
+          :attributes="props.attributes"
           v-model:status="task.status"
           v-on:updated="hanldeUpdatedStatus"
         />
