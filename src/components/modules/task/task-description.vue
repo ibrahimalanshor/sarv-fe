@@ -1,12 +1,12 @@
 <script setup>
 import BaseDescription from 'src/components/base/base-description.vue';
-import BaseBadge from 'src/components/base/base-badge.vue';
 import TaskPriorityBadge from './task-priority-badge.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import { computed, h } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useString } from 'src/composes/resource.compose';
 import { formatDate, toDate } from 'src/utils/date';
+import TaskChildrenStatus from './task-children-status.vue';
 
 const props = defineProps({
   task: {
@@ -77,14 +77,7 @@ const attributes = computed(() => {
           {
             id: 'children_count',
             name: getString('task.attributes.sub_task_status'),
-            render: () =>
-              h(BaseBadge, {
-                color: 'indigo',
-                text: getString('task.attributes.sub_task_count', {
-                  count: props.task.meta.children_count,
-                  done: props.task.meta.children_done_count,
-                }),
-              }),
+            render: () => h(TaskChildrenStatus, { meta: props.task.meta }),
           },
         ]
       : []),
