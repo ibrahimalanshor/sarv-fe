@@ -21,6 +21,6 @@ loadMe();
   <component :is="route.meta.layout">
     <app-progress-bar />
     <app-toast />
-    <router-view></router-view>
+    <router-view :key="route.path" />
   </component>
 </template>

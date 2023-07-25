@@ -30,6 +30,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  end: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emit = defineEmits([
   'update:sort',
@@ -133,13 +137,18 @@ function handleFilterCategory() {
 </script>
 
 <template>
-  <div class="flex gap-x-2 justify-end">
+  <div :class="['flex gap-x-2', props.end ? 'justify-end' : '']">
     <sort-dropdown
+      v-if="props.filterable.sort"
       :columns="sortColumnOptions"
       v-model="sortValue"
       v-on:change="handleChange"
     />
-    <base-dropdown width="fit" position="right">
+    <base-dropdown
+      v-if="props.filterable.filter ?? true"
+      width="fit"
+      position="right"
+    >
       <template #toggle="{ toggle }">
         <base-button :classes="{ base: 'h-full' }" v-on:click="toggle">
           <span v-if="!countFilterApplied">{{
@@ -194,10 +203,12 @@ function handleFilterCategory() {
       v-on:change="handleFilterCategory"
     />
     <task-status-dropdown-checkbox
+      v-if="props.filterable.status ?? true"
       v-model="filterValue.statuses"
       v-on:change="handleFilter"
     />
     <base-input
+      v-if="props.filterable.search ?? true"
       type="text"
       placeholder="actions.search"
       placeholder-from-resource

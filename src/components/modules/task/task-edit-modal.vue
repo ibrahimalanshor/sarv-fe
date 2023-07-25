@@ -159,6 +159,7 @@ function handleVisible() {
         </base-input>
 
         <base-select
+          v-if="inputs.priority ?? true"
           label="task.label.priority"
           placeholder="task.placeholder.priority"
           :color="updateTaskValidation.priority ? 'red' : 'gray'"
@@ -179,6 +180,7 @@ function handleVisible() {
         />
 
         <base-input
+          v-if="inputs.due_date ?? true"
           type="date"
           label="task.label.due_date"
           placeholder="task.placeholder.due_date"
@@ -194,6 +196,7 @@ function handleVisible() {
         />
 
         <base-input
+          v-if="inputs.description ?? true"
           type="text"
           label="task.label.description"
           placeholder="task.placeholder.description"

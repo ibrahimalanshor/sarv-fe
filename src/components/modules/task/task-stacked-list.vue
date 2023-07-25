@@ -91,8 +91,8 @@ async function handleClickAction(task, action) {
           </template>
 
           <template #description="{ item, classes }">
-            <p :class="classes.description">
-              <time>{{ item.due_date ? toDate(item.due_date) : '-' }}</time>
+            <p v-if="item.due_date" :class="classes.description">
+              <time>{{ toDate(item.due_date) }}</time>
             </p>
             <svg
               v-if="item.due_date && item.meta.children_count !== 0"
