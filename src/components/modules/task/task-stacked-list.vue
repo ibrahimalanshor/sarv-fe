@@ -101,12 +101,12 @@ async function handleClickAction(task, action) {
             >
               <circle cx="1" cy="1" r="1" />
             </svg>
-            <span v-if="item.meta.children_count !== 0"
-              >{{ item.meta.children_done_count }}/{{
-                item.meta.children_count
-              }}
-              done</span
-            >
+            <span v-if="item.meta.children_count !== 0">{{
+              getString('task.attributes.sub_task_count', {
+                count: item.meta.children_count,
+                done: item.meta.children_done_count,
+              })
+            }}</span>
             <svg
               v-if="item.due_date && item.category"
               viewBox="0 0 2 2"

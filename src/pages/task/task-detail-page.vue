@@ -27,7 +27,9 @@ const {
   method: 'get',
   url: '/api/tasks',
   initLoading: true,
-  initData: {},
+  initData: {
+    meta: {},
+  },
 });
 
 const editModalVisible = ref(false);
@@ -38,7 +40,7 @@ async function loadTask() {
 
   const [success] = await fetchTask({
     params: {
-      include: ['category'],
+      include: ['category', 'children_count', 'children_done_count'],
     },
   });
 

@@ -1,5 +1,6 @@
 <script setup>
 import { toDate } from 'src/utils/date';
+import { useString } from 'src/composes/resource.compose';
 
 const props = defineProps({
   task: {
@@ -8,6 +9,8 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['click']);
+
+const { getString } = useString();
 
 function handleClickName() {
   emit('click', props.task);
@@ -32,12 +35,12 @@ function handleClickName() {
       >
         <circle cx="1" cy="1" r="1" />
       </svg>
-      <span v-if="task.meta.children_count !== 0"
-        >{{ task.meta.children_done_count }}/{{
-          task.meta.children_count
-        }}
-        done</span
-      >
+      <span v-if="task.meta.children_count !== 0">{{
+        getString('task.attributes.sub_task_count', {
+          count: task.meta.children_count,
+          done: task.meta.children_done_count,
+        })
+      }}</span>
     </div>
   </div>
 </template>
