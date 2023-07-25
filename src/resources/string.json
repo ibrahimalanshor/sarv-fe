@@ -194,6 +194,10 @@
         "attributes": {
             "name": "Name",
             "task_count": "{done}/{count} done"
+        },
+        "meta": {
+            "tasks_count": "Total Task",
+            "tasks_done_count": "Total Task Done"
         }
     },
     "404": {

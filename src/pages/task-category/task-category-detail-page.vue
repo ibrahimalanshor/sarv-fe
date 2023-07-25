@@ -8,6 +8,7 @@ import BaseButton from 'src/components/base/base-button.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import TaskList from 'src/components/modules/task/task-list.vue';
 import TaskCategoryDetailModal from 'src/components/modules/task-category/task-category-detail-modal.vue';
+import TaskCategoryDetailMeta from 'src/components/modules/task-category/task-category-detail-meta.vue';
 import { reactive, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useTitle } from 'src/composes/title.compose';
@@ -35,7 +36,12 @@ const {
   method: 'get',
   url: '/api/task-categories',
   initLoading: true,
-  initData: {},
+  initData: {
+    meta: {
+      tasks_count: 0,
+      tasks_done_count: 0,
+    },
+  },
 });
 
 const fetchTasksParams = reactive({
@@ -63,7 +69,11 @@ const visibleDetailModal = ref(false);
 async function loadTaskCategory() {
   fetchTaskCategoryUrl.value = `/api/task-categories/${route.params.id}`;
 
-  const [success] = await fetchTaskCategory();
+  const [success] = await fetchTaskCategory({
+    params: {
+      include: ['tasks_count', 'tasks_done_count'],
+    },
+  });
 
   if (!success) {
     router.push({ name: '404' });
@@ -134,20 +144,24 @@ init();
     </base-header>
     <main>
       <base-container>
-        <task-list
-          :data="tasks.data"
-          :meta="tasks.meta"
-          :loading="fetchTasksLoading"
-          :filterable="{ category: false }"
-          :attributes="{ category: false }"
-          :create-values="{ task_category_id: taskCategory.id }"
-          :form-inputs="{ category: false }"
-          v-model:filter="fetchTasksParams.filter"
-          v-model:sort="fetchTasksParams.sort"
-          v-model:page="fetchTasksParams.page"
-          v-model:visible-create-modal="visibleTaskCreateModal"
-          v-on:reload="handleReloadTasks"
-        />
+        <div class="space-y-6">
+          <task-category-detail-meta :meta="taskCategory.meta" />
+          <hr class="border-gray-200" />
+          <task-list
+            :data="tasks.data"
+            :meta="tasks.meta"
+            :loading="fetchTasksLoading"
+            :filterable="{ category: false }"
+            :attributes="{ category: false }"
+            :create-values="{ task_category_id: taskCategory.id }"
+            :form-inputs="{ category: false }"
+            v-model:filter="fetchTasksParams.filter"
+            v-model:sort="fetchTasksParams.sort"
+            v-model:page="fetchTasksParams.page"
+            v-model:visible-create-modal="visibleTaskCreateModal"
+            v-on:reload="handleReloadTasks"
+          />
+        </div>
       </base-container>
     </main>
 
