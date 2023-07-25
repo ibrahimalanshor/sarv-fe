@@ -27,7 +27,7 @@ const fetchTasksParams = reactive({
     is_active: true,
     is_due: true,
   },
-  include: ['category'],
+  include: ['category', 'children_count', 'children_done_count'],
 });
 const filterDueToday = ref(true);
 

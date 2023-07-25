@@ -164,7 +164,9 @@
             "updated_at": "Updated At",
             "due_date": "Due Date",
             "description": "Description",
-            "priority": "Priority"
+            "priority": "Priority",
+            "sub_task_status": "Sub Task Status",
+            "sub_task_count": "{done}/{count} done"
         },
         "filter": {
             "is-due": "Show only due",

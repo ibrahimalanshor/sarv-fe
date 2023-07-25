@@ -1,5 +1,6 @@
 <script setup>
 import BaseDescription from 'src/components/base/base-description.vue';
+import BaseBadge from 'src/components/base/base-badge.vue';
 import TaskPriorityBadge from './task-priority-badge.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import { computed, h } from 'vue';
@@ -68,18 +69,34 @@ const attributes = computed(() => {
       value: props.task.due_date ? toDate(props.task.due_date) : '-',
     },
     {
-      id: 'priority',
-      name: getString('task.attributes.priority'),
-    },
-    {
       id: 'status',
       name: getString('task.attributes.status'),
+    },
+    ...(props.task.meta.children_count !== 0
+      ? [
+          {
+            id: 'children_count',
+            name: getString('task.attributes.sub_task_status'),
+            render: () =>
+              h(BaseBadge, {
+                color: 'indigo',
+                text: getString('task.attributes.sub_task_count', {
+                  count: props.task.meta.children_count,
+                  done: props.task.meta.children_done_count,
+                }),
+              }),
+          },
+        ]
+      : []),
+    {
+      id: 'priority',
+      name: getString('task.attributes.priority'),
     },
     {
       id: 'description',
       name: getString('task.attributes.description'),
       value: props.task.description ?? '-',
-      fullwidth: true,
+      fullwidth: props.task.meta.children_count === 0,
     },
   ];
 });

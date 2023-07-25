@@ -66,7 +66,7 @@ async function loadTask() {
 
   await getTask({
     params: {
-      include: ['category', 'status'],
+      include: ['category', 'children_count', 'children_done_count'],
     },
   });
 }

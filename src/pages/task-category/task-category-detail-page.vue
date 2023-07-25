@@ -52,9 +52,10 @@ const fetchTasksParams = reactive({
     due_date_from: null,
     due_date_to: null,
     priority: null,
+    is_parent: true,
     statuses: ['todo', 'in-progress'],
   },
-  include: ['category'],
+  include: ['category', 'children_count', 'children_done_count'],
 });
 const visibleTaskCreateModal = ref(false);
 const visibleDetailModal = ref(false);

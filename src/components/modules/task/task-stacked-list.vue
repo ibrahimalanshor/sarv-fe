@@ -94,11 +94,28 @@ async function handleClickAction(task, action) {
             <p :class="classes.description">
               <time>{{ item.due_date ? toDate(item.due_date) : '-' }}</time>
             </p>
-            <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
+            <svg
+              v-if="item.due_date && item.meta.children_count !== 0"
+              viewBox="0 0 2 2"
+              class="h-0.5 w-0.5 fill-current"
+            >
               <circle cx="1" cy="1" r="1" />
             </svg>
-            <p class="truncate">
-              {{ item.category ? item.category.name : '-' }}
+            <span v-if="item.meta.children_count !== 0">{{
+              getString('task.attributes.sub_task_count', {
+                count: item.meta.children_count,
+                done: item.meta.children_done_count,
+              })
+            }}</span>
+            <svg
+              v-if="item.due_date && item.category"
+              viewBox="0 0 2 2"
+              class="h-0.5 w-0.5 fill-current"
+            >
+              <circle cx="1" cy="1" r="1" />
+            </svg>
+            <p v-if="item.category" class="truncate">
+              {{ item.category.name }}
             </p>
           </template>
 
