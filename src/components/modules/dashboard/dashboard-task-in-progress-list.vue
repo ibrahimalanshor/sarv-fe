@@ -24,7 +24,7 @@ const fetchTasksParams = reactive({
   filter: {
     status: 'in-progress',
   },
-  include: ['category'],
+  include: ['category', 'children_count', 'children_done_count'],
 });
 
 const actions = [
