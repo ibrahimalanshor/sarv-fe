@@ -10,7 +10,7 @@ import TaskCategoryCreateModal from 'src/components/modules/task-category/task-c
 import TaskCategoryEditModal from 'src/components/modules/task-category/task-category-edit-modal.vue';
 import TaskCategoryDeleteConfirm from 'src/components/modules/task-category/task-category-delete-confirm.vue';
 import { h, reactive, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import TaskCategoryListName from 'src/components/modules/task-category/task-category-list-name.vue';
 
 const { getString } = useString();
 const { data, loading, request } = useRequest({
@@ -30,6 +30,7 @@ const fetchTasksCategoryParams = reactive({
   filter: {
     name: null,
   },
+  include: ['tasks_count', 'tasks_done_count'],
 });
 const visibleCreateModal = ref(false);
 const editModal = reactive({
@@ -46,17 +47,7 @@ const tableColumns = [
     id: 'name',
     name: getString('task-category.attributes.name'),
     bold: true,
-    render: ({ item }) =>
-      h(
-        RouterLink,
-        {
-          class: 'hover:underline',
-          to: { name: 'task-category.detail', params: { id: item.id } },
-        },
-        {
-          default: () => item.name,
-        }
-      ),
+    render: ({ item }) => h(TaskCategoryListName, { taskCategory: item }),
   },
   {
     id: 'action',

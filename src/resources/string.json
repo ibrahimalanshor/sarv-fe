@@ -192,7 +192,8 @@
             "delete": "Are you sure want to delete this category?"
         },
         "attributes": {
-            "name": "Name"
+            "name": "Name",
+            "task_count": "{done}/{count} done"
         }
     },
     "404": {
