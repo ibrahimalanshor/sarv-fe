@@ -20,9 +20,11 @@ function handleClickName() {
 <template>
   <div class="flex flex-col">
     <div class="flex items-center gap-x-2">
-      <a href="#" class="hover:underline" v-on:click="handleClickName">{{
-        task.name
-      }}</a>
+      <span
+        class="cursor-pointer hover:underline"
+        v-on:click="handleClickName"
+        >{{ task.name }}</span
+      >
     </div>
     <div class="flex items-center gap-x-2 text-xs text-gray-500">
       <span v-if="task.due_date" class="text-xs text-gray-500">{{

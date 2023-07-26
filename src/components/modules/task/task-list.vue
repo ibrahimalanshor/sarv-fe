@@ -144,10 +144,9 @@ const tableColumns = [
       }
 
       return h(
-        'a',
+        'span',
         {
-          href: '#',
-          class: 'hover:underline',
+          class: 'cursor-pointer hover:underline',
           onClick: () => handleDetail(item),
         },
         item.name

@@ -9,6 +9,10 @@ const props = defineProps({
 const route = useRoute();
 
 function checkIsActive(item) {
+  if (!item.to) {
+    return true;
+  }
+
   if (item.paths.length < 2) {
     return item.id === route.name;
   }
