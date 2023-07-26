@@ -16,11 +16,13 @@ import { useString } from 'src/composes/resource.compose';
 import { useRequest } from 'src/composes/request.compose';
 import { useRoute, useRouter } from 'vue-router';
 import { useTitle } from 'src/composes/title.compose';
+import { useBreadcrumb } from 'src/store/modules/breadcrumb.module';
 
 const route = useRoute();
 const router = useRouter();
 const { setTitle } = useTitle();
 const { getString } = useString();
+const breadcrumbStore = useBreadcrumb();
 const {
   data: task,
   loading: fetchTaskLoading,
@@ -74,6 +76,11 @@ async function loadTask() {
   }
 
   fetchTaskChildrenParams.filter.parent_id = task.value.id;
+  breadcrumbStore.pushBreadcrumbs({
+    id: task.value.name,
+    name: task.value.name,
+    paths: [],
+  });
 
   loadTaskChildren();
   setTitle(task.value.name);
@@ -84,6 +91,12 @@ async function loadTaskChildren() {
   });
 }
 
+function reload() {
+  breadcrumbStore.popBreadcrumbs();
+
+  loadTask();
+}
+
 function handleEdit() {
   editModalVisible.value = true;
 }
@@ -91,7 +104,7 @@ function handleDelete() {
   deleteConfirmVisible.value = true;
 }
 function handleUpdated() {
-  loadTask();
+  reload();
 }
 function handleDeleted() {
   router.push({ name: 'task.index' });

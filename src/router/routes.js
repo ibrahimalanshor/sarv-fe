@@ -63,6 +63,7 @@ export const routes = [
         meta: {
           layout: 'LayoutApp',
           title: 'task.detail',
+          breadcrumb: false,
         },
       },
     ],
