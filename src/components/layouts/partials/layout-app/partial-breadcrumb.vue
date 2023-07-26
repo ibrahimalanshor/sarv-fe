@@ -1,27 +1,20 @@
 <script setup>
 import BaseBreadcrumb from 'src/components/base/base-breadcrumb.vue';
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useString } from 'src/composes/resource.compose.js';
+import { useBreadcrumb } from 'src/store/modules/breadcrumb.module';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const route = useRoute();
-const { getString } = useString();
+const router = useRouter();
+const breadcrumbStore = useBreadcrumb();
 
-const items = computed(() =>
-  route.matched
-    .filter(
-      (item, index, array) =>
-        array.findIndex((arrayItem) => arrayItem.path === item.path) === index
-    )
-    .map((item) => ({
-      id: item.name,
-      to: item.path,
-      name: getString(`pages.${item.meta.title}`),
-      paths: route.matched.filter((arrayItem) => arrayItem.path === item.path),
-    }))
-);
+router.afterEach(() => breadcrumbStore.setBreadcrumbsFromRouteMeta());
+
+onMounted(() => breadcrumbStore.setBreadcrumbsFromRouteMeta());
 </script>
 
 <template>
-  <base-breadcrumb :home-path="{ name: 'index' }" :items="items" />
+  <base-breadcrumb
+    :home-path="{ name: 'index' }"
+    :items="breadcrumbStore.breadcrumbs"
+  />
 </template>
