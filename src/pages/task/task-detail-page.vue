@@ -67,7 +67,7 @@ async function loadTask() {
 
   const [success] = await fetchTask({
     params: {
-      include: ['category', 'children_count', 'children_done_count'],
+      include: ['category', 'parent', 'children_count', 'children_done_count'],
     },
   });
 
@@ -76,13 +76,10 @@ async function loadTask() {
   }
 
   fetchTaskChildrenParams.filter.parent_id = task.value.id;
-  breadcrumbStore.pushBreadcrumbs({
-    id: task.value.name,
-    name: task.value.name,
-    paths: [],
-  });
 
   loadTaskChildren();
+
+  setBreadcrumb();
   setTitle(task.value.name);
 }
 async function loadTaskChildren() {
@@ -91,6 +88,22 @@ async function loadTaskChildren() {
   });
 }
 
+function setBreadcrumb() {
+  if (!task.value.is_parent) {
+    breadcrumbStore.pushBreadcrumbs({
+      id: task.value.parent_id,
+      name: task.value.parent.name,
+      to: { name: 'task.detail', params: { id: task.value.parent_id } },
+      paths: [],
+    });
+  }
+
+  breadcrumbStore.pushBreadcrumbs({
+    id: task.value.name,
+    name: task.value.name,
+    paths: [],
+  });
+}
 function reload() {
   breadcrumbStore.popBreadcrumbs();
 
