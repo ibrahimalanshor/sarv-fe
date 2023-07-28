@@ -226,6 +226,7 @@ loadTask();
             </template>
 
             <task-list
+              size="sm"
               :data="taskChildren.data"
               :meta="taskChildren.meta"
               :loading="loadingTaskChildren"
