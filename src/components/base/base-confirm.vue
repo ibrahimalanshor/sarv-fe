@@ -48,6 +48,7 @@ const icon = computed(() => {
   const icons = {
     success: CheckIcon,
     danger: ExclamationTriangleIcon,
+    warning: ExclamationTriangleIcon,
   };
 
   return icons[props.type];
@@ -56,10 +57,12 @@ const style = computed(() => {
   const iconWrapperColors = {
     success: 'bg-green-100',
     danger: 'bg-red-100',
+    warning: 'bg-yellow-100',
   };
   const iconColors = {
     success: 'text-green-600',
     danger: 'text-red-600',
+    warning: 'text-yellow-600',
   };
 
   return {
@@ -74,6 +77,7 @@ const actionProps = computed(() => {
   const colors = {
     success: 'indigo',
     danger: 'red',
+    warning: 'yellow',
   };
   return {
     color: colors[props.type],
@@ -101,7 +105,9 @@ function handleConfirm() {
           props.title
         }}</base-title>
         <div class="">
-          <p class="text-sm text-gray-500">{{ props.message }}</p>
+          <p class="text-sm text-gray-500 whitespace-normal">
+            {{ props.message }}
+          </p>
         </div>
       </div>
     </div>

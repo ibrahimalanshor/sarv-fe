@@ -62,7 +62,7 @@ watch(visible, (value) => {
 <template>
   <div
     v-if="visible"
-    class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center"
+    class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-10"
   >
     <div :class="['w-full', style.card]">
       <base-card
