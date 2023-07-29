@@ -17,27 +17,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  status: {
-    type: String,
-    default: null,
-  },
   attributes: {
     type: Object,
     default: () => ({}),
   },
 });
-const emit = defineEmits(['update:status', 'updated']);
+const emit = defineEmits(['updated']);
 
 const { getString } = useString();
 
-const status = computed({
-  get() {
-    return props.status;
-  },
-  set(value) {
-    emit('update:status', value);
-  },
-});
 const attributes = computed(() => {
   return [
     {
@@ -132,11 +120,7 @@ function hanldeUpdatedStatus() {
     </template>
     <template #[`status`]>
       <div class="flex">
-        <task-edit-status
-          :task="task"
-          v-model="status"
-          v-on:updated="hanldeUpdatedStatus"
-        />
+        <task-edit-status :task="task" v-on:updated="hanldeUpdatedStatus" />
       </div>
     </template>
   </base-description>
