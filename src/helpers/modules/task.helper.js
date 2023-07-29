@@ -99,3 +99,11 @@ export function isAllChildrenDone(task) {
 
   return task.meta.children_count === task.meta.children_done_count;
 }
+
+export function hasChildren(task) {
+  if (!task.is_parent) {
+    return false;
+  }
+
+  return task.meta.children_count !== 0;
+}

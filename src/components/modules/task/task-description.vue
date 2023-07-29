@@ -7,6 +7,7 @@ import { RouterLink } from 'vue-router';
 import { useString } from 'src/composes/resource.compose';
 import { formatDate, toDate } from 'src/utils/date';
 import TaskChildrenStatus from './task-children-status.vue';
+import { hasChildren } from 'src/helpers/modules/task.helper';
 
 const props = defineProps({
   task: {
@@ -72,8 +73,7 @@ const attributes = computed(() => {
       id: 'status',
       name: getString('task.attributes.status'),
     },
-    ...(props.task.meta.children_count !== 0 &&
-    (props.attributes.children_count ?? true)
+    ...(hasChildren(props.task) && (props.attributes.children_count ?? true)
       ? [
           {
             id: 'children_count',
