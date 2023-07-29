@@ -26,6 +26,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  classes: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const emit = defineEmits(['click-item']);
 
@@ -69,8 +73,11 @@ function handleClickItem(item) {
 </script>
 
 <template>
-  <div class="relative" v-click-outside="handleClose">
-    <div class="h-full">
+  <div
+    :class="['relative', props.classes.wrapper]"
+    v-click-outside="handleClose"
+  >
+    <div :class="['h-full', props.classes.toggle]">
       <slot name="toggle" :toggle="handleToggle" />
     </div>
     <div
