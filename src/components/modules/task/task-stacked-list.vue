@@ -2,13 +2,11 @@
 import BaseAlert from 'src/components/base/base-alert.vue';
 import BaseButton from 'src/components/base/base-button.vue';
 import BaseCard from 'src/components/base/base-card.vue';
-import BaseDropdown from 'src/components/base/base-dropdown.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
 import BaseStackedList from 'src/components/base/base-stacked-list.vue';
 import TaskStatusBadge from './task-status-badge.vue';
-import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid';
+import TaskStackedListAction from './task-stacked-list-action.vue';
 import { toDate } from 'src/utils/date';
-import { useRequest } from 'src/composes/request.compose';
 import { useString } from 'src/composes/resource.compose';
 import { inject } from 'vue';
 
@@ -38,22 +36,9 @@ const emit = defineEmits(['reload']);
 
 const emitter = inject('emitter');
 const { getString } = useString();
-const { url: updateTaskStatusUrl, request: updateTaskStatus } = useRequest({
-  method: 'patch',
-  url: '/api/tasks',
-  notifyOnError: true,
-});
 
-async function handleClickAction(task, action) {
-  updateTaskStatusUrl.value = `/api/tasks/${task.id}/status`;
-
-  const [success] = await updateTaskStatus({
-    status: action.value,
-  });
-
-  if (success) {
-    emitter.emit('task-updated');
-  }
+async function handleUpdated(task, action) {
+  emitter.emit('task-updated');
 }
 </script>
 
@@ -120,22 +105,11 @@ async function handleClickAction(task, action) {
           </template>
 
           <template #action="{ item }">
-            <base-dropdown
-              :items="actions"
-              size="sm"
-              custom-width="w-fit"
-              position="right"
-              :text-wrap="false"
-              v-on:click-item="(action) => handleClickAction(item, action)"
-            >
-              <template #toggle="{ toggle }">
-                <button v-on:click="toggle">
-                  <ellipsis-vertical-icon
-                    class="w-5 h-5"
-                  ></ellipsis-vertical-icon>
-                </button>
-              </template>
-            </base-dropdown>
+            <task-stacked-list-action
+              :task="item"
+              :actions="props.actions"
+              v-on:updated="handleUpdated"
+            />
           </template>
         </base-stacked-list>
       </template>

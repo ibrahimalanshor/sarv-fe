@@ -139,7 +139,7 @@ function handleFilterCategory() {
 <template>
   <div :class="['flex gap-x-2', props.end ? 'justify-end' : '']">
     <sort-dropdown
-      v-if="props.filterable.sort"
+      v-if="props.filterable.sort ?? true"
       :columns="sortColumnOptions"
       v-model="sortValue"
       v-on:change="handleChange"

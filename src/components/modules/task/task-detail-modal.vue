@@ -103,6 +103,8 @@ function handleDeleted() {
   emit('deleted');
 }
 function hanldeUpdatedStatus() {
+  loadTask();
+
   emit('updated');
 }
 </script>

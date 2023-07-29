@@ -11,7 +11,8 @@
         "load-more": "Load More",
         "see-more": "See More",
         "action": "Action",
-        "filter": "Filter"
+        "filter": "Filter",
+        "confirm": "Confirm"
     },
     "label": {
         "sort": {
@@ -152,6 +153,12 @@
             "new-task": "New Task",
             "description": "Description",
             "priority": "Priority"
+        },
+        "titles": {
+            "confirm-update-status": "Confirm Update Task Status"
+        },
+        "messages": {
+            "task-unfinished-done-confirm": "There are some unfinished children task, confirm action?"
         },
         "message": {
             "delete": "Are you sure want to delete this task?"

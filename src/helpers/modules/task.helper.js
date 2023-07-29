@@ -87,3 +87,15 @@ export function parseStatusName(status) {
 
   return names[status];
 }
+
+export function isAllChildrenDone(task) {
+  if (!task.is_parent) {
+    return true;
+  }
+
+  if (!task.meta.children_count) {
+    return true;
+  }
+
+  return task.meta.children_count === task.meta.children_done_count;
+}
