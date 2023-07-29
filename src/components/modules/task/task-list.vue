@@ -3,7 +3,7 @@ import { useString } from 'src/composes/resource.compose';
 import BaseTable from 'src/components/base/base-table.vue';
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
-import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
+import TaskDetailSlideOver from './task-detail-slide-over.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import TaskListName from './task-list-name.vue';
@@ -43,7 +43,7 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  attributes: {
+  columns: {
     type: Object,
     default: () => ({}),
   },
@@ -67,9 +67,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  detailAttributes: {
-    type: Object,
-    default: () => ({}),
+  parent: {
+    type: Boolean,
+    default: true,
   },
 });
 const emit = defineEmits([
@@ -132,6 +132,19 @@ const detailModal = reactive({
 });
 
 const hasMoreData = computed(() => props.data.length < props.meta.total);
+const formInputs = computed(() => {
+  return {
+    ...(props.parent
+      ? {}
+      : {
+          category: false,
+          priority: false,
+          due_date: false,
+          description: false,
+        }),
+    ...props.formInputs,
+  };
+});
 
 const tableColumns = [
   {
@@ -139,7 +152,7 @@ const tableColumns = [
     name: getString('task.attributes.name'),
     bold: true,
     render: ({ item }) => {
-      if (props.attributes.meta ?? true) {
+      if (props.columns.meta ?? true) {
         return h(TaskListName, { task: item, onClick: handleDetail });
       }
 
@@ -154,7 +167,7 @@ const tableColumns = [
     },
   },
   ...[
-    props.attributes.category ?? true
+    props.columns.category ?? true
       ? {
           id: 'category',
           name: getString('task.attributes.category'),
@@ -286,10 +299,9 @@ function handleDetail(item) {
       v-model="visibleCreateModal"
       v-on:created="handleRefresh"
     />
-    <task-detail-modal
+    <task-detail-slide-over
       :task-id="detailModal.taskId"
-      :form-inputs="props.formInputs"
-      :attributes="props.detailAttributes"
+      :edit-form-inputs="formInputs"
       v-model="detailModal.visible"
       v-on:updated="handleRefresh"
       v-on:deleted="handleRefresh"

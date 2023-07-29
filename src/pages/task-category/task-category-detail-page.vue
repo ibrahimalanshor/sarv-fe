@@ -152,7 +152,7 @@ init();
             :meta="tasks.meta"
             :loading="fetchTasksLoading"
             :filterable="{ category: false }"
-            :attributes="{ category: false }"
+            :columns="{ category: false }"
             :create-values="{ task_category_id: taskCategory.id }"
             :form-inputs="{ category: false }"
             v-model:filter="fetchTasksParams.filter"

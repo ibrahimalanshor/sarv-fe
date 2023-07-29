@@ -228,30 +228,19 @@ init();
             </template>
 
             <task-list
+              :parent="false"
               :data="taskChildren.data"
               :meta="taskChildren.meta"
               :loading="loadingTaskChildren"
+              :columns="{
+                category: false,
+                meta: false,
+              }"
               :create-values="{
                 parent_id: task.id,
               }"
               :with-filter="false"
-              :attributes="{
-                category: false,
-                meta: false,
-              }"
-              :detail-attributes="{
-                category: false,
-                due_date: false,
-                priority: false,
-                description: false,
-              }"
               :filter-justify-end="false"
-              :form-inputs="{
-                category: false,
-                priority: false,
-                due_date: false,
-                description: false,
-              }"
               v-on:reload="handleReloadTaskChildren"
             />
           </base-card>
