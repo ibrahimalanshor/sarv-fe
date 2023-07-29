@@ -15,8 +15,9 @@ import TaskEditModal from './task-edit-modal.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
 import { computed, ref } from 'vue';
 import { useRequest } from 'src/composes/request.compose';
-import { getString } from 'src/utils/resource.js';
 import { useRouter } from 'vue-router';
+import { useTaskFindOne } from 'src/composes/modules/task/task-find-one.compose';
+import { getString } from 'src/utils/resource.js';
 
 const props = defineProps({
   taskId: {
@@ -35,21 +36,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'deleted', 'updated']);
 
 const router = useRouter();
-const {
-  data: task,
-  request: getTask,
-  url: getTaskUrl,
-  loading: getTaskLoading,
-  error: getTaskError,
-} = useRequest({
-  method: 'get',
-  url: '/api/tasks',
-  initData: {
-    meta: {},
-  },
-});
+const { task, loading, error, findOneTask } = useTaskFindOne();
 
-const errorVisible = ref(false);
 const editModalVisible = ref(false);
 const deleteConfirmVisible = ref(false);
 
@@ -78,24 +66,12 @@ const attributes = computed(() => {
 });
 
 async function loadTask() {
-  getTaskUrl.value = `/api/tasks/${props.taskId}`;
-
-  const [success] = await getTask({
-    params: {
-      include: ['category', 'children_count', 'children_done_count'],
-    },
+  const [success] = await findOneTask(props.taskId, {
+    include: ['category', 'children_count', 'children_done_count'],
   });
-
-  if (!success) {
-    errorVisible.value = true;
-  }
-}
-function hideError() {
-  errorVisible.value = false;
 }
 
 function handleVisible() {
-  hideError();
   loadTask();
 }
 function handleAction(action) {
@@ -123,16 +99,16 @@ function handleDetail() {
 <template>
   <base-slide-over v-model="visible" v-on:visible="handleVisible">
     <template #title>
-      <base-skeleton v-if="getTaskLoading" class="w-40 h-7" />
+      <base-skeleton v-if="loading" class="w-40 h-7" />
       <task-edit-status
-        v-else-if="!getTaskError"
+        v-else-if="!error"
         :task="task"
         v-on:updated="handleUpdated"
       />
     </template>
 
     <template #action>
-      <div v-if="!getTaskError" class="flex items-center gap-x-2">
+      <div v-if="!error" class="flex items-center gap-x-2">
         <base-action-button v-on:click="handleDetail">
           <arrow-top-right-on-square-icon class="w-5 h-5" />
         </base-action-button>
@@ -161,15 +137,15 @@ function handleDetail() {
       </div>
     </template>
 
-    <base-skeleton v-if="getTaskLoading" />
+    <base-skeleton v-if="loading" />
     <template v-else>
       <base-alert
         type="error"
-        :text="getTaskError"
-        :force-visible="errorVisible"
+        :text="error"
+        :force-visible="!!error"
         :dismissable="false"
       />
-      <div v-if="!getTaskError" class="space-y-6">
+      <div v-if="!error" class="space-y-6">
         <task-description
           :task="task"
           :attributes="attributes"
