@@ -77,8 +77,6 @@ async function loadTask() {
 
   fetchTaskChildrenParams.filter.parent_id = task.value.id;
 
-  loadTaskChildren();
-
   setBreadcrumb();
   setTitle(task.value.name);
 }
@@ -109,6 +107,10 @@ function reload() {
 
   loadTask();
 }
+async function init() {
+  await loadTask();
+  await loadTaskChildren();
+}
 
 function handleEdit() {
   editModalVisible.value = true;
@@ -133,7 +135,7 @@ function handleReloadTaskChildren() {
   loadTaskChildren();
 }
 
-loadTask();
+init();
 </script>
 
 <template>
@@ -226,7 +228,6 @@ loadTask();
             </template>
 
             <task-list
-              size="sm"
               :data="taskChildren.data"
               :meta="taskChildren.meta"
               :loading="loadingTaskChildren"
