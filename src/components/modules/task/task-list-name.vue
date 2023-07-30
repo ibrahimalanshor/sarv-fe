@@ -1,4 +1,5 @@
 <script setup>
+import TaskPriorityBadge from './task-priority-badge.vue';
 import { toDate } from 'src/utils/date';
 import { useString } from 'src/composes/resource.compose';
 
@@ -25,6 +26,7 @@ function handleClickName() {
         v-on:click="handleClickName"
         >{{ task.name }}</span
       >
+      <task-priority-badge v-if="task.priority" :task="task" />
     </div>
     <div class="flex items-center gap-x-2 text-xs text-gray-500">
       <span v-if="task.due_date" class="text-xs text-gray-500">{{
