@@ -48,7 +48,7 @@ const text = computed(() => {
 const isDisabled = computed(() => props.loading);
 const style = computed(() => {
   const sizes = {
-    xs: 'px-2 py-1 text-xs rounded',
+    xs: 'px-1.5 py-0.5 text-xs rounded',
     sm: 'px-2 py-1 text-sm rounded',
     md: 'px-2.5 py-1.5 text-sm rounded-md',
     lg: 'px-3 py-2 text-sm rounded-md',

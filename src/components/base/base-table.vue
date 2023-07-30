@@ -38,6 +38,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  size: {
+    type: String,
+    default: 'md',
+  },
 });
 const emit = defineEmits([
   'update:page',
@@ -73,9 +77,23 @@ const parsedSort = computed(() => {
   };
 });
 const style = computed(() => {
+  const thSizes = {
+    sm: 'px-2 py-2 first:pl-4 first:pr-3',
+    md: 'px-3 py-3.5 first:pl-4 first:pr-3 first:sm:pl-6',
+  };
+  const tdSizes = {
+    sm: 'px-2 py-2 first:pl-4 first:pr-3',
+    md: 'px-3 py-4 first:pl-4 first:pr-3 first:sm:pl-6',
+  };
+
   return {
+    th: [
+      'text-left text-sm font-semibold text-gray-900 border-b border-gray-200 border-b-gray-300 first:border-l first:rounded-tl-lg last:border-r last:rounded-tr-lg',
+      thSizes[props.size],
+    ],
     td: [
-      'whitespace-nowrap px-3 py-4 text-sm first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 first:border-l last:border-r',
+      'whitespace-nowrap text-sm border-b border-gray-200 first:border-l last:border-r',
+      tdSizes[props.size],
     ],
   };
 });
@@ -98,7 +116,7 @@ function handleSort(column) {
 </script>
 
 <template>
-  <div class="flow-root">
+  <div class="flow-root max-w-full overflow-x-auto">
     <div class="relative shadow rounded-lg">
       <div class="inline-block min-w-full align-middle">
         <with-loader :loading="props.loading">
@@ -109,8 +127,7 @@ function handleSort(column) {
                   v-for="column in props.columns"
                   :key="column.id"
                   scope="col"
-                  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 first:pl-4 first:pr-3 first:sm:pl-6 border-b border-gray-200 border-b-gray-300 first:border-l first:rounded-tl-lg last:border-r last:rounded-tr-lg"
-                  :class="column.headerClass"
+                  :class="[style.th, column.headerClass]"
                 >
                   <div
                     :class="[
@@ -153,7 +170,7 @@ function handleSort(column) {
               <template v-if="!props.data.length">
                 <tr>
                   <td
-                    class="whitespace-nowrap border-l border-r px-3 py-4 text-sm text-gray-500 first:pl-4 first:pr-3 first:sm:pl-6"
+                    :class="['text-gray-500', style.td]"
                     :colspan="props.columns.length"
                   >
                     {{ getString('message.empty') }}
