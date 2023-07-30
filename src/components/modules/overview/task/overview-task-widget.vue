@@ -3,7 +3,9 @@ import { useRequest } from 'src/composes/request.compose';
 import { useString } from 'src/composes/resource.compose';
 import BaseWidget from 'src/components/base/base-widget.vue';
 import BaseSkeleton from 'src/components/base/base-skeleton.vue';
+import { inject } from 'vue';
 
+const emitter = inject('emitter');
 const { getString } = useString();
 const { data, loading, request } = useRequest({
   method: 'get',
@@ -16,6 +18,8 @@ const { data, loading, request } = useRequest({
 async function loadOverviewTask() {
   await request();
 }
+
+emitter.on('task-updated', () => loadOverviewTask());
 
 loadOverviewTask();
 </script>
