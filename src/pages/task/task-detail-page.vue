@@ -200,7 +200,6 @@ init();
                         description: false,
                       }
                 "
-                v-model:status="task.status"
                 v-on:updated="handleUpdated"
               />
             </template>
