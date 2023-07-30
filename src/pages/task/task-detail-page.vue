@@ -10,7 +10,7 @@ import TaskDescription from 'src/components/modules/task/task-description.vue';
 import TaskDeleteConfirm from 'src/components/modules/task/task-delete-confirm.vue';
 import TaskEditModal from 'src/components/modules/task/task-edit-modal.vue';
 import TaskList from 'src/components/modules/task/task-list.vue';
-import TaskChildrenStatus from 'src/components/modules/task/task-children-status.vue';
+import TaskChildrenStatusBadge from 'src/components/modules/task/task-children-status-badge.vue';
 import { reactive, ref } from 'vue';
 import { useString } from 'src/composes/resource.compose';
 import { useRequest } from 'src/composes/request.compose';
@@ -103,6 +103,10 @@ function setBreadcrumb() {
   });
 }
 function reload() {
+  if (!task.value.is_parent) {
+    breadcrumbStore.popBreadcrumbs();
+  }
+
   breadcrumbStore.popBreadcrumbs();
 
   loadTask();
@@ -193,10 +197,8 @@ init();
                         category: false,
                         due_date: false,
                         priority: false,
-                        description: false,
                       }
                 "
-                v-model:status="task.status"
                 v-on:updated="handleUpdated"
               />
             </template>
@@ -212,7 +214,7 @@ init();
                 <base-title :level="6" semibold>{{
                   getString('task.attributes.sub_tasks')
                 }}</base-title>
-                <task-children-status :meta="task.meta" />
+                <task-children-status-badge :meta="task.meta" />
               </div>
             </template>
 
@@ -242,7 +244,6 @@ init();
                 parent_id: task.id,
               }"
               :with-filter="false"
-              :filter-justify-end="false"
               v-on:reload="handleReloadTaskChildren"
             />
           </base-card>
@@ -257,7 +258,6 @@ init();
                 category: false,
                 priority: false,
                 due_date: false,
-                description: false,
               }
             : {}
         "

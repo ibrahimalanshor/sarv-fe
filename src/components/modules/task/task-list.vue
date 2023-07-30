@@ -59,10 +59,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  filterJustifyEnd: {
-    type: Boolean,
-    default: true,
-  },
   withFilter: {
     type: Boolean,
     default: true,
@@ -153,7 +149,6 @@ const formInputs = computed(() => {
           category: false,
           priority: false,
           due_date: false,
-          description: false,
         }),
     ...props.formInputs,
   };
@@ -268,7 +263,6 @@ function handleDetail(item) {
       <task-list-filter
         v-if="props.withFilter"
         :filterable="props.filterables"
-        :end="props.filterJustifyEnd"
         v-model:sort="sortValue"
         v-model:filter="filterValue"
         v-model:category="filterTaskCategory"
