@@ -70,7 +70,6 @@ const attributes = computed(() => {
     : {
         category: false,
         due_date: false,
-        description: false,
         status: false,
         priority: false,
         children_count: false,
@@ -190,7 +189,7 @@ function handleLoadMoreTaskChildren() {
             reverseColor: true,
           }"
         />
-        <div class="space-y-1">
+        <div v-if="task.is_parent" class="space-y-1">
           <div
             class="text-sm text-gray-500 font-medium leading-6 flex items-center justify-between"
           >
@@ -198,7 +197,6 @@ function handleLoadMoreTaskChildren() {
             <task-children-status-badge :meta="task.meta" />
           </div>
           <task-list
-            v-if="task.is_parent"
             size="sm"
             :parent="false"
             :data="taskChildren.data"

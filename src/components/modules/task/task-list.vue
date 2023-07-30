@@ -149,7 +149,6 @@ const formInputs = computed(() => {
           category: false,
           priority: false,
           due_date: false,
-          description: false,
         }),
     ...props.formInputs,
   };

@@ -197,7 +197,6 @@ init();
                         category: false,
                         due_date: false,
                         priority: false,
-                        description: false,
                       }
                 "
                 v-on:updated="handleUpdated"
@@ -259,7 +258,6 @@ init();
                 category: false,
                 priority: false,
                 due_date: false,
-                description: false,
               }
             : {}
         "
