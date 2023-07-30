@@ -14,6 +14,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  buttonSize: {
+    type: String,
+    default: 'sm',
+  },
 });
 const emit = defineEmits(['update:modelValue', 'updated']);
 
@@ -52,6 +56,10 @@ function handleUpdated() {
     v-model="visibleUnfinishedDoneConfirm"
     v-on:updated="handleUpdated"
   >
-    <task-status-dropdown :task="props.task" v-on:change="handleChange" />
+    <task-status-dropdown
+      :button-size="props.buttonSize"
+      :task="props.task"
+      v-on:change="handleChange"
+    />
   </with-task-unfinished-confirm>
 </template>

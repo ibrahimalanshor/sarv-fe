@@ -13,6 +13,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  buttonSize: {
+    type: String,
+    default: 'sm',
+  },
 });
 const emit = defineEmits(['update:modelValue', 'change']);
 
@@ -34,7 +38,7 @@ async function handleClickItem(item) {
       <base-button
         :text="parseStatusName(props.task.status)"
         :color="`${parseStatusColor(props.task.status)}-soft`"
-        size="sm"
+        :size="props.buttonSize"
         v-on:click="toggle"
       >
         <template #right>

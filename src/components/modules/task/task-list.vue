@@ -3,7 +3,7 @@ import { useString } from 'src/composes/resource.compose';
 import BaseTable from 'src/components/base/base-table.vue';
 import TaskCreateModal from 'src/components/modules/task/task-create-modal.vue';
 import TaskCreateInline from 'src/components/modules/task/task-create-inline.vue';
-import TaskDetailModal from 'src/components/modules/task/task-detail-modal.vue';
+import TaskDetailSlideOver from './task-detail-slide-over.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import TaskListFilter from 'src/components/modules/task/task-list-filter.vue';
 import TaskListName from './task-list-name.vue';
@@ -39,11 +39,11 @@ const props = defineProps({
     type: Object,
     default: null,
   },
-  filterable: {
+  filterables: {
     type: Object,
     default: () => ({}),
   },
-  attributes: {
+  columns: {
     type: Object,
     default: () => ({}),
   },
@@ -67,9 +67,21 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  detailAttributes: {
-    type: Object,
-    default: () => ({}),
+  withCreateInline: {
+    type: Boolean,
+    default: true,
+  },
+  parent: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: String,
+    default: 'md',
+  },
+  autoLoadMore: {
+    type: Boolean,
+    default: true,
   },
 });
 const emit = defineEmits([
@@ -81,6 +93,7 @@ const emit = defineEmits([
   'reload',
   'refresh',
   'load',
+  'load-more',
 ]);
 
 const { getString } = useString();
@@ -132,14 +145,37 @@ const detailModal = reactive({
 });
 
 const hasMoreData = computed(() => props.data.length < props.meta.total);
+const formInputs = computed(() => {
+  return {
+    ...(props.parent
+      ? {}
+      : {
+          category: false,
+          priority: false,
+          due_date: false,
+          description: false,
+        }),
+    ...props.formInputs,
+  };
+});
+const tableSize = computed(() => props.size);
+const editStatusButtonSize = computed(() => {
+  const sizes = {
+    sm: 'xs',
+    md: 'sm',
+  };
+
+  return sizes[props.size];
+});
 
 const tableColumns = [
   {
     id: 'name',
     name: getString('task.attributes.name'),
     bold: true,
+    headerClass: 'max-w-[50%]',
     render: ({ item }) => {
-      if (props.attributes.meta ?? true) {
+      if (props.columns.meta ?? true) {
         return h(TaskListName, { task: item, onClick: handleDetail });
       }
 
@@ -153,9 +189,9 @@ const tableColumns = [
       );
     },
   },
-  ...[
-    props.attributes.category ?? true
-      ? {
+  ...(props.columns.category ?? true
+    ? [
+        {
           id: 'category',
           name: getString('task.attributes.category'),
           sortable: false,
@@ -173,9 +209,9 @@ const tableColumns = [
                   { default: () => item.category.name }
                 )
               : h('span', {}, '-'),
-        }
-      : {},
-  ],
+        },
+      ]
+    : []),
   {
     id: 'status',
     sortable: false,
@@ -203,9 +239,13 @@ function reload() {
 }
 
 function handleLoadMore() {
-  pageValue.value.size += 10;
+  if (props.autoLoadMore) {
+    pageValue.value.size += 10;
 
-  emit('reload');
+    emit('reload');
+  } else {
+    emit('load-more');
+  }
 }
 function handleFilter() {
   reload();
@@ -227,7 +267,7 @@ function handleDetail(item) {
     <div class="space-y-4">
       <task-list-filter
         v-if="props.withFilter"
-        :filterable="props.filterable"
+        :filterable="props.filterables"
         :end="props.filterJustifyEnd"
         v-model:sort="sortValue"
         v-model:filter="filterValue"
@@ -237,6 +277,7 @@ function handleDetail(item) {
         v-on:filter-category="handleFilter"
       />
       <base-table
+        :size="tableSize"
         :columns="tableColumns"
         :data="props.data"
         :loading="props.loading"
@@ -247,6 +288,7 @@ function handleDetail(item) {
         <template #[`status`]="{ item }">
           <div class="flex">
             <task-edit-status
+              :button-size="editStatusButtonSize"
               :task="item"
               v-model="item.status"
               v-on:updated="handleRefresh"
@@ -254,12 +296,13 @@ function handleDetail(item) {
           </div>
         </template>
         <template #footer="{ classes }">
-          <tr>
+          <tr v-if="props.withCreateInline">
             <td
               :class="[classes.td, hasMoreData ? '' : 'rounded-b-lg']"
               colspan="3"
             >
               <task-create-inline
+                :input-size="props.size"
                 :values="props.createValues"
                 v-on:created="handleRefresh"
               />
@@ -286,10 +329,9 @@ function handleDetail(item) {
       v-model="visibleCreateModal"
       v-on:created="handleRefresh"
     />
-    <task-detail-modal
+    <task-detail-slide-over
       :task-id="detailModal.taskId"
-      :form-inputs="props.formInputs"
-      :attributes="props.detailAttributes"
+      :edit-form-inputs="formInputs"
       v-model="detailModal.visible"
       v-on:updated="handleRefresh"
       v-on:deleted="handleRefresh"

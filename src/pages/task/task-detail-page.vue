@@ -77,8 +77,6 @@ async function loadTask() {
 
   fetchTaskChildrenParams.filter.parent_id = task.value.id;
 
-  loadTaskChildren();
-
   setBreadcrumb();
   setTitle(task.value.name);
 }
@@ -109,6 +107,10 @@ function reload() {
 
   loadTask();
 }
+async function init() {
+  await loadTask();
+  await loadTaskChildren();
+}
 
 function handleEdit() {
   editModalVisible.value = true;
@@ -133,7 +135,7 @@ function handleReloadTaskChildren() {
   loadTaskChildren();
 }
 
-loadTask();
+init();
 </script>
 
 <template>
@@ -207,7 +209,9 @@ loadTask();
           >
             <template #title>
               <div class="flex items-center gap-x-2">
-                <base-title :level="6" semibold>SubTask</base-title>
+                <base-title :level="6" semibold>{{
+                  getString('task.attributes.sub_tasks')
+                }}</base-title>
                 <task-children-status :meta="task.meta" />
               </div>
             </template>
@@ -226,31 +230,19 @@ loadTask();
             </template>
 
             <task-list
-              size="sm"
+              :parent="false"
               :data="taskChildren.data"
               :meta="taskChildren.meta"
               :loading="loadingTaskChildren"
+              :columns="{
+                category: false,
+                meta: false,
+              }"
               :create-values="{
                 parent_id: task.id,
               }"
               :with-filter="false"
-              :attributes="{
-                category: false,
-                meta: false,
-              }"
-              :detail-attributes="{
-                category: false,
-                due_date: false,
-                priority: false,
-                description: false,
-              }"
               :filter-justify-end="false"
-              :form-inputs="{
-                category: false,
-                priority: false,
-                due_date: false,
-                description: false,
-              }"
               v-on:reload="handleReloadTaskChildren"
             />
           </base-card>

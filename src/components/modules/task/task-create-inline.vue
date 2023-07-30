@@ -8,6 +8,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  inputSize: {
+    type: String,
+    default: 'md',
+  },
 });
 const emit = defineEmits(['created']);
 
@@ -48,13 +52,14 @@ async function handleSubmit() {
     <base-input
       type="text"
       placeholder="task.placeholder.new-task"
+      :size="props.inputSize"
       :color="storeTaskValidation.name ? 'red' : 'gray'"
       :message="storeTaskValidation.name"
       :loading="storeTaskLoading"
       :disabled="storeTaskLoading"
-      with-right-content
       placeholder-from-resource
       fullwidth
+      with-right-content
       :with-label="false"
       v-model="form.name"
     />
