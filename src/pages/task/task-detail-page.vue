@@ -103,6 +103,10 @@ function setBreadcrumb() {
   });
 }
 function reload() {
+  if (!task.value.is_parent) {
+    breadcrumbStore.popBreadcrumbs();
+  }
+
   breadcrumbStore.popBreadcrumbs();
 
   loadTask();
