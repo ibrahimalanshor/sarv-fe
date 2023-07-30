@@ -151,7 +151,7 @@ init();
             :data="tasks.data"
             :meta="tasks.meta"
             :loading="fetchTasksLoading"
-            :filterable="{ category: false }"
+            :filterables="{ category: false }"
             :columns="{ category: false }"
             :create-values="{ task_category_id: taskCategory.id }"
             :form-inputs="{ category: false }"

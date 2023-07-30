@@ -209,7 +209,9 @@ init();
           >
             <template #title>
               <div class="flex items-center gap-x-2">
-                <base-title :level="6" semibold>SubTask</base-title>
+                <base-title :level="6" semibold>{{
+                  getString('task.attributes.sub_tasks')
+                }}</base-title>
                 <task-children-status :meta="task.meta" />
               </div>
             </template>

@@ -12,11 +12,13 @@ import BaseActionButton from 'src/components/base/base-action-button.vue';
 import TaskDescription from './task-description.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import TaskEditModal from './task-edit-modal.vue';
+import TaskChildrenStatus from './task-children-status.vue';
+import TaskList from './task-list.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
 import { computed, ref } from 'vue';
-import { useRequest } from 'src/composes/request.compose';
 import { useRouter } from 'vue-router';
 import { useTaskFindOne } from 'src/composes/modules/task/task-find-one.compose';
+import { useTaskFindAll } from 'src/composes/modules/task/task-find-all.compose';
 import { getString } from 'src/utils/resource.js';
 
 const props = defineProps({
@@ -36,7 +38,17 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'deleted', 'updated']);
 
 const router = useRouter();
-const { task, loading, error, findOneTask } = useTaskFindOne();
+const {
+  task,
+  loading: loadingTask,
+  error: errorTask,
+  findOneTask,
+} = useTaskFindOne();
+const {
+  data: taskChildren,
+  loading: loadingTaskChildren,
+  findAllTask,
+} = useTaskFindAll();
 
 const editModalVisible = ref(false);
 const deleteConfirmVisible = ref(false);
@@ -66,13 +78,27 @@ const attributes = computed(() => {
 });
 
 async function loadTask() {
-  const [success] = await findOneTask(props.taskId, {
+  await findOneTask(props.taskId, {
     include: ['category', 'children_count', 'children_done_count'],
   });
 }
+async function loadTaskChildren() {
+  await findAllTask({
+    filter: {
+      parent_id: task.value.id,
+    },
+    page: {
+      size: 5,
+    },
+  });
+}
 
-function handleVisible() {
-  loadTask();
+async function handleVisible() {
+  await loadTask();
+
+  if (task.value.is_parent) {
+    await loadTaskChildren();
+  }
 }
 function handleAction(action) {
   if (action.id === 'delete') {
@@ -94,21 +120,30 @@ function handleDeleted() {
 function handleDetail() {
   router.push({ name: 'task.detail', params: { id: task.value.id } });
 }
+function handleClose() {
+  visible.value = false;
+}
+function handleReloadTaskChildren() {
+  loadTaskChildren();
+}
+function handleLoadMoreTaskChildren() {
+  router.push({ name: 'task.detail', params: { id: task.value.id } });
+}
 </script>
 
 <template>
   <base-slide-over v-model="visible" v-on:visible="handleVisible">
     <template #title>
-      <base-skeleton v-if="loading" class="w-40 h-7" />
+      <base-skeleton v-if="loadingTask" class="w-40 h-7" />
       <task-edit-status
-        v-else-if="!error"
+        v-else-if="!errorTask"
         :task="task"
         v-on:updated="handleUpdated"
       />
     </template>
 
     <template #action>
-      <div v-if="!error" class="flex items-center gap-x-2">
+      <div v-if="!errorTask" class="flex items-center gap-x-2">
         <base-action-button v-on:click="handleDetail">
           <arrow-top-right-on-square-icon class="w-5 h-5" />
         </base-action-button>
@@ -133,19 +168,19 @@ function handleDetail() {
             </base-action-button>
           </template>
         </base-dropdown>
-        <base-close />
+        <base-close v-on:click="handleClose" />
       </div>
     </template>
 
-    <base-skeleton v-if="loading" />
+    <base-skeleton v-if="loadingTask" />
     <template v-else>
       <base-alert
         type="error"
-        :text="error"
-        :force-visible="!!error"
+        :text="errorTask"
+        :force-visible="!!errorTask"
         :dismissable="false"
       />
-      <div v-if="!error" class="space-y-6">
+      <div v-if="!errorTask" class="space-y-6">
         <task-description
           :task="task"
           :attributes="attributes"
@@ -155,6 +190,33 @@ function handleDetail() {
             reverseColor: true,
           }"
         />
+        <div class="space-y-1">
+          <div
+            class="text-sm text-gray-500 font-medium leading-6 flex items-center justify-between"
+          >
+            {{ getString('task.attributes.sub_tasks') }}
+            <task-children-status :meta="task.meta" />
+          </div>
+          <task-list
+            v-if="task.is_parent"
+            size="sm"
+            :parent="false"
+            :data="taskChildren.data"
+            :meta="taskChildren.meta"
+            :loading="loadingTaskChildren"
+            :columns="{
+              category: false,
+              meta: false,
+            }"
+            :create-values="{
+              parent_id: task.id,
+            }"
+            :with-filter="false"
+            :auto-load-more="false"
+            v-on:reload="handleReloadTaskChildren"
+            v-on:load-more="handleLoadMoreTaskChildren"
+          />
+        </div>
       </div>
       <task-edit-modal
         :task="task"

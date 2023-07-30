@@ -172,6 +172,7 @@
             "due_date": "Due Date",
             "description": "Description",
             "priority": "Priority",
+            "sub_tasks": "Sub Tasks",
             "sub_task_status": "Sub Task Status",
             "sub_task_count": "{done}/{count} done"
         },

@@ -39,7 +39,7 @@ const props = defineProps({
     type: Object,
     default: null,
   },
-  filterable: {
+  filterables: {
     type: Object,
     default: () => ({}),
   },
@@ -67,7 +67,19 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  withCreateInline: {
+    type: Boolean,
+    default: true,
+  },
   parent: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: String,
+    default: 'md',
+  },
+  autoLoadMore: {
     type: Boolean,
     default: true,
   },
@@ -81,6 +93,7 @@ const emit = defineEmits([
   'reload',
   'refresh',
   'load',
+  'load-more',
 ]);
 
 const { getString } = useString();
@@ -145,12 +158,22 @@ const formInputs = computed(() => {
     ...props.formInputs,
   };
 });
+const tableSize = computed(() => props.size);
+const editStatusButtonSize = computed(() => {
+  const sizes = {
+    sm: 'xs',
+    md: 'sm',
+  };
+
+  return sizes[props.size];
+});
 
 const tableColumns = [
   {
     id: 'name',
     name: getString('task.attributes.name'),
     bold: true,
+    headerClass: 'max-w-[50%]',
     render: ({ item }) => {
       if (props.columns.meta ?? true) {
         return h(TaskListName, { task: item, onClick: handleDetail });
@@ -166,9 +189,9 @@ const tableColumns = [
       );
     },
   },
-  ...[
-    props.columns.category ?? true
-      ? {
+  ...(props.columns.category ?? true
+    ? [
+        {
           id: 'category',
           name: getString('task.attributes.category'),
           sortable: false,
@@ -186,9 +209,9 @@ const tableColumns = [
                   { default: () => item.category.name }
                 )
               : h('span', {}, '-'),
-        }
-      : {},
-  ],
+        },
+      ]
+    : []),
   {
     id: 'status',
     sortable: false,
@@ -216,9 +239,13 @@ function reload() {
 }
 
 function handleLoadMore() {
-  pageValue.value.size += 10;
+  if (props.autoLoadMore) {
+    pageValue.value.size += 10;
 
-  emit('reload');
+    emit('reload');
+  } else {
+    emit('load-more');
+  }
 }
 function handleFilter() {
   reload();
@@ -240,7 +267,7 @@ function handleDetail(item) {
     <div class="space-y-4">
       <task-list-filter
         v-if="props.withFilter"
-        :filterable="props.filterable"
+        :filterable="props.filterables"
         :end="props.filterJustifyEnd"
         v-model:sort="sortValue"
         v-model:filter="filterValue"
@@ -250,6 +277,7 @@ function handleDetail(item) {
         v-on:filter-category="handleFilter"
       />
       <base-table
+        :size="tableSize"
         :columns="tableColumns"
         :data="props.data"
         :loading="props.loading"
@@ -260,6 +288,7 @@ function handleDetail(item) {
         <template #[`status`]="{ item }">
           <div class="flex">
             <task-edit-status
+              :button-size="editStatusButtonSize"
               :task="item"
               v-model="item.status"
               v-on:updated="handleRefresh"
@@ -267,12 +296,13 @@ function handleDetail(item) {
           </div>
         </template>
         <template #footer="{ classes }">
-          <tr>
+          <tr v-if="props.withCreateInline">
             <td
               :class="[classes.td, hasMoreData ? '' : 'rounded-b-lg']"
               colspan="3"
             >
               <task-create-inline
+                :input-size="props.size"
                 :values="props.createValues"
                 v-on:created="handleRefresh"
               />
