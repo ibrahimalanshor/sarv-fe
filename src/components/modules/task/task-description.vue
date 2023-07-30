@@ -6,7 +6,7 @@ import { computed, h } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useString } from 'src/composes/resource.compose';
 import { formatDate, toDate } from 'src/utils/date';
-import TaskChildrenStatus from './task-children-status.vue';
+import TaskChildrenStatusBadge from './task-children-status-badge.vue';
 import { hasChildren } from 'src/helpers/modules/task.helper';
 import { conditionalElement } from 'src/utils/array.js';
 import { nullable } from 'src/utils/type.js';
@@ -73,7 +73,7 @@ const attributes = computed(() => {
       {
         id: 'children_count',
         name: getString('task.attributes.sub_task_status'),
-        render: () => h(TaskChildrenStatus, { meta: props.task.meta }),
+        render: () => h(TaskChildrenStatusBadge, { meta: props.task.meta }),
       }
     ),
     ...conditionalElement(nullable(props.attributes.priority, true), {

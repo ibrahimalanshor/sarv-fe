@@ -12,7 +12,7 @@ import BaseActionButton from 'src/components/base/base-action-button.vue';
 import TaskDescription from './task-description.vue';
 import TaskEditStatus from './task-edit-status.vue';
 import TaskEditModal from './task-edit-modal.vue';
-import TaskChildrenStatus from './task-children-status.vue';
+import TaskChildrenStatusBadge from './task-children-status-badge.vue';
 import TaskList from './task-list.vue';
 import TaskDeleteConfirm from './task-delete-confirm.vue';
 import { computed, ref } from 'vue';
@@ -195,7 +195,7 @@ function handleLoadMoreTaskChildren() {
             class="text-sm text-gray-500 font-medium leading-6 flex items-center justify-between"
           >
             {{ getString('task.attributes.sub_tasks') }}
-            <task-children-status :meta="task.meta" />
+            <task-children-status-badge :meta="task.meta" />
           </div>
           <task-list
             v-if="task.is_parent"
