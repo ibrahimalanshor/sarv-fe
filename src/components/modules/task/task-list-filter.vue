@@ -30,10 +30,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  end: {
-    type: Boolean,
-    default: true,
-  },
 });
 const emit = defineEmits([
   'update:sort',
@@ -137,7 +133,7 @@ function handleFilterCategory() {
 </script>
 
 <template>
-  <div :class="['flex gap-x-2', props.end ? 'justify-end' : '']">
+  <div :class="['flex gap-x-2 justify-end']">
     <sort-dropdown
       v-if="props.filterable.sort ?? true"
       :columns="sortColumnOptions"

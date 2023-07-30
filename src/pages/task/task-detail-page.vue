@@ -246,7 +246,6 @@ init();
                 parent_id: task.id,
               }"
               :with-filter="false"
-              :filter-justify-end="false"
               v-on:reload="handleReloadTaskChildren"
             />
           </base-card>
