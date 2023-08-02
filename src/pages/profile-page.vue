@@ -10,6 +10,7 @@ import ProfileEditModal from 'src/components/modules/profile/profile-edit-modal.
 import ProfileEditPhotoModal from 'src/components/modules/profile/profile-edit-photo-modal.vue';
 import ProfileEditEmailModal from 'src/components/modules/profile/profile-edit-email-modal.vue';
 import ProfileEditPasswordModal from 'src/components/modules/profile/profile-edit-password-modal.vue';
+import AuthVerificationAlert from 'src/components/modules/auth/auth-verification-alert.vue';
 import { useAuthStore } from 'src/store/modules/auth.module';
 import { h, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
@@ -89,43 +90,46 @@ function handleEditPasswordProfile() {
     <base-header title="pages.profile" title-from-resource />
     <main>
       <base-container>
-        <base-card
-          with-header
-          :title="getString('profile.title.my-profile')"
-          :custom-content="true"
-          :classes="{
-            header: '!py-4',
-          }"
-        >
-          <template #header-actions>
-            <div class="flex items-center gap-x-2">
-              <base-button
-                color="indigo"
-                text="profile.title.edit-profile"
-                text-from-resource
-                v-on:click="handleEditProfile"
+        <div class="space-y-4">
+          <auth-verification-alert />
+          <base-card
+            with-header
+            :title="getString('profile.title.my-profile')"
+            :custom-content="true"
+            :classes="{
+              header: '!py-4',
+            }"
+          >
+            <template #header-actions>
+              <div class="flex items-center gap-x-2">
+                <base-button
+                  color="indigo"
+                  text="profile.title.edit-profile"
+                  text-from-resource
+                  v-on:click="handleEditProfile"
+                />
+                <base-button
+                  color="indigo"
+                  text="profile.title.edit-password"
+                  text-from-resource
+                  v-on:click="handleEditPasswordProfile"
+                />
+              </div>
+            </template>
+            <template #content>
+              <base-description
+                inline
+                :attributes="attributes"
+                :data="authStore.me"
               />
-              <base-button
-                color="indigo"
-                text="profile.title.edit-password"
-                text-from-resource
-                v-on:click="handleEditPasswordProfile"
-              />
-            </div>
-          </template>
-          <template #content>
-            <base-description
-              inline
-              :attributes="attributes"
-              :data="authStore.me"
-            />
-          </template>
-        </base-card>
+            </template>
+          </base-card>
 
-        <profile-edit-modal v-model="visibleEditModal" />
-        <profile-edit-photo-modal v-model="visibleEditPhotoModal" />
-        <profile-edit-email-modal v-model="visibleEditEmailModal" />
-        <profile-edit-password-modal v-model="visibleEditPasswordModal" />
+          <profile-edit-modal v-model="visibleEditModal" />
+          <profile-edit-photo-modal v-model="visibleEditPhotoModal" />
+          <profile-edit-email-modal v-model="visibleEditEmailModal" />
+          <profile-edit-password-modal v-model="visibleEditPasswordModal" />
+        </div>
       </base-container>
     </main>
   </div>
