@@ -128,6 +128,18 @@
             "link": {
                 "login": "Sign in to your account"
             }
+        },
+        "verification": {
+            "messages": {
+                "unverified": "Your email account is not verified, check your email inbox, or",
+                "success-send": "Success resend verification link"
+            },
+            "actions": {
+                "resend": "resend verification link"
+            },
+            "titles": {
+                "success-send": "Success"
+            }
         }
     },
     "task": {

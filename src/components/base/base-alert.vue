@@ -4,6 +4,7 @@ import {
   XCircleIcon,
   XMarkIcon,
   InformationCircleIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/vue/20/solid';
 import { computed } from 'vue';
 import { useString } from 'src/composes/resource.compose';
@@ -42,6 +43,7 @@ const icon = computed(() => {
     success: CheckCircleIcon,
     error: XCircleIcon,
     info: InformationCircleIcon,
+    warning: ExclamationTriangleIcon,
   };
 
   return icons[props.type];
@@ -51,16 +53,19 @@ const style = computed(() => {
     success: 'bg-green-50',
     error: 'bg-red-50',
     info: 'bg-blue-50',
+    warning: 'bg-yellow-50',
   };
   const iconColors = {
     success: 'text-green-400',
     error: 'text-red-400',
     info: 'text-blue-400',
+    warning: 'text-yellow-400',
   };
   const textColors = {
     success: 'text-green-800',
     error: 'text-red-800',
     info: 'text-blue-700',
+    warning: 'text-yellow-700',
   };
   const closeColors = {
     success:
@@ -68,12 +73,14 @@ const style = computed(() => {
     error:
       'bg-red-50 text-red-500 hover:bg-red-100 focus:ring-red-600 focus:ring-offset-red-50',
     info: 'bg-blue-50 text-blue-500 hover:bg-blue-100 focus:ring-blue-600 focus:ring-offset-blue-50',
+    warning:
+      'bg-yellow-50 text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-600 focus:ring-offset-yellow-50',
   };
 
   return {
     bg: [bgColors[props.type]],
     icon: [iconColors[props.type]],
-    text: [textColors[props.type]],
+    text: [textColors[props.type], 'text-sm font-medium'],
     close: [closeColors[props.type]],
   };
 });
@@ -95,7 +102,9 @@ function handleClose() {
         />
       </div>
       <div class="ml-3">
-        <p class="text-sm font-medium" :class="style.text">{{ text }}</p>
+        <slot name="text" :classes="style"
+          ><p :class="style.text">{{ text }}</p></slot
+        >
       </div>
       <div class="ml-auto pl-3" v-if="props.dismissable">
         <div class="-mx-1.5 -my-1.5">
