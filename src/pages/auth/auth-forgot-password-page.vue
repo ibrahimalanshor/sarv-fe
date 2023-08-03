@@ -41,52 +41,48 @@ function handleCloseSuccessAlert() {
 </script>
 
 <template>
-  <div class="space-y-10">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <base-title
-        :level="2"
-        :classes="{ base: 'mt-10 text-center leading-9' }"
-        text="auth.forgot-password.title"
-        text-from-resource
-      />
-    </div>
+  <div class="space-y-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <base-title
+      :level="2"
+      :classes="{ base: 'text-center leading-9' }"
+      text="auth.forgot-password.title"
+      text-from-resource
+    />
 
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" v-on:submit.prevent="handleSubmit">
-        <base-alert
-          :text="error"
-          type="error"
-          :force-visible="!!error"
-          v-on:close="handleCloseAlert"
-        />
-        <base-alert
-          :text="getString('auth.forgot-password.messages.success-send')"
-          type="success"
-          :force-visible="successAlert"
-          v-on:close="handleCloseSuccessAlert"
-        />
-        <base-input
-          id="email"
-          type="email"
-          placeholder="auth.forgot-password.form.email"
-          label="auth.forgot-password.form.email"
-          :color="validation.email ? 'red' : 'gray'"
-          :message="validation.email"
-          with-label
-          fullwidth
-          label-from-resource
-          placeholder-from-resource
-          v-model="form.email"
-        />
-        <base-button
-          type="submit"
-          color="indigo"
-          text="auth.forgot-password.actions.submit"
-          text-from-resource
-          fullwidth
-          :loading="loading"
-        />
-      </form>
-    </div>
+    <form class="space-y-6" v-on:submit.prevent="handleSubmit">
+      <base-alert
+        :text="error"
+        type="error"
+        :force-visible="!!error"
+        v-on:close="handleCloseAlert"
+      />
+      <base-alert
+        :text="getString('auth.forgot-password.messages.success-send')"
+        type="success"
+        :force-visible="successAlert"
+        v-on:close="handleCloseSuccessAlert"
+      />
+      <base-input
+        id="email"
+        type="email"
+        placeholder="auth.forgot-password.form.email"
+        label="auth.forgot-password.form.email"
+        :color="validation.email ? 'red' : 'gray'"
+        :message="validation.email"
+        with-label
+        fullwidth
+        label-from-resource
+        placeholder-from-resource
+        v-model="form.email"
+      />
+      <base-button
+        type="submit"
+        color="indigo"
+        text="auth.forgot-password.actions.submit"
+        text-from-resource
+        fullwidth
+        :loading="loading"
+      />
+    </form>
   </div>
 </template>

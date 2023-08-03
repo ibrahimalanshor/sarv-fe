@@ -39,59 +39,55 @@ function handleCloseAlert() {
 </script>
 
 <template>
-  <div class="space-y-10">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <base-title
-        :level="2"
-        :classes="{ base: 'mt-10 text-center leading-9' }"
-        text="auth.reset-password.title"
-        text-from-resource
-      />
-    </div>
+  <div class="space-y-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <base-title
+      :level="2"
+      :classes="{ base: 'text-center leading-9' }"
+      text="auth.reset-password.title"
+      text-from-resource
+    />
 
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" v-on:submit.prevent="handleSubmit">
-        <base-alert
-          :text="error"
-          type="error"
-          :force-visible="!!error"
-          v-on:close="handleCloseAlert"
-        />
-        <base-input
-          id="password"
-          type="password"
-          placeholder="auth.reset-password.form.password"
-          label="auth.reset-password.form.password"
-          :color="validation.password ? 'red' : 'gray'"
-          :message="validation.password"
-          with-label
-          fullwidth
-          label-from-resource
-          placeholder-from-resource
-          v-model="form.password"
-        />
-        <base-input
-          id="password_confirmation"
-          type="password"
-          placeholder="auth.reset-password.form.password_confirmation"
-          label="auth.reset-password.form.password_confirmation"
-          :color="validation.password_confirmation ? 'red' : 'gray'"
-          :message="validation.password_confirmation"
-          with-label
-          fullwidth
-          label-from-resource
-          placeholder-from-resource
-          v-model="form.password_confirmation"
-        />
-        <base-button
-          type="submit"
-          color="indigo"
-          text="auth.reset-password.actions.submit"
-          text-from-resource
-          fullwidth
-          :loading="loading"
-        />
-      </form>
-    </div>
+    <form class="space-y-6" v-on:submit.prevent="handleSubmit">
+      <base-alert
+        :text="error"
+        type="error"
+        :force-visible="!!error"
+        v-on:close="handleCloseAlert"
+      />
+      <base-input
+        id="password"
+        type="password"
+        placeholder="auth.reset-password.form.password"
+        label="auth.reset-password.form.password"
+        :color="validation.password ? 'red' : 'gray'"
+        :message="validation.password"
+        with-label
+        fullwidth
+        label-from-resource
+        placeholder-from-resource
+        v-model="form.password"
+      />
+      <base-input
+        id="password_confirmation"
+        type="password"
+        placeholder="auth.reset-password.form.password_confirmation"
+        label="auth.reset-password.form.password_confirmation"
+        :color="validation.password_confirmation ? 'red' : 'gray'"
+        :message="validation.password_confirmation"
+        with-label
+        fullwidth
+        label-from-resource
+        placeholder-from-resource
+        v-model="form.password_confirmation"
+      />
+      <base-button
+        type="submit"
+        color="indigo"
+        text="auth.reset-password.actions.submit"
+        text-from-resource
+        fullwidth
+        :loading="loading"
+      />
+    </form>
   </div>
 </template>
