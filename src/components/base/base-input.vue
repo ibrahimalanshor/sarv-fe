@@ -180,14 +180,16 @@ defineExpose({ element });
         class="block text-sm font-medium leading-6 text-gray-900"
         >{{ label }}</label
       >
-      <button
-        v-if="props.collapsable"
-        type="button"
-        v-on:click="handleCollapse"
-      >
-        <chevron-down-icon v-if="collapsed" class="w-5 h-5 text-gray-400" />
-        <chevron-up-icon v-else class="w-5 h-5 text-gray-400" />
-      </button>
+      <slot name="action">
+        <button
+          v-if="props.collapsable"
+          type="button"
+          v-on:click="handleCollapse"
+        >
+          <chevron-down-icon v-if="collapsed" class="w-5 h-5 text-gray-400" />
+          <chevron-up-icon v-else class="w-5 h-5 text-gray-400" />
+        </button>
+      </slot>
     </div>
     <div
       v-if="!collapsed"
