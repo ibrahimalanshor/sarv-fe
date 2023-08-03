@@ -49,6 +49,15 @@ export const routes = [
     },
   },
   {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import('src/pages/auth/auth-reset-password-page.vue'),
+    meta: {
+      layout: 'LayoutAuth',
+      title: 'reset-password',
+    },
+  },
+  {
     path: '/task',
     component: RouterView,
     meta: {

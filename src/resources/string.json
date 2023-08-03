@@ -44,6 +44,7 @@
         "login": "Sign in to your account",
         "register": "Create new account",
         "forgot-password": "Forgot password",
+        "reset-password": "Reset password",
         "index": "Dashboard",
         "profile": "My Profile",
         "task": {
@@ -153,6 +154,19 @@
             },
             "messages": {
                 "success-send": "Success send reset password link"
+            }
+        },
+        "reset-password": {
+            "title": "Reset Password",
+            "form": {
+                "password": "Password",
+                "password_confirmation": "Password Confirmation"
+            },
+            "actions": {
+                "submit": "Reset password"
+            },
+            "messages": {
+                "success-reset": "Success reset password"
             }
         }
     },
