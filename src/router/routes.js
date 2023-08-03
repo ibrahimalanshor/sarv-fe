@@ -40,6 +40,15 @@ export const routes = [
     },
   },
   {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: () => import('src/pages/auth/auth-forgot-password-page.vue'),
+    meta: {
+      layout: 'LayoutAuth',
+      title: 'forgot-password',
+    },
+  },
+  {
     path: '/task',
     component: RouterView,
     meta: {
