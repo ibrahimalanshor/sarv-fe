@@ -72,7 +72,15 @@ function handleCloseAlert() {
           label-from-resource
           placeholder-from-resource
           v-model="form.password"
-        />
+        >
+          <template #action>
+            <base-link
+              :to="{ name: 'forgot-password' }"
+              text="auth.login.link.forgot-password"
+              text-from-resource
+            />
+          </template>
+        </base-input>
         <base-button
           type="submit"
           color="indigo"

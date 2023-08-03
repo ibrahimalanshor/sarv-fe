@@ -43,6 +43,7 @@
         "404": "404 Not Found",
         "login": "Sign in to your account",
         "register": "Create new account",
+        "forgot-password": "Forgot password",
         "index": "Dashboard",
         "profile": "My Profile",
         "task": {
@@ -96,7 +97,8 @@
                 "submit": "Login"
             },
             "link": {
-                "register": "Create new account"
+                "register": "Create new account",
+                "forgot-password": "Forgot password"
             }
         },
         "register": {
@@ -139,6 +141,18 @@
             },
             "titles": {
                 "success-send": "Success"
+            }
+        },
+        "forgot-password": {
+            "title": "Forgot Password",
+            "form": {
+                "email": "Email"
+            },
+            "actions": {
+                "submit": "Forgot password"
+            },
+            "messages": {
+                "success-send": "Success send reset password link"
             }
         }
     },
