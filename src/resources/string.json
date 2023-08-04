@@ -97,6 +97,9 @@
                 "password": "Password",
                 "submit": "Login"
             },
+            "messages": {
+                "register": "Not have account?"
+            },
             "link": {
                 "register": "Create new account",
                 "forgot-password": "Forgot password"
@@ -110,6 +113,9 @@
                 "password": "Password",
                 "password_confirmation": "Password Confirmation",
                 "submit": "Register"
+            },
+            "messages": {
+                "login": "Already have account?"
             },
             "link": {
                 "login": "Sign in to your account"
@@ -167,6 +173,11 @@
             },
             "messages": {
                 "success-reset": "Success reset password"
+            }
+        },
+        "login-social": {
+            "messages": {
+                "or": "Or continue with"
             }
         }
     },
