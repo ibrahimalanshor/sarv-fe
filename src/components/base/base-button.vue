@@ -87,7 +87,11 @@ const style = computed(() => {
 
 <template>
   <button :type="props.type" :class="[style.base]" :disabled="isDisabled">
-    <base-spinner v-if="props.loading" size="sm" :color="props.color" />
+    <base-spinner
+      v-if="props.loading"
+      size="sm"
+      :color="props.color === 'white' ? 'indigo' : props.color"
+    />
     <slot>
       <span>{{ text }}</span>
     </slot>

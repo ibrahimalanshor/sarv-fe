@@ -1,17 +1,18 @@
 <script setup>
 import GoogleIcon from 'src/assets/social/google.svg';
 import BaseButton from 'src/components/base/base-button.vue';
+import { useRouter } from 'vue-router';
+import { useGoogleLogin } from 'src/composes/modules/auth/google-login.compose';
 import { getString } from 'src/utils/resource';
 
-import { googleTokenLogin } from 'vue3-google-login';
+const router = useRouter();
+const { loading, googleLogin } = useGoogleLogin();
 
 async function handleGoogleLogin() {
-  try {
-    await googleTokenLogin({
-      clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-    });
-  } catch (err) {
-    //
+  const [res] = await googleLogin();
+
+  if (res) {
+    router.push({ name: 'index' });
   }
 }
 </script>
@@ -35,6 +36,7 @@ async function handleGoogleLogin() {
       text="auth.login.form.submit"
       text-from-resource
       fullwidth
+      :loading="loading"
       v-on:click="handleGoogleLogin"
     >
       <img :src="GoogleIcon" class="w-6" />
