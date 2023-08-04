@@ -15,6 +15,7 @@ import { useAuthStore } from 'src/store/modules/auth.module';
 import { h, ref } from 'vue';
 import { formatDate } from 'src/utils/date';
 import { useString } from 'src/composes/resource.compose';
+import { isValidUrl } from 'src/utils/string';
 
 const authStore = useAuthStore();
 const { getString } = useString();
@@ -54,7 +55,11 @@ const attributes = [
         { class: 'flex items-center gap-x-3' },
         {
           default: () => [
-            h(BaseAvatar, { src: authStore.me.photo_url }),
+            h(BaseAvatar, {
+              src: isValidUrl(authStore.me.photo_src)
+                ? authStore.me.photo_src
+                : authStore.me.photo_url,
+            }),
             h(BaseButton, {
               text: 'Change',
               size: 'sm',

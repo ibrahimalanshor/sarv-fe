@@ -5,6 +5,7 @@ import { computed, h, reactive, ref } from 'vue';
 import BaseAvatar from 'src/components/base/base-avatar.vue';
 import BaseDropdown from 'src/components/base/base-dropdown.vue';
 import AuthLogoutConfirm from 'src/components/modules/auth/auth-logout-confirm.vue';
+import { isValidUrl } from 'src/utils/string';
 
 const props = defineProps({
   mobile: {
@@ -81,7 +82,9 @@ function handleClickItem(item) {
     <template v-if="props.mobile">
       <div class="flex items-center px-5">
         <div class="flex-shrink-0">
-          <base-avatar :src="me.photo_url" />
+          <base-avatar
+            :src="isValidUrl(me.photo_src) ? me.photo_src : me.photo_url"
+          />
         </div>
         <div class="ml-3">
           <div class="text-base font-medium leading-none text-white">
@@ -122,7 +125,9 @@ function handleClickItem(item) {
             v-on:click="toggle"
           >
             <span class="sr-only">Open user menu</span>
-            <base-avatar :src="me.photo_url" />
+            <base-avatar
+              :src="isValidUrl(me.photo_src) ? me.photo_src : me.photo_url"
+            />
           </button>
         </template>
       </base-dropdown>
