@@ -83,7 +83,13 @@ function handleClickItem(item) {
       <div class="flex items-center px-5">
         <div class="flex-shrink-0">
           <base-avatar
-            :src="isValidUrl(me.photo_src) ? me.photo_src : me.photo_url"
+            :src="
+              me.photo_src
+                ? isValidUrl(me.photo_src)
+                  ? me.photo_src
+                  : me.photo_url
+                : null
+            "
           />
         </div>
         <div class="ml-3">
@@ -126,7 +132,13 @@ function handleClickItem(item) {
           >
             <span class="sr-only">Open user menu</span>
             <base-avatar
-              :src="isValidUrl(me.photo_src) ? me.photo_src : me.photo_url"
+              :src="
+                me.photo_src
+                  ? isValidUrl(me.photo_src)
+                    ? me.photo_src
+                    : me.photo_url
+                  : null
+              "
             />
           </button>
         </template>

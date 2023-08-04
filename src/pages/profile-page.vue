@@ -56,9 +56,11 @@ const attributes = [
         {
           default: () => [
             h(BaseAvatar, {
-              src: isValidUrl(authStore.me.photo_src)
-                ? authStore.me.photo_src
-                : authStore.me.photo_url,
+              src: authStore.me.photo_src
+                ? isValidUrl(authStore.me.photo_src)
+                  ? authStore.me.photo_src
+                  : authStore.me.photo_url
+                : null,
             }),
             h(BaseButton, {
               text: 'Change',
