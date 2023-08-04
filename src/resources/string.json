@@ -1,0 +1,298 @@
+{
+    "error": {
+        "client": "Something Error"
+    },
+    "actions": {
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "search": "Search",
+        "load-more": "Load More",
+        "see-more": "See More",
+        "action": "Action",
+        "filter": "Filter",
+        "confirm": "Confirm"
+    },
+    "label": {
+        "sort": {
+            "column": "Column",
+            "direction": "Direction"
+        }
+    },
+    "options": {
+        "sort-columns": {
+            "default": "Default"
+        },
+        "sort-direction": {
+            "asc": "Ascending",
+            "desc": "Descending"
+        }
+    },
+    "message": {
+        "empty": "Empty Data",
+        "filter-applied": "{count} filter applied"
+    },
+    "pagination": {
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "results": "results"
+    },
+    "pages": {
+        "404": "404 Not Found",
+        "login": "Sign in to your account",
+        "register": "Create new account",
+        "forgot-password": "Forgot password",
+        "reset-password": "Reset password",
+        "index": "Dashboard",
+        "profile": "My Profile",
+        "task": {
+            "index": "Task List",
+            "detail": "Task Detail"
+        },
+        "task-category": {
+            "index": "Category List",
+            "detail": "Category Detail"
+        }
+    },
+    "menus": {
+        "index": "Dashboard",
+        "task": "Task",
+        "task-category": "Category",
+        "profile": "Profile",
+        "logout": "Logout"
+    },
+    "profile": {
+        "title": {
+            "my-profile": "My Profile",
+            "edit-profile": "Edit Profile",
+            "edit-photo": "Edit Photo",
+            "edit-email": "Edit Email",
+            "edit-password": "Edit Password"
+        },
+        "label": {
+            "name": "Name",
+            "email": "Email",
+            "password": "Password",
+            "password_confirmation": "Password Confirmation",
+            "joined_at": "Joined At",
+            "photo": "Photo"
+        },
+        "placeholder": {
+            "name": "Name",
+            "email": "Email",
+            "password": "Password",
+            "password_confirmation": "Password Confirmation"
+        },
+        "actions": {
+            "change-photo": "Change"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Sign in to your account",
+            "form": {
+                "email": "Email",
+                "password": "Password",
+                "submit": "Login"
+            },
+            "messages": {
+                "register": "Not have account?"
+            },
+            "link": {
+                "register": "Create new account",
+                "forgot-password": "Forgot password"
+            }
+        },
+        "register": {
+            "title": "Create New account",
+            "form": {
+                "name": "Name",
+                "email": "Email",
+                "password": "Password",
+                "password_confirmation": "Password Confirmation",
+                "submit": "Register"
+            },
+            "messages": {
+                "login": "Already have account?"
+            },
+            "link": {
+                "login": "Sign in to your account"
+            }
+        },
+        "logout": {
+            "title": "Logout",
+            "message": "Are you sure want to logout from your account?",
+            "actions": {
+                "logout": "Logout"
+            },
+            "form": {
+                "name": "Name",
+                "email": "Email",
+                "password": "Password",
+                "password_confirmation": "Password Confirmation",
+                "submit": "Register"
+            },
+            "link": {
+                "login": "Sign in to your account"
+            }
+        },
+        "verification": {
+            "messages": {
+                "unverified": "Your email account is not verified, check your email inbox, or",
+                "success-send": "Success resend verification link"
+            },
+            "actions": {
+                "resend": "resend verification link"
+            },
+            "titles": {
+                "success-send": "Success"
+            }
+        },
+        "forgot-password": {
+            "title": "Forgot Password",
+            "form": {
+                "email": "Email"
+            },
+            "actions": {
+                "submit": "Forgot password"
+            },
+            "messages": {
+                "success-send": "Success send reset password link"
+            }
+        },
+        "reset-password": {
+            "title": "Reset Password",
+            "form": {
+                "password": "Password",
+                "password_confirmation": "Password Confirmation"
+            },
+            "actions": {
+                "submit": "Reset password"
+            },
+            "messages": {
+                "success-reset": "Success reset password"
+            }
+        },
+        "login-social": {
+            "messages": {
+                "or": "Or continue with"
+            }
+        }
+    },
+    "task": {
+        "actions": {
+            "create": "New Task",
+            "detail": "Detail Task",
+            "edit": "Edit Task",
+            "delete": "Delete Task"
+        },
+        "label": {
+            "name": "Name",
+            "category": "Category",
+            "due_date": "Due Date",
+            "description": "Description",
+            "priority": "Priority"
+        },
+        "placeholder": {
+            "name": "Name",
+            "status": "Status",
+            "category": "Category",
+            "due_date": "Due Date",
+            "no-status": "No Status",
+            "new-task": "New Task",
+            "description": "Description",
+            "priority": "Priority"
+        },
+        "titles": {
+            "confirm-update-status": "Confirm Update Task Status"
+        },
+        "messages": {
+            "task-unfinished-done-confirm": "There are some unfinished children task, confirm action?"
+        },
+        "message": {
+            "delete": "Are you sure want to delete this task?"
+        },
+        "attributes": {
+            "name": "Name",
+            "category": "Category",
+            "status": "Status",
+            "created_at": "Created At",
+            "updated_at": "Updated At",
+            "due_date": "Due Date",
+            "description": "Description",
+            "priority": "Priority",
+            "sub_tasks": "Sub Tasks",
+            "sub_task_status": "Sub Task Status",
+            "sub_task_count": "{done}/{count} done"
+        },
+        "filter": {
+            "is-due": "Show only due",
+            "due-today": "Due Today",
+            "priority": "Priority",
+            "status": "Status"
+        }
+    },
+    "task-category": {
+        "actions": {
+            "create": "New Category",
+            "detail": "Detail Category",
+            "edit": "Edit Category",
+            "delete": "Delete Category"
+        },
+        "label": {
+            "name": "Name"
+        },
+        "placeholder": {
+            "name": "Name"
+        },
+        "message": {
+            "delete": "Are you sure want to delete this category?"
+        },
+        "attributes": {
+            "name": "Name",
+            "task_count": "{done}/{count} done"
+        },
+        "meta": {
+            "tasks_count": "Total Task",
+            "tasks_done_count": "Total Task Done"
+        }
+    },
+    "404": {
+        "code": "404",
+        "title": "Page not found",
+        "message": "Sorry, we couldn’t find the page you’re looking for.",
+        "action": "Go Back Home"
+    },
+    "dashboard": {
+        "task": {
+            "titles": {
+                "task-in-progress": "Task In Progress",
+                "task-due": "Task In Due"
+            },
+            "messages": {
+                "task-in-progress-empty": "No Task In Progress",
+                "task-in-due-empty": "No Task In Due"
+            },
+            "actions": {
+                "mark-as-done": "Mark As Done",
+                "mark-as-in-progress": "Mark As In Progress",
+                "mark-as-todo": "Mark As Todo"
+            },
+            "filters": {
+                "only-due-today": "Only Due Today"
+            }
+        }
+    },
+    "overview": {
+        "task": {
+            "name": {
+                "countAll": "Task",
+                "countInProgress": "Task In Progress",
+                "countDone": "Task Done",
+                "countTodo": "Task Todo"
+            }
+        }
+    }
+}
